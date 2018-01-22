@@ -1,7 +1,5 @@
+#include "stdafx.h"
 #include "board.h"
-#include <iostream>
-
-using namespace std;
 
 board:: board( unsigned short inSize )
 {
@@ -98,11 +96,11 @@ void board::print()
     for( int col = 0; col < size; col++ )
     {
       if( table[row][col] )
-	cout << "|  1  ";
+	std::cout << "|  1  ";
       else
-	cout << "|     ";
+	std::cout << "|     ";
     }
-    cout << "| " << (row + 1) << endl;
+    std::cout << "| " << (row + 1) << std::endl;
   }
   drawLine( size );
 }
@@ -110,6 +108,6 @@ void board::print()
 void board::drawLine( unsigned short size )
 {
   for( int count = 0; count < size; count++ )
-    cout << "--" << (count + 1) << "---";
-  cout << "-" << endl;
+    std::cout << "--" << (count + 1) << "---";
+  std::cout << "-" << std::endl;
 }

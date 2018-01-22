@@ -1,8 +1,7 @@
+#include "stdafx.h"
 #include "player.h"
 #include "board.h"
-#include <iostream>
 
-using namespace std;
 
 player:: player()
 {
@@ -18,7 +17,7 @@ void player::play( board & gameboard )
 
 void player::play2( board & gameboard )
 {
-  cout << name << " PLAYING" << endl;
+  std::cout << name << " PLAYING" << std::endl;
 
   // While the location has already been played, repeat
   int location, neighbors;
@@ -33,5 +32,5 @@ void player::play2( board & gameboard )
 
   // Add neighbors to points
   points += neighbors;
-  cout << name << " EARNED " << neighbors << " points and now has a score of " << points << endl;
+  std::cout << name << " EARNED " << neighbors << " points and now has a score of " << points << std::endl;
 }

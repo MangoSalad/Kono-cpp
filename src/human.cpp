@@ -1,11 +1,8 @@
+#include "stdafx.h"
 #include "human.h"
 #include "board.h"
-#include <iostream>
-#include <string>
 
-using namespace std;
-
-human::human(string inName)
+human::human(std::string inName)
 {
   name = inName;
 }
@@ -17,7 +14,7 @@ void human::play( board & gameboard )
   int size = gameboard.getSize();
   size *= size;
 
-  cout << name << " playing" << endl;
+  std::cout << name << " playing" << std::endl;
 
   // While the location has already been played, repeat
   int location, neighbors;
@@ -26,7 +23,7 @@ void human::play( board & gameboard )
     // Ask user for a location
     do
     {
-      cout << name << ", please enter a location: 1 - " << size << endl;
+      std::cout << name << ", please enter a location: 1 - " << size << std::endl;
       cin >> location;
     }while( location < 1 || location > size );
 
@@ -36,7 +33,7 @@ void human::play( board & gameboard )
 
   // Add neighbors to points
   points += neighbors;
-  cout << name << " earned " << neighbors << " points and now has a score of " << points << endl;
+  std::cout << name << " earned " << neighbors << " points and now has a score of " << points << std::endl;
 }
 
 
@@ -51,8 +48,8 @@ unsigned short human::getLocation( board & gameboard )
   // Ask user for a location
   do
   {
-    cout << name << ", please enter a location: 1 - " << size << endl;
-    cin >> location;
+    std::cout << name << ", please enter a location: 1 - " << size << std::endl;
+    std::cin >> location;
   }while( location < 1 || location > size );
   
   // Return location

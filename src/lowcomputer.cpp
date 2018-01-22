@@ -1,10 +1,6 @@
+#include "stdafx.h"
 #include "lowcomputer.h"
 #include "board.h"
-
-#include <iostream>
-#include <cstdlib>
-
-using namespace std;
 
 lowcomputer::lowcomputer()
 {
@@ -32,11 +28,11 @@ void lowcomputer::play( board & gameboard )
     neighbors = gameboard.place( location );
   }while( -1 == neighbors );
 
-  cout << "Lowcomputer played location " << location << endl;
+  std::cout << "Lowcomputer played location " << location << std::endl;
 
   // Add neighbors to points
   points += neighbors;
-  cout << name << " earned " << neighbors << " points and now has a score of " << points << endl;
+  std::cout << name << " earned " << neighbors << " points and now has a score of " << points << std::endl;
 }
 
 

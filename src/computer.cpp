@@ -1,10 +1,6 @@
+#include "stdafx.h"
 #include "computer.h"
 #include "board.h"
-
-#include <iostream>
-#include <cstdlib>
-
-using namespace std;
 
 computer::computer()
 {
@@ -33,7 +29,7 @@ void computer::play( board & gameboard )
 
   // Add neighbors to points
   points += neighbors;
-  cout << name << " earned " << neighbors << " points and now has a score of " << points << endl;
+  std::cout << name << " earned " << neighbors << " points and now has a score of " << points << std::endl;
 }
 
 
