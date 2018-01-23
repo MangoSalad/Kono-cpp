@@ -3,19 +3,22 @@
 
 class tournament {
     public:
+        
         //default constructor
         tournament();
+
+        //add constructor for loading game
+
+        //add destructor for saving game
 
     protected:
 
     private:
 
-        // Set the board size. must be 5x5, 7x7, or 9x9.
-        void setBoardSize();
+        unsigned short tournamentRound;
 
-        void setHumanPlayer();
-
-        void setComputerPlayer();
+        // Prompts user to decide if they would like to play another round.
+        bool continueGame();
 
 };
 

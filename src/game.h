@@ -6,11 +6,25 @@ class game {
         game();
 
     protected:
+
+    private:
+        unsigned short displayMenu();
+        
         // Sets the size of the board.
         void setBoardSize();
 
-    private:
-        //round
+        // Randomly chooses number between 2 - 12. (1 pairs of dice)
+        unsigned short randomDice();
+
+        // Sums the current score state for player.
+        unsigned short calculateScoreForPlayer();
+        
+        board gameBoard;
+        human humanPlayer;
+        computer computerPlayer;
+
+        unsigned short humanScore;
+        unsigned short computerScore;
 
 };
 
