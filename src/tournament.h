@@ -1,6 +1,8 @@
 #ifndef TOURNAMENT_H
 #define TOURNAMENT_H
 
+#include "game.h"
+
 class tournament {
     public:
         
@@ -19,6 +21,8 @@ class tournament {
 
         // Prompts user to decide if they would like to play another round.
         bool continueGame();
+
+        game round;
 
 };
 

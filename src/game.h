@@ -1,6 +1,10 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "board.h"
+#include "human.h"
+#include "computer.h"
+
 class game {
     public:
         game();
@@ -8,6 +12,10 @@ class game {
     protected:
 
     private:
+
+        // Calculate first player. If true -> human. Else -> computer;
+        bool calculateFirstPlayer();
+
         unsigned short displayMenu();
         
         // Sets the size of the board.
@@ -19,7 +27,7 @@ class game {
         // Sums the current score state for player.
         unsigned short calculateScoreForPlayer();
         
-        board gameBoard;
+        board * gameBoard;
         human humanPlayer;
         computer computerPlayer;
 

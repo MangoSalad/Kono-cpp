@@ -3,8 +3,19 @@
 
 game::game()
 {
-
+    gameBoard(5);
 };
+
+bool game::calculateFirstPlayer()
+{
+    int humanDice = randomDice();
+    int computerDice = randomDice();
+
+    std::cout << "Computer rolls a pair of dice... " << computerDice << std::endl;
+    std::cout << "Human rolls a pair of dice... " << humanDice << std::endl;
+
+    return (humanDice > computerDice) ? true : false;
+}
 
 unsigned short game::displayMenu()
 {
