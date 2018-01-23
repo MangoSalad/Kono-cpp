@@ -4,7 +4,7 @@
 class player {
     public:
         player();
-        virtual play();
+        virtual void play();
 
 };
 
