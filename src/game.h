@@ -21,6 +21,8 @@ class game {
         // Sets the size of the board.
         void setBoardSize();
 
+        unsigned short getBoardSize();
+
         // Randomly chooses number between 2 - 12. (1 pairs of dice)
         unsigned short randomDice();
 
@@ -28,11 +30,13 @@ class game {
         unsigned short calculateScoreForPlayer();
         
         board * gameBoard;
-        human humanPlayer;
-        computer computerPlayer;
+        human  * humanPlayer;
+        computer * computerPlayer;
 
         unsigned short humanScore;
         unsigned short computerScore;
+
+        unsigned short gameBoardSize;
 
 };
 

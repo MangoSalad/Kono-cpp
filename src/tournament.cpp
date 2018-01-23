@@ -4,6 +4,7 @@
 tournament::tournament()
 {
     tournamentRound = 0;
+    game();
 }
 
 bool tournament::continueGame()

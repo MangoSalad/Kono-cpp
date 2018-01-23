@@ -1,9 +1,18 @@
 #include "game.h"
 #include "stdafx.h"
 
+// Logic to start a round.
 game::game()
 {
-    gameBoard(5);
+    gameBoardSize = 0;
+
+    // Set Board Size.
+    setBoardSize();
+    gameBoard = new board(gameBoardSize);
+
+    // Set Player.
+
+    //
 };
 
 bool game::calculateFirstPlayer()
@@ -38,7 +47,7 @@ unsigned short game::displayMenu()
 }
 
 // Returns number between 2 and 12.
-unsigned short randomDice()
+unsigned short game::randomDice()
 {
     int dice = 0;
     srand (time(NULL));
@@ -47,3 +56,27 @@ unsigned short randomDice()
 
     return dice;
 }
+
+void game::setBoardSize()
+{
+    unsigned short choice;
+    do 
+    {
+        std::cout << "Please enter your game board size (5,7,9): ";
+        std::cin >> choice;
+
+        if(choice == 5 || choice == 7 || choice == 9)
+        {
+            gameBoardSize = choice;
+            break;
+        }
+        else    
+            std::cout << "Incorrect choice. Try again." << std::endl;
+
+    }while(choice != 5 && choice != 7 && choice != 9);
+};
+
+unsigned short game::getBoardSize()
+{
+    return gameBoardSize;
+};
