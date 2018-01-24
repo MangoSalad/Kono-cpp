@@ -1,4 +1,5 @@
 #include "board.h"
+#include "stdafx.h"
 
 board::board(unsigned short a_boardSize)
 {
@@ -6,14 +7,8 @@ board::board(unsigned short a_boardSize)
     m_boardSize = a_boardSize;
 
     // Initialize the entire table.
-    table = new int*[m_boardSize];
-    
-    for( int row = 0; row < m_boardSize; row++ )
-    {
-        // Allocate to the row
-        table[row] = new int[m_boardSize];
+    std::vector <int> rows (5,0);
 
-        for( int col = 0; col < m_boardSize; col++ )
-            table[row][col] = false;
-    }
+    boardTable = new std::vector < std::vector<int> > (m_boardSize,rows);
+    
 };

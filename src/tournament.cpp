@@ -4,7 +4,7 @@
 tournament::tournament()
 {
     tournamentRound = 0;
-    game();
+    round = new game();
 }
 
 bool tournament::continueGame()

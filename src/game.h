@@ -4,6 +4,7 @@
 #include "board.h"
 #include "human.h"
 #include "computer.h"
+#include "boardView.h"
 
 class game {
     public:
@@ -32,6 +33,7 @@ class game {
         board * gameBoard;
         human  * humanPlayer;
         computer * computerPlayer;
+        boardView * display;
 
         unsigned short humanScore;
         unsigned short computerScore;

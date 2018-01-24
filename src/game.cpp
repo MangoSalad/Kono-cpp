@@ -10,9 +10,15 @@ game::game()
     setBoardSize();
     gameBoard = new board(gameBoardSize);
 
+    // Display Board.
+    display = new boardView();
+    display->showBoard(gameBoard -> getBoard());
+
     // Set Player.
 
-    //
+    // Set Computer.
+
+    // Initiate Game Logic.
 };
 
 bool game::calculateFirstPlayer()
@@ -68,7 +74,6 @@ void game::setBoardSize()
         if(choice == 5 || choice == 7 || choice == 9)
         {
             gameBoardSize = choice;
-            break;
         }
         else    
             std::cout << "Incorrect choice. Try again." << std::endl;

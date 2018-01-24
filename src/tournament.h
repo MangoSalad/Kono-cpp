@@ -22,7 +22,7 @@ class tournament {
         // Prompts user to decide if they would like to play another round.
         bool continueGame();
 
-        game round;
+        game * round;
 
 };
 
