@@ -10,12 +10,21 @@ class game {
     public:
         game();
 
+        // If winner of previous round, set player manually.
+        void setFirstPlayer(char a_firstPlayer);
+
+        // If winner of previous round, set player color manually.
+        //void setWinnerFirstPlayerColor();
+
     protected:
 
     private:
 
         // Calculate first player. If true -> human. Else -> computer;
-        bool calculateFirstPlayer();
+        void calculateFirstPlayer();
+
+        // If human is first, human selects color. Else, a computer randomly selects the color.
+        void setFirstPlayerColor();
 
         unsigned short displayMenu();
         
@@ -39,6 +48,12 @@ class game {
         unsigned short computerScore;
 
         unsigned short gameBoardSize;
+
+        // holds who is first player. 'h' for human, 'c' for computer.
+        char m_firstPlayer;
+
+        // Color of the human player. Either 1 for "black" or 0 for "white" 
+        bool m_colorHumanPlayer;
 
 };
 

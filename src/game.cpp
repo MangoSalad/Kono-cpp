@@ -15,21 +15,91 @@ game::game()
     display->showBoard(gameBoard -> getBoard());
 
     // Set Player.
+    calculateFirstPlayer();
+    setFirstPlayerColor();
 
     // Set Computer.
 
     // Initiate Game Logic.
 };
 
-bool game::calculateFirstPlayer()
+void game::setFirstPlayer(char a_firstPlayer)
 {
-    int humanDice = randomDice();
-    int computerDice = randomDice();
+    m_firstPlayer=a_firstPlayer;
+}
 
-    std::cout << "Computer rolls a pair of dice... " << computerDice << std::endl;
-    std::cout << "Human rolls a pair of dice... " << humanDice << std::endl;
+void game::setFirstPlayerColor()
+{
 
-    return (humanDice > computerDice) ? true : false;
+    // human chooses color
+    if(m_firstPlayer == 'h')
+    {
+        std::string choice = "";
+        while(choice != "black" && choice != "white")
+        {
+            std::cout << "What color do you pick to play? (white/black): ";
+            std::cin >> choice;
+            
+            if(choice == "black")
+            {
+                m_colorHumanPlayer = true;
+                std::cout << "You will play as black." << std::endl;
+            }
+            else if(choice == "white")
+            {
+                m_colorHumanPlayer = false;
+                std::cout << "You will play as white." << std::endl;
+            }
+            else
+            {
+                std::cout << "Incorrect choice." << std::endl;
+            }
+        }
+    }
+    // Computer randomly chooses color.
+    else
+    {
+        bool m_colorHumanPlayer = rand() % 2;
+        if(m_colorHumanPlayer)
+        {
+            std::cout << "Computer chose black. You will play as white." << std::endl;
+        }
+        else
+        {
+            std::cout << "Computer chose white. You will play as black." << std::endl;
+        }
+    }
+
+}
+
+
+void game::calculateFirstPlayer()
+{
+    int humanDice = 0;
+    int computerDice = 1;
+    while(humanDice != computerDice)
+    {
+
+        humanDice = randomDice();
+        computerDice = randomDice();
+
+        std::cout << "Computer rolls a pair of dice... " << computerDice << std::endl;
+        std::cout << "Human rolls a pair of dice... " << humanDice << std::endl;
+
+        if(humanDice > computerDice)
+        {
+            std::cout << "Human is first player." << std::endl; 
+            m_firstPlayer = 'h';
+            break;
+        }
+        else if (humanDice < computerDice)
+        {
+            std::cout << "Computer is first player." << std::endl; 
+            m_firstPlayer = 'c';
+            break;
+        }
+    
+    };
 }
 
 unsigned short game::displayMenu()
@@ -56,7 +126,7 @@ unsigned short game::displayMenu()
 unsigned short game::randomDice()
 {
     int dice = 0;
-    srand (time(NULL));
+    //srand (time(NULL));
 
     dice = rand() % 12 + 2;
 

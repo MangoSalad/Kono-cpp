@@ -9,15 +9,18 @@ class board {
 
         // Return current state of the board.
         std::vector <std::vector <int> > & getBoard() const { return *boardTable; };
+
+        // Sets the initial board state.
+        //void setInitialBoardState();
     
     protected:
         //  Set of variables that reflects the state of the board at a certain position.
         enum positionState {
-            blank = '+',
-            white = 'W',
-            black = 'B',
-            superWhite = 'W',
-            superBlack = 'B'
+            blank,
+            white,
+            black,
+            superWhite,
+            superBlack,
             };
 
     private:
