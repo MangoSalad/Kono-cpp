@@ -4,7 +4,7 @@
 
 boardView::boardView(){};
 
-void boardView::showBoard(std::vector< std::vector <int> > & boardTable) 
+void boardView::showBoard(std::vector< std::vector <char> > & boardTable) 
 {
     int boardSize = boardTable.size();
 

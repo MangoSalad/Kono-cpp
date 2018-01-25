@@ -8,7 +8,7 @@ class board {
         board(unsigned short a_boardSize);
 
         // Return current state of the board.
-        std::vector <std::vector <int> > & getBoard() const { return *boardTable; };
+        std::vector <std::vector <char> > & getBoard() const { return *boardTable; };
 
         // Sets the initial board state.
         //void setInitialBoardState();
@@ -16,11 +16,11 @@ class board {
     protected:
         //  Set of variables that reflects the state of the board at a certain position.
         enum positionState {
-            blank,
-            white,
-            black,
-            superWhite,
-            superBlack,
+            BLANK = '+',
+            WHITE = 'W',
+            BLACK = 'B',
+            SUPERWHITE = 'W',
+            SUPERBLACK = 'B'
             };
 
     private:
@@ -28,9 +28,7 @@ class board {
         unsigned short m_boardSize;
 
         //board
-        int ** table;
-        
-        std::vector <std::vector <int> > * boardTable;
+        std::vector <std::vector <char> > * boardTable;
 };
 
 #endif

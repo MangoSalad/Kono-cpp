@@ -1,11 +1,11 @@
 #ifndef HUMAN_H
 #define HUMAN_H
 
-class human {
+#include "player.h"
+
+class human : public player {
     public:
         human();
-        virtual void play();
-
 };
 
 #endif

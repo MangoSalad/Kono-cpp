@@ -20,6 +20,9 @@ game::game()
 
     // Set Computer.
 
+    humanPlayer = new human();
+    
+
     // Initiate Game Logic.
 };
 

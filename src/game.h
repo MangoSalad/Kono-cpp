@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "board.h"
+#include "player.h"
 #include "human.h"
 #include "computer.h"
 #include "boardView.h"
