@@ -11,6 +11,8 @@ class game {
     public:
         game();
 
+        ~game(); 
+
         // If winner of previous round, set player manually.
         void setFirstPlayer(char a_firstPlayer);
 
@@ -20,6 +22,9 @@ class game {
     protected:
 
     private:
+
+        // Calls menu, and determines what to do after menu
+        void continueGame();
 
         // Calculate first player. If true -> human. Else -> computer;
         void calculateFirstPlayer();
@@ -55,6 +60,9 @@ class game {
 
         // Color of the human player. Either 1 for "black" or 0 for "white" 
         bool m_colorHumanPlayer;
+
+        // 'h' for human, 'c' for computer.
+        char m_currentTurn;
 
 };
 

@@ -5,3 +5,5 @@ human::human()
 {
     std::cout << "in human class" << std::endl;
 }
+
+void human::play(){};

@@ -21,9 +21,47 @@ game::game()
     // Set Computer.
 
     humanPlayer = new human();
+    computerPlayer = new computer();
     
 
     // Initiate Game Logic.
+    continueGame();
+};
+
+
+// Calls menu, and determines what to do after menu
+void game::continueGame()
+{   
+    unsigned short choice = displayMenu();
+
+    if(choice == 1)
+    {
+        std::cout << "Saving game..." << std::endl;
+    }
+    else if(choice == 2)
+    {
+        if(m_currentTurn=='h')
+        {
+            humanPlayer -> play();
+        }
+        else
+        {
+            computerPlayer -> play();
+        }
+    }
+    else if(choice == 3)
+    {
+        std::cout << "Help: ..." << std::endl;
+    }
+    else if(choice == 4)
+    {
+        std::cout << "Exiting..." << std::endl;
+    }
+    else
+    {
+        std::cout << "Error with choice" << std::endl;
+    }
+
 };
 
 void game::setFirstPlayer(char a_firstPlayer)
@@ -118,7 +156,7 @@ unsigned short game::displayMenu()
         
         std::cin >> choice;
 
-        if(choice > 5 && choice < 5)
+        if(choice > 0 && choice < 5)
             return choice;
         else
             std::cout << "Incorrect choice. " << std::endl;
@@ -129,7 +167,7 @@ unsigned short game::displayMenu()
 unsigned short game::randomDice()
 {
     int dice = 0;
-    //srand (time(NULL));
+    srand (time(0));
 
     dice = rand() % 12 + 2;
 

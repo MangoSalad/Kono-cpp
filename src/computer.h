@@ -1,10 +1,12 @@
 #ifndef COMPUTER_H
 #define COMPUTER_H
 
-class computer {
+#include "player.h"
+
+class computer : public player {
     public:
         computer();
-        virtual void play();
+        void play();
 
 };
 
