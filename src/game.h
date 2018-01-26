@@ -58,8 +58,9 @@ class game {
         // holds who is first player. 'h' for human, 'c' for computer.
         char m_firstPlayer;
 
-        // Color of the human player. Either 1 for "black" or 0 for "white" 
-        bool m_colorHumanPlayer;
+        // Color of the human player. Either 'B' for "black" or 'W' for "white" 
+        char m_colorHumanPlayer;
+        char m_colorComputerPlayer;
 
         // 'h' for human, 'c' for computer.
         char m_currentTurn;

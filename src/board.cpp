@@ -29,3 +29,20 @@ board::board(unsigned short a_boardSize)
     (*boardTable)[m_boardSize-2][m_boardSize-1] = 'B';
     
 };
+
+bool board::isValidPieceToMove(char a_color, int a_row, int a_column)
+{
+    return ((*boardTable)[a_row-1][a_column-1] == a_color) ? true : false;
+}
+
+// obvi needs better logic
+bool board::isValidLocationToMove(int a_row, int a_column)
+{
+    return ((*boardTable)[a_row-1][a_column-1] != 'W' && (*boardTable)[a_row-1][a_column-1] != 'B') ? true : false;
+}
+
+void board::updateBoard(int a_initialRow, int a_initialColumn, int a_finalRow, int a_finalColumn, char a_color)
+{
+    (*boardTable)[a_initialRow-1][a_initialColumn-1] = '+';
+    (*boardTable)[a_finalRow-1][a_finalColumn-1] = a_color;
+}

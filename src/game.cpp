@@ -20,7 +20,7 @@ game::game()
 
     // Set Computer.
 
-    humanPlayer = new human();
+    humanPlayer = new human(m_colorHumanPlayer);
     computerPlayer = new computer();
     
 
@@ -40,14 +40,15 @@ void game::continueGame()
     }
     else if(choice == 2)
     {
-        if(m_currentTurn=='h')
-        {
-            humanPlayer -> play();
-        }
-        else
-        {
-            computerPlayer -> play();
-        }
+        //if(m_currentTurn=='h')
+        //{
+            humanPlayer -> play( *gameBoard);
+            display->showBoard(gameBoard -> getBoard());
+        //}
+        // else
+        // {
+        //     computerPlayer -> play(gameBoard -> getBoard());
+        // }
     }
     else if(choice == 3)
     {
@@ -83,12 +84,14 @@ void game::setFirstPlayerColor()
             
             if(choice == "black")
             {
-                m_colorHumanPlayer = true;
+                m_colorHumanPlayer = 'W';
+                m_colorComputerPlayer = 'B';
                 std::cout << "You will play as black." << std::endl;
             }
             else if(choice == "white")
             {
-                m_colorHumanPlayer = false;
+                m_colorHumanPlayer = 'W';
+                m_colorComputerPlayer = 'B';
                 std::cout << "You will play as white." << std::endl;
             }
             else
@@ -100,14 +103,18 @@ void game::setFirstPlayerColor()
     // Computer randomly chooses color.
     else
     {
-        bool m_colorHumanPlayer = rand() % 2;
-        if(m_colorHumanPlayer)
+        bool randomChoice = rand() % 2;
+        if(randomChoice)
         {
             std::cout << "Computer chose black. You will play as white." << std::endl;
+            m_colorHumanPlayer = 'W';
+            m_colorComputerPlayer = 'B';
         }
         else
         {
             std::cout << "Computer chose white. You will play as black." << std::endl;
+            m_colorHumanPlayer = 'B';
+            m_colorComputerPlayer = 'W';
         }
     }
 

@@ -12,6 +12,13 @@ class board {
 
         // Sets the initial board state.
         //void setInitialBoardState();
+
+        // Checks if the piece selected to move is valid.
+        bool isValidPieceToMove(char a_color, int a_row, int a_column);
+
+        bool isValidLocationToMove(int a_row, int a_column);
+
+        void updateBoard(int a_initialRow, int a_initialColumn, int a_finalRow, int a_finalColumn,char a_color);
     
     protected:
         //  Set of variables that reflects the state of the board at a certain position.
