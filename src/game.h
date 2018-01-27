@@ -23,6 +23,22 @@ class game {
 
         void playRound();
 
+        // Utility Selector Functions
+
+        int getHumanScore() const { return humanScore; };
+
+        int getComputerScore() const { return computerScore; };
+
+        std::string getComputerColor() const { return (m_colorComputerPlayer == 'W') ? "White" : "Black"; };
+
+        std::string getHumanColor() const { return (m_colorHumanPlayer == 'W') ? "White" : "Black"; };
+
+        std::string getNextPlayer() const { return (m_currentTurn == 'h') ? "Human" : "Computer"; };
+
+        std::vector <std::vector <char> > & getBoardState() const { return gameBoard -> getBoard(); };
+
+        unsigned short getBoardSize() const { return m_gameBoardSize; };
+
     protected:
 
     private:
@@ -39,8 +55,6 @@ class game {
         // Sets the size of the board.
         void setBoardSize();
 
-        unsigned short getBoardSize();
-
         // Randomly chooses number between 2 - 12. (1 pairs of dice)
         int randomDice();
 
@@ -52,8 +66,8 @@ class game {
         computer * computerPlayer;
         boardView * display;
 
-        unsigned short humanScore;
-        unsigned short computerScore;
+        int humanScore;
+        int computerScore;
 
         unsigned short m_gameBoardSize;
 

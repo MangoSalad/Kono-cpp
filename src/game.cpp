@@ -69,8 +69,8 @@ void game::setFirstPlayerColor()
             }
             else if(choice == "white")
             {
-                m_colorHumanPlayer = 'B';
-                m_colorComputerPlayer = 'W';
+                m_colorHumanPlayer = 'W';
+                m_colorComputerPlayer = 'B';
                 std::cout << "You will play as white." << std::endl;
             }
             else
@@ -135,11 +135,11 @@ void game::showMenu() const
     display->showBoard(gameBoard -> getBoard());
 
     std::cout << "1. Save the game. " << std::endl;
+    std::cout << "2. Make a move. " << std::endl;
     if(m_currentTurn=='h')
     {
-        std::cout << "2. Make a move. " << std::endl;
+        std::cout << "3. Ask for help. " << std::endl;   
     }
-    std::cout << "3. Ask for help. " << std::endl;
     std::cout << "4. Quit the game. " << std::endl;
 }
 
@@ -168,21 +168,17 @@ void game::setBoardSize()
     }while(choice != 5 && choice != 7 && choice != 9);
 };
 
-// gets board size
-unsigned short game::getBoardSize()
-{
-    return m_gameBoardSize;
-};
-
 void game::playRound()
 {
     if(m_currentTurn == 'h')
     {
         humanPlayer -> play(*gameBoard);
+        m_currentTurn = 'c';
     }
     else
     {
         computerPlayer -> play(*gameBoard);
+        m_currentTurn = 'h';
     }
 
 }

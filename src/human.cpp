@@ -8,10 +8,6 @@ human::human(char a_color)
 
 void human::play(board &gameBoard)
 {
-    std::cout << "in human class - play() "<< m_color << std::endl;
-
-    std::cout << "In player class - play()" << std::endl;
-
     unsigned short initialRow = 0;
     unsigned short initialColumn = 0;
 

@@ -130,7 +130,36 @@ void tournament::showMenu() const
 
 void tournament::saveGame() const
 {
+    std::ofstream outFile("saveGame.txt",std::ofstream::out);
 
+    outFile << "Round: " << m_tournamentRound << "\n";
+    outFile << "Computer:\n";
+    outFile << "Score: " << round -> getComputerScore() << "\n";
+    outFile << "Color: " << round -> getComputerColor() << "\n";
+    outFile << "Human:\n";
+    outFile << "Score: " << round -> getHumanScore() << "\n";
+    outFile << "Color: " << round -> getHumanColor() << "\n";
+    outFile << "Board:\n";
+
+    unsigned short boardSize = round -> getBoardSize();
+    std::vector< std::vector <char> > boardTable = round ->getBoardState();
+    
+    for( int row = 0; row < boardSize; row++ )
+    {
+        for( int col = 0; col < boardSize; col++ )
+        {
+            if(boardTable[row][col] == '+')
+                outFile << "O  ";
+            else
+                outFile << boardTable[row][col] << "  ";
+        }
+
+        outFile <<"\n";
+    }
+    
+    outFile << "Next Player: " << round -> getNextPlayer();
+
+    outFile.close();
 };
 
 void tournament::playGame() const
@@ -160,7 +189,7 @@ bool tournament::continueGame()
         else
             continue;
     }    
-}
+};
 
 // void game::continueGame()
 // {   

@@ -13,6 +13,7 @@ class computer : public player {
 
     private:
         char m_color;
+        char m_opponentColor;
 
 };
 
