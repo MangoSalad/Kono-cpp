@@ -5,7 +5,11 @@
 
 class board {
     public:
+        // Start new board.
         board(unsigned short a_boardSize);
+
+        // Load board from file.
+        board(unsigned short a_boardSize, std::vector< std::vector <char> > &a_boardTable);
 
         // Return current state of the board.
         std::vector <std::vector <char> > & getBoard() const { return *boardTable; };

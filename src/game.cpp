@@ -28,6 +28,21 @@ game::game()
     continueGame();
 };
 
+// Loads game from file.
+game::game(char a_colorHumanPlayer, char a_colorComputerPlayer, char a_currentTurn,unsigned short a_boardSize, std::vector< std::vector <char> > &boardTable)
+{
+    m_colorHumanPlayer = a_colorHumanPlayer;
+    m_colorComputerPlayer = a_colorComputerPlayer;
+    m_currentTurn = a_currentTurn;
+
+    gameBoardSize = a_boardSize;
+    
+    gameBoard = new board(gameBoardSize, boardTable);
+
+    display = new boardView();
+    display->showBoard(gameBoard -> getBoard());
+}
+
 
 // Calls menu, and determines what to do after menu
 void game::continueGame()

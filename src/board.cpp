@@ -30,6 +30,11 @@ board::board(unsigned short a_boardSize)
     
 };
 
+board::board(unsigned short a_boardSize, std::vector< std::vector <char> > &a_boardTable)
+{
+    boardTable = &a_boardTable;
+}
+
 bool board::isValidPieceToMove(char a_color, int a_row, int a_column)
 {
     return ((*boardTable)[a_row-1][a_column-1] == a_color) ? true : false;

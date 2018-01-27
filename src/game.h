@@ -11,6 +11,9 @@ class game {
     public:
         game();
 
+        // Load round from file.
+        game(char a_colorHumanPlayer, char a_colorComputerPlayer, char a_currentTurn, unsigned short a_boardSize, std::vector< std::vector <char> > &boardTable);
+
         ~game(); 
 
         // If winner of previous round, set player manually.
