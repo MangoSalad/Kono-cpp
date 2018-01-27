@@ -26,7 +26,7 @@ class tournament {
         void showMenu() const;
 
         // Saves current game to file.
-        void saveGame() const;
+        void saveGame(std::string a_fileName) const;
 
         // Calls human to play game.
         void playGame() const;

@@ -52,7 +52,9 @@ int main(int argc, char * argv [])
         switch(menuChoice)
         {
             case 1:
-                Kono -> saveGame();
+                std::cout << "Please enter your desired filename: ";
+                std::cin >> fileName;
+                Kono -> saveGame(fileName);
                 break;
             case 2:
                 Kono -> playGame();

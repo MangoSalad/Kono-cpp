@@ -128,9 +128,9 @@ void tournament::showMenu() const
     round -> showMenu();
 }
 
-void tournament::saveGame() const
+void tournament::saveGame(std::string a_fileName) const
 {
-    std::ofstream outFile("saveGame.txt",std::ofstream::out);
+    std::ofstream outFile(a_fileName,std::ofstream::out);
 
     outFile << "Round: " << m_tournamentRound << "\n";
     outFile << "Computer:\n";
