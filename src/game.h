@@ -5,7 +5,7 @@
 #include "player.h"
 #include "human.h"
 #include "computer.h"
-#include "boardView.h"
+#include "boardview.h"
 
 class game {
     public:
@@ -16,13 +16,12 @@ class game {
 
         ~game(); 
 
-        // If winner of previous round, set player manually.
-        void setFirstPlayer(char a_firstPlayer);
-
         // If winner of previous round, set player color manually.
         //void setWinnerFirstPlayerColor();
 
         void showMenu() const;
+
+        void playRound();
 
     protected:
 
@@ -43,7 +42,7 @@ class game {
         unsigned short getBoardSize();
 
         // Randomly chooses number between 2 - 12. (1 pairs of dice)
-        unsigned short randomDice();
+        int randomDice();
 
         // Sums the current score state for player.
         unsigned short calculateScoreForPlayer();
@@ -57,9 +56,6 @@ class game {
         unsigned short computerScore;
 
         unsigned short m_gameBoardSize;
-
-        // holds who is first player. 'h' for human, 'c' for computer.
-        char m_firstPlayer;
 
         // Color of the human player. Either 'B' for "black" or 'W' for "white" 
         char m_colorHumanPlayer;

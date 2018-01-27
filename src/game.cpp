@@ -12,7 +12,6 @@ game::game()
 
     // Display Display Board.
     display = new boardView();
-    //display->showBoard(gameBoard -> getBoard());
 
     // Set Player.
     calculateFirstPlayer();
@@ -20,7 +19,7 @@ game::game()
 
     // Set Players.
     humanPlayer = new human(m_colorHumanPlayer);
-    computerPlayer = new computer();
+    computerPlayer = new computer(m_colorComputerPlayer);
     
     // Initiate Game Logic.
     //continueGame();
@@ -50,16 +49,11 @@ game::~game()
     delete display;
 }
 
-void game::setFirstPlayer(char a_firstPlayer)
-{
-    m_firstPlayer=a_firstPlayer;
-}
-
 void game::setFirstPlayerColor()
 {
 
     // human chooses color
-    if(m_firstPlayer == 'h')
+    if(m_currentTurn == 'h')
     {
         std::string choice = "";
         while(choice != "black" && choice != "white")
@@ -69,14 +63,14 @@ void game::setFirstPlayerColor()
             
             if(choice == "black")
             {
-                m_colorHumanPlayer = 'W';
-                m_colorComputerPlayer = 'B';
+                m_colorHumanPlayer = 'B';
+                m_colorComputerPlayer = 'W';
                 std::cout << "You will play as black." << std::endl;
             }
             else if(choice == "white")
             {
-                m_colorHumanPlayer = 'W';
-                m_colorComputerPlayer = 'B';
+                m_colorHumanPlayer = 'B';
+                m_colorComputerPlayer = 'W';
                 std::cout << "You will play as white." << std::endl;
             }
             else
@@ -105,7 +99,7 @@ void game::setFirstPlayerColor()
 
 }
 
-
+// Calculates the first player by calling random dice.
 void game::calculateFirstPlayer()
 {
     int humanDice = 0;
@@ -122,21 +116,24 @@ void game::calculateFirstPlayer()
         if(humanDice > computerDice)
         {
             std::cout << "Human is first player." << std::endl; 
-            m_firstPlayer = 'h';
+            m_currentTurn = 'h';
             break;
         }
         else if (humanDice < computerDice)
         {
             std::cout << "Computer is first player." << std::endl; 
-            m_firstPlayer = 'c';
+            m_currentTurn = 'c';
             break;
         }
     
     };
 }
 
+// Shows the available menu.
 void game::showMenu() const
 { 
+    display->showBoard(gameBoard -> getBoard());
+
     std::cout << "1. Save the game. " << std::endl;
     if(m_currentTurn=='h')
     {
@@ -147,16 +144,12 @@ void game::showMenu() const
 }
 
 // Returns number between 2 and 12.
-unsigned short game::randomDice()
+int game::randomDice()
 {
-    int dice = 0;
-    srand (time(0));
-
-    dice = rand() % 12 + 2;
-
-    return dice;
+    return rand() % 12 + 2;
 }
 
+// Sets the board size for the round
 void game::setBoardSize()
 {
     unsigned short choice;
@@ -175,7 +168,21 @@ void game::setBoardSize()
     }while(choice != 5 && choice != 7 && choice != 9);
 };
 
+// gets board size
 unsigned short game::getBoardSize()
 {
     return m_gameBoardSize;
 };
+
+void game::playRound()
+{
+    if(m_currentTurn == 'h')
+    {
+        humanPlayer -> play(*gameBoard);
+    }
+    else
+    {
+        computerPlayer -> play(*gameBoard);
+    }
+
+}

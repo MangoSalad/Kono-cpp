@@ -123,7 +123,25 @@ bool tournament::loadSavedFile(std::string a_savedGame)
     return true;
 }
 
+void tournament::showMenu() const
+{
+    round -> showMenu();
+}
 
+void tournament::saveGame() const
+{
+
+};
+
+void tournament::playGame() const
+{
+    round -> playRound();
+};
+
+void tournament::helpGame() const
+{
+
+};
 
 bool tournament::continueGame()
 {
@@ -142,11 +160,6 @@ bool tournament::continueGame()
         else
             continue;
     }    
-}
-
-void tournament::showMenu() const
-{
-    round -> showMenu();
 }
 
 // void game::continueGame()

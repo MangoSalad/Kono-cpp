@@ -8,7 +8,7 @@ human::human(char a_color)
 
 void human::play(board &gameBoard)
 {
-    std::cout << "in human class - play()" << std::endl;
+    std::cout << "in human class - play() "<< m_color << std::endl;
 
     std::cout << "In player class - play()" << std::endl;
 

@@ -14,6 +14,8 @@ int main(int argc, char * argv [])
 {
     tournament * Kono;
 
+    srand (time(NULL));
+
     char choice = ' ';
     std::string fileName = "";
 

@@ -6,7 +6,7 @@
 
 class human : public player {
     public:
-        human(char a_Color);
+        human(char a_color);
         void play(board &gameBoard);
     private:
         char m_color;

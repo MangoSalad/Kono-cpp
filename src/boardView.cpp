@@ -1,5 +1,5 @@
 #include "board.h"
-#include "boardView.h"
+#include "boardview.h"
 #include "stdafx.h"
 
 boardView::boardView(){};
