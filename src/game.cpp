@@ -4,28 +4,26 @@
 // Logic to start a round.
 game::game()
 {
-    gameBoardSize = 0;
+    m_gameBoardSize = 0;
 
-    // Set Board Size.
+    // Set Board.
     setBoardSize();
-    gameBoard = new board(gameBoardSize);
+    gameBoard = new board(m_gameBoardSize);
 
-    // Display Board.
+    // Display Display Board.
     display = new boardView();
-    display->showBoard(gameBoard -> getBoard());
+    //display->showBoard(gameBoard -> getBoard());
 
     // Set Player.
     calculateFirstPlayer();
     setFirstPlayerColor();
 
-    // Set Computer.
-
+    // Set Players.
     humanPlayer = new human(m_colorHumanPlayer);
     computerPlayer = new computer();
     
-
     // Initiate Game Logic.
-    continueGame();
+    //continueGame();
 };
 
 // Loads game from file.
@@ -35,50 +33,22 @@ game::game(char a_colorHumanPlayer, char a_colorComputerPlayer, char a_currentTu
     m_colorComputerPlayer = a_colorComputerPlayer;
     m_currentTurn = a_currentTurn;
 
-    gameBoardSize = a_boardSize;
-    
-    gameBoard = new board(gameBoardSize, boardTable);
+    // Set Board.
+    m_gameBoardSize = a_boardSize;
+    gameBoard = new board(m_gameBoardSize, boardTable);
 
+    // Set Display Board.
     display = new boardView();
-    display->showBoard(gameBoard -> getBoard());
+    //display->showBoard(gameBoard -> getBoard());
 }
 
-
-// Calls menu, and determines what to do after menu
-void game::continueGame()
-{   
-    unsigned short choice = displayMenu();
-
-    if(choice == 1)
-    {
-        std::cout << "Saving game..." << std::endl;
-    }
-    else if(choice == 2)
-    {
-        //if(m_currentTurn=='h')
-        //{
-            humanPlayer -> play( *gameBoard);
-            display->showBoard(gameBoard -> getBoard());
-        //}
-        // else
-        // {
-        //     computerPlayer -> play(gameBoard -> getBoard());
-        // }
-    }
-    else if(choice == 3)
-    {
-        std::cout << "Help: ..." << std::endl;
-    }
-    else if(choice == 4)
-    {
-        std::cout << "Exiting..." << std::endl;
-    }
-    else
-    {
-        std::cout << "Error with choice" << std::endl;
-    }
-
-};
+game::~game()
+{
+    delete gameBoard;
+    delete humanPlayer;
+    delete computerPlayer;
+    delete display;
+}
 
 void game::setFirstPlayer(char a_firstPlayer)
 {
@@ -165,24 +135,15 @@ void game::calculateFirstPlayer()
     };
 }
 
-unsigned short game::displayMenu()
-{
-    unsigned short choice;
-    
-    while(choice < 1 || choice > 4)
+void game::showMenu() const
+{ 
+    std::cout << "1. Save the game. " << std::endl;
+    if(m_currentTurn=='h')
     {
-        std::cout << "1. Save the game. " << std::endl;
         std::cout << "2. Make a move. " << std::endl;
-        std::cout << "3. Ask for help. " << std::endl;
-        std::cout << "4. Quit the game. " << std::endl;
-        
-        std::cin >> choice;
-
-        if(choice > 0 && choice < 5)
-            return choice;
-        else
-            std::cout << "Incorrect choice. " << std::endl;
     }
+    std::cout << "3. Ask for help. " << std::endl;
+    std::cout << "4. Quit the game. " << std::endl;
 }
 
 // Returns number between 2 and 12.
@@ -206,7 +167,7 @@ void game::setBoardSize()
 
         if(choice == 5 || choice == 7 || choice == 9)
         {
-            gameBoardSize = choice;
+            m_gameBoardSize = choice;
         }
         else    
             std::cout << "Incorrect choice. Try again." << std::endl;
@@ -216,5 +177,5 @@ void game::setBoardSize()
 
 unsigned short game::getBoardSize()
 {
-    return gameBoardSize;
+    return m_gameBoardSize;
 };

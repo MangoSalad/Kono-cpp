@@ -4,8 +4,7 @@
 human::human(char a_color)
 {
     m_color = a_color;
-    std::cout << "in human class " << m_color << std::endl;
-}
+};
 
 void human::play(board &gameBoard)
 {
@@ -28,11 +27,38 @@ void human::play(board &gameBoard)
         unsigned short finalRow = 0;
         unsigned short finalColumn = 0;
 
-        std::cout << "Where do you want to move this piece to?" << std::endl;
-        std::cout << "Enter row: ";
-        std::cin >> finalRow;
-        std::cout << "Enter column: ";
-        std::cin >> finalColumn;
+        std::string locationToMove;
+
+        std::cout << "Where do you want to move this piece to? (NW/NE/SW/SE)" << std::endl;
+        std::cin >> locationToMove;
+
+        if(locationToMove == "NW")
+        {
+            finalRow = initialRow-1;
+            finalColumn = initialColumn-1;
+        }
+        else if(locationToMove == "NE")
+        {
+            finalRow = initialRow-1;
+            finalColumn = initialColumn+1;
+        }
+        else if(locationToMove == "SE")
+        {
+            finalRow = initialRow+1;
+            finalColumn = initialColumn+1;
+        }
+        else if(locationToMove == "SW")
+        {
+            finalRow = initialRow+1;
+            finalColumn = initialColumn-1;
+        }
+
+        // std::cout << "Enter row: ";
+        // std::cin >> finalRow;
+        // std::cout << "Enter column: ";
+        // std::cin >> finalColumn;
+
+        // Check if the location is valid.
         if(gameBoard.isValidLocationToMove(finalRow,finalColumn))
         {
             gameBoard.updateBoard(initialRow, initialColumn, finalRow, finalColumn, m_color);

@@ -22,6 +22,8 @@ class game {
         // If winner of previous round, set player color manually.
         //void setWinnerFirstPlayerColor();
 
+        void showMenu() const;
+
     protected:
 
     private:
@@ -34,8 +36,6 @@ class game {
 
         // If human is first, human selects color. Else, a computer randomly selects the color.
         void setFirstPlayerColor();
-
-        unsigned short displayMenu();
         
         // Sets the size of the board.
         void setBoardSize();
@@ -56,7 +56,7 @@ class game {
         unsigned short humanScore;
         unsigned short computerScore;
 
-        unsigned short gameBoardSize;
+        unsigned short m_gameBoardSize;
 
         // holds who is first player. 'h' for human, 'c' for computer.
         char m_firstPlayer;

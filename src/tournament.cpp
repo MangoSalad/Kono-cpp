@@ -4,13 +4,13 @@
 tournament::tournament()
 {
     m_tournamentRound = 0;
+    m_computerScore = 0;
+    m_humanScore = 0;
     round = new game();
 }
 
 tournament::tournament(std::string a_savedGame)
-{
-    std::cout << "Loading saved game..." << std::endl;
-    
+{    
     // File successfully loaded and is valid.
     if(loadSavedFile(a_savedGame))
     {   
@@ -19,7 +19,13 @@ tournament::tournament(std::string a_savedGame)
     else
     {
         std::cout << "File is invalid. Exiting game now." << std::endl;
+        exit(1);
     }
+}
+
+tournament::~tournament()
+{
+    delete round;
 }
 
 // Checks to see if the filename provided is a valid/compliant save file.
@@ -56,10 +62,10 @@ bool tournament::loadSavedFile(std::string a_savedGame)
     // ADD TRY CATCH BLOCK HERE
 
     // Get round #
-    m_tournamentRoundFromFile = stoi(fileContents[1]);
+    m_tournamentRound = stoi(fileContents[1]);
 
     // Get computer score.
-    m_computerScoreFromFile = stoi(fileContents[4]);
+    m_computerScore = stoi(fileContents[4]);
 
     // Get computer color.
     if(fileContents[6] == "Black")
@@ -72,7 +78,7 @@ bool tournament::loadSavedFile(std::string a_savedGame)
     }
     
     // Get Human score.
-    m_humanScoreFromFile = stoi(fileContents[9]);
+    m_humanScore = stoi(fileContents[9]);
 
     // Get Human color.
     if(fileContents[11] == "Black")
@@ -132,8 +138,48 @@ bool tournament::continueGame()
 
         else if(choice == "No")
             return false;
-        
+  
         else
             continue;
     }    
 }
+
+void tournament::showMenu() const
+{
+    round -> showMenu();
+}
+
+// void game::continueGame()
+// {   
+//     unsigned short choice = displayMenu();
+
+//     if(choice == 1)
+//     {
+//         std::cout << "Saving game..." << std::endl;
+//     }
+//     else if(choice == 2)
+//     {
+//         //if(m_currentTurn=='h')
+//         //{
+//             humanPlayer -> play( *gameBoard);
+//             display->showBoard(gameBoard -> getBoard());
+//         //}
+//         // else
+//         // {
+//         //     computerPlayer -> play(gameBoard -> getBoard());
+//         // }
+//     }
+//     else if(choice == 3)
+//     {
+//         std::cout << "Help: ..." << std::endl;
+//     }
+//     else if(choice == 4)
+//     {
+//         std::cout << "Exiting..." << std::endl;
+//     }
+//     else
+//     {
+//         std::cout << "Error with choice" << std::endl;
+//     }
+
+// };

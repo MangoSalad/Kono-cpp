@@ -1,4 +1,4 @@
-// Header files
+// Including Precompiled Header File in order to save time during compile.
 
 // TODO - add more header files here:
 #include <iostream>

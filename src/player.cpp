@@ -3,8 +3,7 @@
 
 player::player()
 {
-    std::cout << "In player class" << std::endl;
-}
+};
 
 void player::play(std::vector< std::vector <char> > &boardTable)
 {
@@ -23,5 +22,5 @@ void player::play(std::vector< std::vector <char> > &boardTable)
     //check if piece is valid to move
     //make move
     //check if move is valid
-}
+};
 
