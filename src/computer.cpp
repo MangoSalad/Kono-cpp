@@ -69,17 +69,19 @@ void computer::updateState(board &gameBoard)
             if(board[row][col]==m_color)
             {
                 std::cout << "row: " << row + 1 << ", col: " << col + 1 << std::endl;
-                //m_availablePieces.push_back( std::make_pair(row,col) );
+                m_availablePieces.push_back( std::make_pair(row,col) );
             }
         }
     }
 
     if( m_color == 'W')
     {
-        friendlySide = board.end();
-        opponentSide = board.begin();
+        // If friendly side is on the top (W), opponnent side is on bottom (B)
+        friendlySide = board.begin();
+        opponentSide = board.end();
         
-        for ( ; friendlySide >= opponentSide ; --friendlySide )
+        // Iterate from top to bottom to find closest opponent
+        for ( ; friendlySide <= opponentSide ; ++friendlySide )
         {
             colIter col = std::find(friendlySide->begin(), friendlySide->end(), m_opponentColor);
             if ( col != friendlySide->end() )
@@ -91,10 +93,11 @@ void computer::updateState(board &gameBoard)
     }
     else
     {
+        // If friendly side is on the bottom (B), opponnent side is on top (W)
         friendlySide = board.end();
         opponentSide = board.begin();
 
-        for ( ; friendlySide != opponentSide ; ++friendlySide )
+        for ( ; friendlySide >= opponentSide ; --friendlySide )
         {
             colIter col = std::find(friendlySide->begin(), friendlySide->end(), m_opponentColor);
             if ( col != friendlySide->end() )
