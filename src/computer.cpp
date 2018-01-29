@@ -106,6 +106,18 @@ void computer::updateState(board &gameBoard)
                 break;
             }
         }
+        
+        friendlySide = board.end();
+
+        for ( ; opponentSide != friendlySide ; ++opponentSide )
+        {
+            colIter col = std::find(opponentSide->begin(), opponentSide->end(), m_color);
+            if ( col != opponentSide->end() )
+            {
+                std::cout << "Furthest Friendly: row "   << distance(board.begin(),opponentSide)+1 << ", col " << distance(opponentSide->begin(),col)+1 << '\n';
+                break;
+            }
+        }
 
     }
 
