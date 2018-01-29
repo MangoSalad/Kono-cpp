@@ -23,6 +23,8 @@ class board {
         bool isValidLocationToMove(int a_row, int a_column);
 
         void updateBoard(int a_initialRow, int a_initialColumn, int a_finalRow, int a_finalColumn,char a_color);
+
+        int getBoardSize() const { return m_boardSize; };
     
     protected:
         //  Set of variables that reflects the state of the board at a certain position.
@@ -36,7 +38,7 @@ class board {
 
     private:
         // Size of the Board.
-        unsigned short m_boardSize;
+        int m_boardSize;
 
         //board
         std::vector <std::vector <char> > * boardTable;
