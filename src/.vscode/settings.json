@@ -17,6 +17,10 @@
         "iterator": "cpp",
         "vector": "cpp",
         "bitset": "cpp",
-        "ios": "cpp"
+        "ios": "cpp",
+        "memory": "cpp",
+        "utility": "cpp",
+        "atomic": "cpp",
+        "system_error": "cpp"
     }
 }

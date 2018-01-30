@@ -43,7 +43,14 @@ bool board::isValidPieceToMove(char a_color, int a_row, int a_column)
 // obvi needs better logic
 bool board::isValidLocationToMove(int a_row, int a_column)
 {
-    return ((*boardTable)[a_row-1][a_column-1] != 'W' && (*boardTable)[a_row-1][a_column-1] != 'B') ? true : false;
+    if(a_row - 1 < 0 || a_column - 1 < 0 || a_row - 1 >= m_boardSize || a_column - 1 >= m_boardSize) 
+    {
+        return false;
+    }
+    else
+    {
+        return ((*boardTable)[a_row-1][a_column-1] != 'W' && (*boardTable)[a_row-1][a_column-1] != 'B') ? true : false;
+    }
 }
 
 void board::updateBoard(int a_initialRow, int a_initialColumn, int a_finalRow, int a_finalColumn, char a_color)
