@@ -31,7 +31,9 @@ class computer : public player {
         // Updates variables pertaining the computer player so that computer can make decisions.
         void updateState(board &gameBoard);
 
-        std::pair<int,int> pickPiece();
+        std::pair<int,int> pickRandomPiece();
+
+        void playOffensively(board &gameBoard);
 
 };
 

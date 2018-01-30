@@ -190,38 +190,3 @@ bool tournament::continueGame()
             continue;
     }    
 };
-
-// void game::continueGame()
-// {   
-//     unsigned short choice = displayMenu();
-
-//     if(choice == 1)
-//     {
-//         std::cout << "Saving game..." << std::endl;
-//     }
-//     else if(choice == 2)
-//     {
-//         //if(m_currentTurn=='h')
-//         //{
-//             humanPlayer -> play( *gameBoard);
-//             display->showBoard(gameBoard -> getBoard());
-//         //}
-//         // else
-//         // {
-//         //     computerPlayer -> play(gameBoard -> getBoard());
-//         // }
-//     }
-//     else if(choice == 3)
-//     {
-//         std::cout << "Help: ..." << std::endl;
-//     }
-//     else if(choice == 4)
-//     {
-//         std::cout << "Exiting..." << std::endl;
-//     }
-//     else
-//     {
-//         std::cout << "Error with choice" << std::endl;
-//     }
-
-// };
