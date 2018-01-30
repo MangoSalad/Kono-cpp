@@ -12,6 +12,8 @@ class computer : public player {
     protected:
 
     private:
+        board * gameBoard;
+
         char m_color;
         char m_opponentColor;
 
@@ -34,6 +36,9 @@ class computer : public player {
         std::pair<int,int> pickRandomPiece();
 
         void playOffensively(board &gameBoard);
+
+        bool blockFromWest(board &gameBoard);
+        bool blockFromEast(board &gameBoard);
 
 };
 

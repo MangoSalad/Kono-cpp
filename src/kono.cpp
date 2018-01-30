@@ -55,6 +55,8 @@ int main(int argc, char * argv [])
                 std::cout << "Please enter your desired filename: ";
                 std::cin >> fileName;
                 Kono -> saveGame(fileName);
+                delete Kono;
+                return 1;
                 break;
             case 2:
                 Kono -> playGame();
