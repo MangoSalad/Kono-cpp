@@ -18,39 +18,12 @@ computer::computer(char a_color)
 void computer::play(board &gameBoard)
 {
     updateState(gameBoard);
-    // std::vector< std::vector <char> > board = gameBoard.getBoard();
     
-    // typedef std::vector< std::vector<char> >::iterator iter;
-    // iter row = board.begin();
-    // iter end = board.end();
 
-    // // If opponent piece is close to base, go block.
-    // // If already blocked, play offensively. 
-
-    // // Finds closest opponent piece if opponent is black
-    // for ( ; row != end ; ++row )
-    // {
-    //     typedef std::vector<char>::iterator col_iter;
-    //     col_iter col = std::find(row->begin(), row->end(), 'B');
-    //     if ( col != row->end() )
-    //     {
-    //         std::cout << "row "   << distance(board.begin(),row)+1 << ", col " << distance(row->begin(),col)+1 << '\n';
-    //         break;
-    //     }
-    // }
-
-    //Iterators
-    // if(m_color == 'W')
-    // {
-    //     std::vector< std::vector <char> >::iterator closestOpponentPiece = find(board.begin(),board.end(),'B');
-    //     std::vector< std::vector <char> >::iterator furthestFriendlyPiece = std::find(board.end(),board.begin(),'W');
-
-    //     int distanceToClosestOpponentPiece = distance(board.begin(),closestOpponentPiece);
-    //     int distanceToFurthestFriendlyPiece = distance(board.end(),furthestFriendlyPiece);
-
-    //     std::cout<<"Closest Opponent: " <<distanceToClosestOpponentPiece <<" Furthest Friendly: " << distanceToFurthestFriendlyPiece << std::endl;
-    //     //board[distanceToClosestOpponentPiece] = 'C';
-    // }
+    //IF - opponent's piece is close to home, check if that piece is blocked.
+        //IF - if the opponent's piece is block, play offensively.
+        //ELSE - Randomy move a nearby piece to block it.
+    //ELSE - randomly move piece to opponent's end.
     
 };
 
@@ -78,10 +51,10 @@ void computer::updateState(board &gameBoard)
     {
         // If friendly side is on the top (W), opponnent side is on bottom (B)
         friendlySide = board.begin();
-        opponentSide = board.end();
+        opponentSide = board.end()-1;
         
         // Iterate from top to bottom to find closest opponent
-        for ( ; friendlySide <= opponentSide ; ++friendlySide )
+        for ( ; friendlySide != opponentSide ; ++friendlySide )
         {
             colIter col = std::find(friendlySide->begin(), friendlySide->end(), m_opponentColor);
             if ( col != friendlySide->end() )
@@ -90,13 +63,27 @@ void computer::updateState(board &gameBoard)
                 break;
             }
         }
+
+        friendlySide = board.begin();
+
+        // Iterate from bottom to top to find furthest friendly piece.
+        for ( ; opponentSide >= friendlySide ; --opponentSide )
+        {
+            colIter col = std::find(opponentSide->begin(), opponentSide->end(), m_color);
+            if ( col != opponentSide->end() )
+            {
+                std::cout << "Furthest Friendly: row "   << distance(board.begin(),opponentSide)+1 << ", col " << distance(opponentSide->begin(),col)+1 << '\n';
+                break;
+            }
+        }
     }
     else
     {
         // If friendly side is on the bottom (B), opponnent side is on top (W)
-        friendlySide = board.end();
+        friendlySide = board.end()-1;
         opponentSide = board.begin();
 
+        // Iterate from the bottom to the top to find the closest opponent piece.
         for ( ; friendlySide >= opponentSide ; --friendlySide )
         {
             colIter col = std::find(friendlySide->begin(), friendlySide->end(), m_opponentColor);
@@ -106,9 +93,10 @@ void computer::updateState(board &gameBoard)
                 break;
             }
         }
-        
-        friendlySide = board.end();
 
+        friendlySide = board.end()-1;
+
+        // Iterate from the the top to the bottom to find the furthest friendly piece.
         for ( ; opponentSide != friendlySide ; ++opponentSide )
         {
             colIter col = std::find(opponentSide->begin(), opponentSide->end(), m_color);
@@ -118,23 +106,6 @@ void computer::updateState(board &gameBoard)
                 break;
             }
         }
-
     }
 
-    // get position of closest opponent piece
-
-    // row = board.end() - 1;
-
-    // for ( ; row >= board.begin() ; --row )
-    // {
-    //     colIter col = std::find(row->begin(), row->end(), m_color);
-    //     if ( col != row->end() )
-    //     {
-    //         std::cout << "Furthest Friendly: row "   << distance(board.begin(),row)+1 << ", col " << distance(row->begin(),col)+1 << '\n';
-    //         break;
-    //     }
-    // }
-
-
-    // get position of furthest friendly piece
 };
