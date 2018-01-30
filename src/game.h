@@ -39,6 +39,8 @@ class game {
 
         unsigned short getBoardSize() const { return m_gameBoardSize; };
 
+        void getHelp();
+
     protected:
 
     private:

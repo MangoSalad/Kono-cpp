@@ -15,34 +15,56 @@ computer::computer(char a_color)
     }
 };
 
+std::pair<int,int> computer::pickPiece()
+{
+    return (*m_availablePieces)[rand() % (m_availablePieces->size()-1)];
+}
+
 void computer::play(board &gameBoard)
 {
     updateState(gameBoard);
 
-    std::vector< std::vector <char> > board = gameBoard.getBoard();
+    boardTable = gameBoard.getBoard();
+    availablePiecesIter availablePieces = (*m_availablePieces).begin();
     
     // If home side is top.
     if(m_color == 'W')
     {
         //IF - opponent's piece is close to home, check if that piece is blocked.
-        std::cout << "first: " << m_closestOpponent.first << "\n";
         if(m_closestOpponent.first <= 3)
         {
-            std::cout << "Moving to block\n";
+            std::cout << "Moving to block piece at " << "(" << m_closestOpponent.first + 1<< "," << m_closestOpponent.second + 1 << "). \n";
             //IF - if the opponent's piece is block, play offensively.
-            if( board[m_closestOpponent.first-1][m_closestOpponent.second-1] == m_color && board[m_closestOpponent.first-1][m_closestOpponent.second+1] == m_color)
+            if( boardTable[m_closestOpponent.first-1][m_closestOpponent.second-1] == m_color && boardTable[m_closestOpponent.first-1][m_closestOpponent.second+1] == m_color)
             {   
-                std::cout << "Piece is already blocked. " << board[m_closestOpponent.first-1][m_closestOpponent.second-1] << board[m_closestOpponent.first-1][m_closestOpponent.second+1] << " \n";
+                std::cout << "Piece is already blocked. " << boardTable[m_closestOpponent.first-1][m_closestOpponent.second-1] << boardTable[m_closestOpponent.first-1][m_closestOpponent.second+1] << " \n";
                    
             }
             //ELSE - Randomy move a nearby piece to block it.
             else
             {
                 std::cout<<"moving piece to block it"<<std::endl;
-
+                // check if leftside is blocked
+                if( boardTable[m_closestOpponent.first-1][m_closestOpponent.second-1] == m_color)
+                {
+                    std::cout << "left side is blocked.\n";
+                }
+                // check if rightside is blocked
+                else if (boardTable[m_closestOpponent.first-1][m_closestOpponent.second+1] == m_color)
+                {       
+                    std::cout << "right side is blocked. Moving to block left side. \n";                    
+                }
+                else
+                {
+                    std::cout << "neitherside is blocked.\n";
+                    //if( find( (*m_availablePieces).begin(),(*m_availablePieces).end(), ))
+                }
+                // Check if leftside has piece that can be moved up.
+                // Check if rightside has piece that can be moved up.
+                // Search for nearby piece. 
             }
-
         }
+        else
         //ELSE - randomly move piece to opponent's end.
         { 
             std::cout << "Moving piece to play offensively.\n";
@@ -51,7 +73,7 @@ void computer::play(board &gameBoard)
             bool didMove = true;
             while(didMove)
             {
-            std::pair<int,int> pieceToMove = (*m_availablePieces)[rand() % (m_availablePieces->size()-1)];
+            std::pair<int,int> pieceToMove = pickPiece();
 
             std::cout << "Moving piece (" << pieceToMove.first + 1 << "," << pieceToMove.second + 1<< ").\n";
 
@@ -127,7 +149,7 @@ void computer::updateState(board &gameBoard)
             if ( col != friendlySide->end() )
             {
                 std::cout << "Closest Opponent: row "   << distance(board.begin(),friendlySide)+1 << ", col " << distance(friendlySide->begin(),col)+1 << '\n';
-                m_closestOpponent = std::make_pair(distance(board.begin(),friendlySide)+1,distance(friendlySide->begin(),col)+1);
+                m_closestOpponent = std::make_pair(distance(board.begin(),friendlySide),distance(friendlySide->begin(),col));
                 break;
             }
         }
@@ -141,7 +163,7 @@ void computer::updateState(board &gameBoard)
             if ( col != opponentSide->end() )
             {
                 std::cout << "Furthest Friendly: row "   << distance(board.begin(),opponentSide)+1 << ", col " << distance(opponentSide->begin(),col)+1 << '\n';
-                m_furthestFriendly = std::make_pair(distance(board.begin(),opponentSide)+1, distance(opponentSide->begin(),col)+1);
+                m_furthestFriendly = std::make_pair(distance(board.begin(),opponentSide), distance(opponentSide->begin(),col));
                 break;
             }
         }
@@ -159,7 +181,7 @@ void computer::updateState(board &gameBoard)
             if ( col != friendlySide->end() )
             {
                 std::cout << "Closest Opponent: row "   << distance(board.begin(),friendlySide)+1 << ", col " << distance(friendlySide->begin(),col)+1 << '\n';
-                m_closestOpponent = std::make_pair(distance(board.begin(),friendlySide)+1, distance(friendlySide->begin(),col)+1);
+                m_closestOpponent = std::make_pair(distance(board.begin(),friendlySide), distance(friendlySide->begin(),col));
                 break;
             }
         }
@@ -173,7 +195,7 @@ void computer::updateState(board &gameBoard)
             if ( col != opponentSide->end() )
             {
                 std::cout << "Furthest Friendly: row "   << distance(board.begin(),opponentSide)+1 << ", col " << distance(opponentSide->begin(),col)+1 << '\n';
-                m_furthestFriendly = std::make_pair(distance(board.begin(),opponentSide)+1, distance(opponentSide->begin(),col)+1);
+                m_furthestFriendly = std::make_pair(distance(board.begin(),opponentSide), distance(opponentSide->begin(),col));
                 break;
             }
         }

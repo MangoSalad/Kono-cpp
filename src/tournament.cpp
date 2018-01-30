@@ -169,7 +169,7 @@ void tournament::playGame() const
 
 void tournament::helpGame() const
 {
-
+    round -> getHelp();
 };
 
 bool tournament::continueGame()
