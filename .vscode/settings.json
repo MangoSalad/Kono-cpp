@@ -12,6 +12,12 @@
         "memory": "cpp",
         "string": "cpp",
         "string_view": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "__locale": "cpp",
+        "algorithm": "cpp",
+        "ios": "cpp",
+        "__bit_reference": "cpp",
+        "__string": "cpp",
+        "type_traits": "cpp"
     }
 }
