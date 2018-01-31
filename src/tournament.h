@@ -20,9 +20,10 @@ class tournament {
         // Loads existing game from file.
         tournament(std::string a_savedGame);
 
+        // Destructor responsbile for freeing resources.
         ~tournament();
 
-        // Starts menu.
+        // Shows menu.
         void showMenu() const;
 
         // Saves current game to file.
@@ -33,6 +34,8 @@ class tournament {
 
         // Enters help mode.
         void helpGame() const;
+
+        void calculateWinner();
 
     protected:
 

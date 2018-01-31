@@ -25,6 +25,7 @@ tournament::tournament(std::string a_savedGame)
 
 tournament::~tournament()
 {
+    std::cout << "Thanks for playing. Exiting game." << std::endl;
     delete round;
 }
 

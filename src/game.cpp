@@ -18,6 +18,7 @@ game::game()
     setFirstPlayerColor();
 
     // Set Players.
+
     humanPlayer = new human(m_colorHumanPlayer);
     computerPlayer = new computer(m_colorComputerPlayer);
     
@@ -102,31 +103,97 @@ void game::setFirstPlayerColor()
 // Calculates the first player by calling random dice.
 void game::calculateFirstPlayer()
 {
+    std::ifstream diceFile("dice.txt");
+
+    // If Dice file is not in the project folder space, then generate dice randomly.
     int humanDice = 0;
     int computerDice = 1;
-    while(humanDice != computerDice)
+
+    if (!diceFile)
     {
-
-        humanDice = randomDice();
-        computerDice = randomDice();
-
-        std::cout << "Computer rolls a pair of dice... " << computerDice << std::endl;
-        std::cout << "Human rolls a pair of dice... " << humanDice << std::endl;
-
-        if(humanDice > computerDice)
+        while(humanDice != computerDice)
         {
-            std::cout << "Human is first player." << std::endl; 
-            m_currentTurn = 'h';
-            break;
-        }
-        else if (humanDice < computerDice)
+
+            humanDice = randomDice();
+            computerDice = randomDice();
+
+            std::cout << "Computer rolls a pair of dice... " << computerDice << std::endl;
+            std::cout << "Human rolls a pair of dice... " << humanDice << std::endl;
+
+            if(humanDice > computerDice)
+            {
+                std::cout << "Human is first player." << std::endl; 
+                m_currentTurn = 'h';
+                break;
+            }
+            else if (humanDice < computerDice)
+            {
+                std::cout << "Computer is first player." << std::endl; 
+                m_currentTurn = 'c';
+                break;
+            }
+        
+        };
+    }
+
+    // Read dice file.
+    else
+    {
+        std::string buff;
+        std::stack<std::string> fileContents;
+        while(!diceFile.eof())
         {
-            std::cout << "Computer is first player." << std::endl; 
-            m_currentTurn = 'c';
-            break;
+            getline(diceFile, buff);
+            std::istringstream line(buff);
+            while(line)
+            {
+                buff.clear();
+                line >> buff;
+                if(buff!="")
+                {   
+                    std::cout << buff;
+                    fileContents.push(buff);
+                }
+            }
+            if(fileContents.size()==4)
+            {
+                humanDice = stoi(fileContents.top());
+                fileContents.pop();
+                humanDice += stoi(fileContents.top());
+                fileContents.pop();
+                computerDice = stoi(fileContents.top());
+                fileContents.pop();
+                computerDice += stoi(fileContents.top());
+
+                std::cout << "Computer rolls a pair of dice... " << computerDice << std::endl;
+                std::cout << "Human rolls a pair of dice... " << humanDice << std::endl;
+
+                if(humanDice > computerDice)
+                {
+                    std::cout << "Human is first player." << std::endl; 
+                    m_currentTurn = 'h';
+                    break;
+                }
+                else if (humanDice < computerDice)
+                {
+                    std::cout << "Computer is first player." << std::endl; 
+                    m_currentTurn = 'c';
+                    break;
+                }
+                else
+                {
+                    std::cout << "Rolling again." <<std::endl;
+                }
+            }
         }
-    
-    };
+
+        if(humanDice == computerDice)
+        {
+            std::cout<<"Dice file provides poor results. Exiting game."<<std::endl;
+            exit(1);
+        }
+
+    }
 }
 
 // Shows the available menu.
@@ -152,7 +219,7 @@ int game::randomDice()
 // Sets the board size for the round
 void game::setBoardSize()
 {
-    unsigned short choice;
+    int choice;
     do 
     {
         std::cout << "Please enter your game board size (5,7,9): ";
@@ -162,9 +229,12 @@ void game::setBoardSize()
         {
             m_gameBoardSize = choice;
         }
-        else    
+        else
+        {
             std::cout << "Incorrect choice. Try again." << std::endl;
-
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+        }    
     }while(choice != 5 && choice != 7 && choice != 9);
 };
 

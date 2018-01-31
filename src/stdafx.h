@@ -8,6 +8,7 @@
 #include <fstream>
 #include <sstream>
 #include <queue>
+#include <stack>
 #include <algorithm>
 #include <cmath>
 #include <time.h>

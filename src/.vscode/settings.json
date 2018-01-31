@@ -21,6 +21,8 @@
         "memory": "cpp",
         "utility": "cpp",
         "atomic": "cpp",
-        "system_error": "cpp"
+        "system_error": "cpp",
+        "chrono": "cpp",
+        "iosfwd": "cpp"
     }
 }
