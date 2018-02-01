@@ -41,6 +41,8 @@ class game {
 
         void getHelp();
 
+        void calculateScore();
+
     protected:
 
     private:
@@ -68,8 +70,8 @@ class game {
         computer * computerPlayer;
         boardView * display;
 
-        int humanScore;
-        int computerScore;
+        int m_humanScore;
+        int m_computerScore;
 
         unsigned short m_gameBoardSize;
 

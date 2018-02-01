@@ -35,7 +35,9 @@ class tournament {
         // Enters help mode.
         void helpGame() const;
 
-        void calculateWinner();
+        void getWinner() const;
+
+        void calculateScores();
 
     protected:
 

@@ -4,6 +4,9 @@
 // Logic to start a round.
 game::game()
 {
+    m_humanScore = 0;
+    m_computerScore = 0;
+
     m_gameBoardSize = 0;
 
     // Set Board.
@@ -258,4 +261,270 @@ void game::getHelp()
     //Which piece to play
     //The direction in which to play it (northwest, northeast...)
     //Why: To advance (toward which home point); to retreat; to block (which piece); or to capture (which piece). 
+}
+
+void game::calculateScore()
+{
+    std::vector <std::vector <char> > board = gameBoard -> getBoard();
+
+    // Calculate Score if player is White
+    if(m_colorHumanPlayer == 'W')
+    {
+        //calculate human score
+        if(board[m_gameBoardSize-1][0] == m_colorHumanPlayer)
+        {
+            m_humanScore+=3;
+        }
+        if(board[m_gameBoardSize-1][1] == m_colorHumanPlayer)
+        {
+            m_humanScore+=1;
+        }
+        if(board[m_gameBoardSize-1][2] == m_colorHumanPlayer)
+        {
+            m_humanScore+=5;
+        }
+        //board is 7x7
+        if(m_gameBoardSize == 7)
+        {
+            if(board[m_gameBoardSize-1][3] == m_colorHumanPlayer)
+            {
+                m_humanScore+=7;
+            }
+            if(board[m_gameBoardSize-1][4] == m_colorHumanPlayer)
+            {
+                m_humanScore+=5;
+            }
+            
+        }
+        // board is 9x9
+        if(m_gameBoardSize == 9)
+        {
+            if(board[m_gameBoardSize-1][4] == m_colorHumanPlayer)
+            {
+                m_humanScore+=9;
+            }
+            if(board[m_gameBoardSize-1][5] == m_colorHumanPlayer)
+            {
+                m_humanScore+=7;
+            }
+            if(board[m_gameBoardSize-1][6] == m_colorHumanPlayer)
+            {
+                m_humanScore+=5;
+            }
+        }
+
+        if(board[m_gameBoardSize-1][m_gameBoardSize-2] == m_colorHumanPlayer)
+        {
+            m_humanScore+=1;
+        }
+        if(board[m_gameBoardSize-1][m_gameBoardSize-1] == m_colorHumanPlayer)
+        {
+            m_humanScore+=3;
+        }
+
+        if(board[m_gameBoardSize-2][0] == m_colorHumanPlayer)
+        {
+            m_humanScore+=1;
+        }
+        if(board[m_gameBoardSize-2][m_gameBoardSize-1] == m_colorHumanPlayer)
+        {
+            m_humanScore+=1;
+        }
+    }
+
+
+    if(m_colorComputerPlayer == 'W')
+    {
+        //calculate human score
+        if(board[m_gameBoardSize-1][0] == m_colorComputerPlayer)
+        {
+            m_computerScore+=3;
+        }
+        if(board[m_gameBoardSize-1][1] == m_colorComputerPlayer)
+        {
+            m_computerScore+=1;
+        }
+        if(board[m_gameBoardSize-1][2] == m_colorComputerPlayer)
+        {
+            m_computerScore+=5;
+        }
+        //board is 7x7
+        if(m_gameBoardSize == 7)
+        {
+            if(board[m_gameBoardSize-1][3] == m_colorComputerPlayer)
+            {
+                m_computerScore+=7;
+            }
+            if(board[m_gameBoardSize-1][4] == m_colorComputerPlayer)
+            {
+                m_computerScore+=5;
+            }
+            
+        }
+        // board is 9x9
+        if(m_gameBoardSize == 9)
+        {
+            if(board[m_gameBoardSize-1][4] == m_colorComputerPlayer)
+            {
+                m_computerScore+=9;
+            }
+            if(board[m_gameBoardSize-1][5] == m_colorComputerPlayer)
+            {
+                m_computerScore+=7;
+            }
+            if(board[m_gameBoardSize-1][6] == m_colorComputerPlayer)
+            {
+                m_computerScore+=5;
+            }
+        }
+
+        if(board[m_gameBoardSize-1][m_gameBoardSize-2] == m_colorComputerPlayer)
+        {
+            m_computerScore+=1;
+        }
+        if(board[m_gameBoardSize-1][m_gameBoardSize-1] == m_colorComputerPlayer)
+        {
+            m_computerScore+=3;
+        }
+
+        if(board[m_gameBoardSize-2][0] == m_colorComputerPlayer)
+        {
+            m_computerScore+=1;
+        }
+        if(board[m_gameBoardSize-2][m_gameBoardSize-1] == m_colorComputerPlayer)
+        {
+            m_computerScore+=1;
+        }
+    }
+    
+    
+    if(m_colorHumanPlayer == 'B')
+    {
+        //calculate human score
+        if(board[0][0] == m_colorHumanPlayer)
+        {
+            m_humanScore+=3;
+        }
+        if(board[0][1] == m_colorHumanPlayer)
+        {
+            m_humanScore+=1;
+        }
+        if(board[0][2] == m_colorHumanPlayer)
+        {
+            m_humanScore+=5;
+        }
+        //board is 7x7
+        if(m_gameBoardSize == 7)
+        {
+            if(board[0][3] == m_colorHumanPlayer)
+            {
+                m_humanScore+=7;
+            }
+            if(board[0][4] == m_colorHumanPlayer)
+            {
+                m_humanScore+=5;
+            }
+            
+        }
+        // board is 9x9
+        if(m_gameBoardSize == 9)
+        {
+            if(board[0][4] == m_colorHumanPlayer)
+            {
+                m_humanScore+=9;
+            }
+            if(board[0][5] == m_colorHumanPlayer)
+            {
+                m_humanScore+=7;
+            }
+            if(board[0][6] == m_colorHumanPlayer)
+            {
+                m_humanScore+=5;
+            }
+        }
+
+        if(board[0][m_gameBoardSize-2] == m_colorHumanPlayer)
+        {
+            m_humanScore+=1;
+        }
+        if(board[0][m_gameBoardSize-1] == m_colorHumanPlayer)
+        {
+            m_humanScore+=3;
+        }
+
+        if(board[1][0] == m_colorHumanPlayer)
+        {
+            m_humanScore+=1;
+        }
+        if(board[1][m_gameBoardSize-1] == m_colorHumanPlayer)
+        {
+            m_humanScore+=1;
+        }
+    } 
+
+
+
+    if(m_colorComputerPlayer == 'B')
+    {
+        //calculate human score
+        if(board[0][0] == m_colorComputerPlayer)
+        {
+            m_computerScore+=3;
+        }
+        if(board[0][1] == m_colorComputerPlayer)
+        {
+            m_computerScore+=1;
+        }
+        if(board[0][2] == m_colorComputerPlayer)
+        {
+            m_computerScore+=5;
+        }
+        //board is 7x7
+        if(m_gameBoardSize == 7)
+        {
+            if(board[0][3] == m_colorComputerPlayer)
+            {
+                m_computerScore+=7;
+            }
+            if(board[0][4] == m_colorComputerPlayer)
+            {
+                m_computerScore+=5;
+            }
+            
+        }
+        // board is 9x9
+        if(m_gameBoardSize == 9)
+        {
+            if(board[0][4] == m_colorComputerPlayer)
+            {
+                m_computerScore+=9;
+            }
+            if(board[0][5] == m_colorComputerPlayer)
+            {
+                m_computerScore+=7;
+            }
+            if(board[0][6] == m_colorComputerPlayer)
+            {
+                m_computerScore+=5;
+            }
+        }
+
+        if(board[0][m_gameBoardSize-2] == m_colorComputerPlayer)
+        {
+            m_computerScore+=1;
+        }
+        if(board[0][m_gameBoardSize-1] == m_colorComputerPlayer)
+        {
+            m_computerScore+=3;
+        }
+
+        if(board[1][0] == m_colorComputerPlayer)
+        {
+            m_computerScore+=1;
+        }
+        if(board[1][m_gameBoardSize-1] == m_colorComputerPlayer)
+        {
+            m_computerScore+=1;
+        }
+    }
 }

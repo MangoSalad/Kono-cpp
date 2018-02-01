@@ -191,3 +191,26 @@ bool tournament::continueGame()
             continue;
     }    
 };
+
+void tournament::getWinner() const
+{
+    std::cout << "Human Score: " << m_humanScore << std::endl;
+    std::cout << "Computer Score: " << m_computerScore << std::endl;
+    if(m_humanScore == m_computerScore)
+    {
+        std::cout << "There is no clear winner. It is a draw." << std::endl;
+    }
+    else if(m_humanScore > m_computerScore)
+    {
+        std::cout << "Human is the winner!" << std::endl;
+    }
+    else
+    {
+        std::cout << "Computer is the winner!" << std::endl;
+    }
+};
+
+void tournament::calculateScores()
+{
+    
+}
