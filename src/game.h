@@ -25,10 +25,6 @@ class game {
 
         // Utility Selector Functions
 
-        int getHumanScore() const { return humanScore; };
-
-        int getComputerScore() const { return computerScore; };
-
         std::string getComputerColor() const { return (m_colorComputerPlayer == 'W') ? "White" : "Black"; };
 
         std::string getHumanColor() const { return (m_colorHumanPlayer == 'W') ? "White" : "Black"; };
@@ -42,6 +38,10 @@ class game {
         void getHelp();
 
         void calculateScore();
+
+        int getHumanScore() const { return m_humanScore; };
+        
+        int getComputerScore() const { return m_computerScore; };
 
     protected:
 

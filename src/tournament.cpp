@@ -25,6 +25,8 @@ tournament::tournament(std::string a_savedGame)
 
 tournament::~tournament()
 {
+    calculateScores();
+    getWinner();
     std::cout << "Thanks for playing. Exiting game." << std::endl;
     delete round;
 }
@@ -106,7 +108,14 @@ bool tournament::loadSavedFile(std::string a_savedGame)
     {
         for(int j = 0; j < m_boardSizeFromFile; j++)
         {
-            (*m_boardTableFromFile)[i][j] = fileContents[startIndex].c_str()[0];
+            if(fileContents[startIndex].c_str()[0] == 'O')
+            {
+                (*m_boardTableFromFile)[i][j] = '+';
+            }
+            else
+            {
+                (*m_boardTableFromFile)[i][j] = fileContents[startIndex].c_str()[0];
+            }
             startIndex++;
         }
     }
@@ -212,5 +221,7 @@ void tournament::getWinner() const
 
 void tournament::calculateScores()
 {
-    
+    round ->calculateScore();
+    m_humanScore += round -> getHumanScore();
+    m_computerScore += round -> getComputerScore();
 }

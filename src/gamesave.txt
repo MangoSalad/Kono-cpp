@@ -6,9 +6,9 @@ Human:
 Score: 0
 Color: Black
 Board:
-W  O  W  W  W  
-O  O  W  O  W  
+B  O  B  B  W  
+O  O  W  O  B
 O  W  O  B  O  
 B  O  O  O  O  
-B  B  B  B  B  
+B  W  W  W  B  
 Next Player: Human
