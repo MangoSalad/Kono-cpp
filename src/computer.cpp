@@ -24,30 +24,26 @@ void computer::playOffensively(board &gameBoard)
 {
     if(m_color == 'W')
     {
-        std::cout << "Moving piece to play offensively.\n";
-
         // Picking random piece.
         bool didMove = true;
         while(didMove)
         {
         std::pair<int,int> pieceToMove = pickRandomPiece();
 
-        std::cout << "Moving piece (" << pieceToMove.first + 1 << "," << pieceToMove.second + 1<< ").\n";
-
         if(gameBoard.isValidPieceToMove(m_color,pieceToMove.first+1,pieceToMove.second+1))
         {
-            std::cout << "Valid piece to move.\n";
-
             if(gameBoard.isValidLocationToMove(pieceToMove.first+2,pieceToMove.second+2))
             {
                 gameBoard.updateBoard(pieceToMove.first+1, pieceToMove.second+1, pieceToMove.first+2,pieceToMove.second+2, m_color);
-                std::cout << "Moving SE\n";
+                std::cout << "The computer moved the piece at (" << pieceToMove.first + 1 << "," << pieceToMove.second + 1 << ") southeast." << std::endl;
+                std::cout << "It wanted to advance its piece to (" << pieceToMove.first + 2 << "," << pieceToMove.second + 2 << ")" << std::endl;
                 didMove = false;
             }
-            else if(gameBoard.isValidLocationToMove(pieceToMove.first+2,pieceToMove.second-2))
+            else if(gameBoard.isValidLocationToMove(pieceToMove.first+2,pieceToMove.second))
             {
-                gameBoard.updateBoard(pieceToMove.first+1, pieceToMove.second+1, pieceToMove.first+2,pieceToMove.second-2, m_color);
-                std::cout << "Moving SW\n";
+                gameBoard.updateBoard(pieceToMove.first+1, pieceToMove.second+1, pieceToMove.first+2,pieceToMove.second, m_color);
+                std::cout << "The computer moved the piece at (" << pieceToMove.first + 1 << "," << pieceToMove.second + 1 << ") southwest." << std::endl;
+                std::cout << "It wanted to advance its piece to (" << pieceToMove.first + 2 << "," << pieceToMove.second << ")" << std::endl;
                 didMove = false;
             }
             else
@@ -64,31 +60,37 @@ void computer::playOffensively(board &gameBoard)
 bool computer::blockFromWest(board &gameBoard)
 {
     std::cout << "blocking from west \n";
+    std::cout << "opponent: "<<m_closestOpponent.first <<" " << m_closestOpponent.second << "\n"; 
+    
     // If a there is an available piece located NW, move to block the oppponent piece.
-    if(boardTable[m_closestOpponent.first-2][m_closestOpponent.second-2] == m_color)
+    if(gameBoard.isValidPieceToMove(m_color,m_closestOpponent.first-1,m_closestOpponent.second-1) && gameBoard.isValidLocationToMove(m_closestOpponent.first,m_closestOpponent.second))
+    //    boardTable[m_closestOpponent.first-2][m_closestOpponent.second-2] == m_color)
     {
         std::cout << "The computer moved the piece at (" << m_closestOpponent.first-1 <<","<<m_closestOpponent.second-1 << ") southeast." << std::endl;
         std::cout << "It wanted to block the human piece at ("<< m_closestOpponent.first+1 <<","<<m_closestOpponent.second+1 <<")." << std::endl;
 
-        gameBoard.updateBoard(m_closestOpponent.first-1, m_closestOpponent.first-1, m_closestOpponent.first,m_closestOpponent.second, m_color); 
+        gameBoard.updateBoard(m_closestOpponent.first-1, m_closestOpponent.second-1, m_closestOpponent.first,m_closestOpponent.second, m_color); 
         return true;
     }
+    // MAYBE first -1 ???
     // If a there is an available piece located SW, move to block the oppponent piece.
-    else if(boardTable[m_closestOpponent.first][m_closestOpponent.second-2] == m_color)
+    else if(gameBoard.isValidPieceToMove(m_color,m_closestOpponent.first,m_closestOpponent.second-1) && gameBoard.isValidLocationToMove(m_closestOpponent.first,m_closestOpponent.second))
+    //boardTable[m_closestOpponent.first][m_closestOpponent.second-2] == m_color
     {
         std::cout << "The computer moved the piece at (" << m_closestOpponent.first <<","<<m_closestOpponent.second-1 << ") northeast." << std::endl;
         std::cout << "It wanted to block the human piece at ("<< m_closestOpponent.first+1 <<","<<m_closestOpponent.second+1 <<")." << std::endl;
 
-        gameBoard.updateBoard(m_closestOpponent.first, m_closestOpponent.first-1, m_closestOpponent.first,m_closestOpponent.second, m_color); 
+        gameBoard.updateBoard(m_closestOpponent.first, m_closestOpponent.second-1, m_closestOpponent.first,m_closestOpponent.second, m_color); 
         return true;
     }
     // If a there is an available piece located N, move to block the oppponent piece.
-    else if(boardTable[m_closestOpponent.first-2][m_closestOpponent.second] == m_color)
+    else if(gameBoard.isValidPieceToMove(m_color,m_closestOpponent.first-1,m_closestOpponent.second) && gameBoard.isValidLocationToMove(m_closestOpponent.first,m_closestOpponent.second))
+    //boardTable[m_closestOpponent.first-2][m_closestOpponent.second] == m_color
     {
         std::cout << "The computer moved the piece at (" << m_closestOpponent.first -1 <<","<<m_closestOpponent.second << ") southwest." << std::endl;
         std::cout << "It wanted to block the human piece at ("<< m_closestOpponent.first+1 <<","<<m_closestOpponent.second+1 <<")." << std::endl;
 
-        gameBoard.updateBoard(m_closestOpponent.first-1, m_closestOpponent.first, m_closestOpponent.first,m_closestOpponent.second, m_color); 
+        gameBoard.updateBoard(m_closestOpponent.first-1, m_closestOpponent.second, m_closestOpponent.first,m_closestOpponent.second, m_color); 
         return true;
     }
     // Else report back that it could not be blocked from the west side.
@@ -101,38 +103,46 @@ bool computer::blockFromWest(board &gameBoard)
 bool computer::blockFromEast(board &gameBoard)
 {
     std::cout << "blocking from east \n";
+    std::cout << "opponent: "<<m_closestOpponent.first <<" " << m_closestOpponent.second << "\n";
+
     // If a there is an available piece located NE, move to block the oppponent piece.
-    if(boardTable[m_closestOpponent.first-2][m_closestOpponent.second+2] == m_color)
+    std::cout << 1 << std::endl;
+    if(gameBoard.isValidPieceToMove(m_color,m_closestOpponent.first-1,m_closestOpponent.second+3) && gameBoard.isValidLocationToMove(m_closestOpponent.first,m_closestOpponent.second+2))
+    //boardTable[m_closestOpponent.first-2][m_closestOpponent.second+2] == m_color
     {
-        std::cout << "The computer moved the piece at (" << m_closestOpponent.first-1 <<","<<m_closestOpponent.second+1 << ") southwest." << std::endl;
+        std::cout << "The computer moved the piece at (" << m_closestOpponent.first-1 <<","<<m_closestOpponent.second+3 << ") southwest." << std::endl;
         std::cout << "It wanted to block the human piece at ("<< m_closestOpponent.first+1 <<","<<m_closestOpponent.second+1 <<")." << std::endl;
 
-        gameBoard.updateBoard(m_closestOpponent.first-1, m_closestOpponent.first+1, m_closestOpponent.first,m_closestOpponent.second, m_color); 
+        gameBoard.updateBoard(m_closestOpponent.first-1, m_closestOpponent.second+3, m_closestOpponent.first,m_closestOpponent.second+2, m_color); 
         return true;
     }
-    // If a there is an available piece located SE, move to block the oppponent piece.
-    else if(boardTable[m_closestOpponent.first][m_closestOpponent.second+2] == m_color)
+    std::cout << 2 << std::endl;
+    // If a there is an available piece located E, move to block the oppponent piece.
+    if(gameBoard.isValidPieceToMove(m_color,m_closestOpponent.first+1,m_closestOpponent.second+3) && gameBoard.isValidLocationToMove(m_closestOpponent.first,m_closestOpponent.second+2))
     {
-        std::cout << "The computer moved the piece at (" << m_closestOpponent.first <<","<<m_closestOpponent.second+1 << ") northwest." << std::endl;
+        std::cout << "The computer moved the piece at (" << m_closestOpponent.first +1 <<","<<m_closestOpponent.second+3 << ") northeast." << std::endl;
         std::cout << "It wanted to block the human piece at ("<< m_closestOpponent.first+1 <<","<<m_closestOpponent.second+1 <<")." << std::endl;
 
-        gameBoard.updateBoard(m_closestOpponent.first, m_closestOpponent.first+1, m_closestOpponent.first,m_closestOpponent.second, m_color); 
+        gameBoard.updateBoard(m_closestOpponent.first+1, m_closestOpponent.second+3, m_closestOpponent.first,m_closestOpponent.second+2, m_color); 
         return true;
     }
     // If a there is an available piece located N, move to block the oppponent piece.
-    else if(boardTable[m_closestOpponent.first-2][m_closestOpponent.second] == m_color)
+    std::cout << 3 << std::endl;
+
+    if(gameBoard.isValidPieceToMove(m_color,m_closestOpponent.first-1,m_closestOpponent.second+1) && gameBoard.isValidLocationToMove(m_closestOpponent.first,m_closestOpponent.second+2))
+    //boardTable[m_closestOpponent.first-2][m_closestOpponent.second] == m_color
     {
         std::cout << "The computer moved the piece at (" << m_closestOpponent.first -1 <<","<<m_closestOpponent.second << ") southeast." << std::endl;
         std::cout << "It wanted to block the human piece at ("<< m_closestOpponent.first+1 <<","<<m_closestOpponent.second+1 <<")." << std::endl;
 
-        gameBoard.updateBoard(m_closestOpponent.first-1, m_closestOpponent.first, m_closestOpponent.first,m_closestOpponent.second, m_color); 
+        gameBoard.updateBoard(m_closestOpponent.first-1, m_closestOpponent.second+1, m_closestOpponent.first,m_closestOpponent.second+2, m_color); 
         return true;
     }
+
+    std::cout << 4 << std::endl;
     // Else report back that it could not be blocked from the west side.
-    else 
-    {
-        return false;
-    }
+    return false;
+    
 };
 
 void computer::play(board &gameBoard)
@@ -162,27 +172,12 @@ void computer::play(board &gameBoard)
                 std::cout<<"moving piece to block it"<<std::endl;
                 
                 // Check if west side is blocked, if so, then prepare to block from east.
-                if( boardTable[m_closestOpponent.first-1][m_closestOpponent.second-1] == m_color)
+                if(!blockFromEast(gameBoard))
                 {
-                    std::cout << "left side is blocked.\n";
-                    blockFromEast(gameBoard);
-                }
-
-                // Check if right side is blocked, if so, then prepare to block from west.
-                else if (boardTable[m_closestOpponent.first-1][m_closestOpponent.second+1] == m_color)
-                {       
-                    std::cout << "right side is blocked. Moving to block left side. \n";
-                    blockFromWest(gameBoard);
-                }
-
-                else
-                {
-                    std::cout << "neitherside is blocked.\n";
                     if(!blockFromWest(gameBoard))
-                        std::cout << "";
-                    else if (!blockFromEast(gameBoard))
-                        std::cout << "";
-                    else playOffensively(gameBoard);
+                    {
+                        playOffensively(gameBoard);
+                    }
                 }
 
             }
@@ -218,7 +213,6 @@ void computer::updateState(board &gameBoard)
         {
             if(boardTable[row][col]==m_color)
             {
-                std::cout << "row: " << row + 1 << ", col: " << col + 1 << std::endl;
                 m_availablePieces -> push_back( std::make_pair(row,col) );
             }
         }
