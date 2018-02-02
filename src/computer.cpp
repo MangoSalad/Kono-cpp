@@ -13,6 +13,7 @@ computer::computer(char a_color)
     {
         m_opponentColor = 'W';
     }
+    std::cout << "in computer " <<std::endl;
 };
 
 std::pair<int,int> computer::pickRandomPiece()
@@ -275,6 +276,7 @@ bool computer::blockFromEast(board &gameBoard)
 
 void computer::play(board &gameBoard)
 {
+    std::cout << "in comp play \n";
     updateState(gameBoard);
 
     availablePiecesIter availablePieces = (*m_availablePieces).begin();
@@ -367,8 +369,11 @@ void computer::play(board &gameBoard)
 // Allows computer to recognize friendly and opponent pieces.
 void computer::updateState(board &gameBoard)
 {
+    std::cout << "in comp update \n";
     boardTable = gameBoard.getBoard();
     m_boardSize = gameBoard.getBoardSize();
+
+    std::cout << "called board\n";
 
     iter friendlySide;
     iter opponentSide;
@@ -384,10 +389,13 @@ void computer::updateState(board &gameBoard)
         {
             if(boardTable[row][col]==m_color)
             {
+                std::cout<<boardTable[row][col]<< std::endl;
                 m_availablePieces -> push_back( std::make_pair(row,col) );
             }
         }
     }
+
+    std::cout << "loaded available pieces \n";
 
     if( m_color == 'W')
     {

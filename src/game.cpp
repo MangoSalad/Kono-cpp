@@ -21,28 +21,33 @@ game::game()
     setFirstPlayerColor();
 
     // Set Players.
-
     humanPlayer = new human(m_colorHumanPlayer);
     computerPlayer = new computer(m_colorComputerPlayer);
-    
-    // Initiate Game Logic.
-    //continueGame();
 };
 
 // Loads game from file.
 game::game(char a_colorHumanPlayer, char a_colorComputerPlayer, char a_currentTurn,unsigned short a_boardSize, std::vector< std::vector <char> > &boardTable)
 {
-    m_colorHumanPlayer = a_colorHumanPlayer;
-    m_colorComputerPlayer = a_colorComputerPlayer;
-    m_currentTurn = a_currentTurn;
 
-    // Set Board.
+    m_humanScore = 0;
+    m_computerScore = 0;
+
     m_gameBoardSize = a_boardSize;
+
+    std::cout << "board size: " << m_gameBoardSize << std::endl;
+    // Set Board.
     gameBoard = new board(m_gameBoardSize, boardTable);
 
     // Set Display Board.
     display = new boardView();
-    //display->showBoard(gameBoard -> getBoard());
+
+    m_colorHumanPlayer = a_colorHumanPlayer;
+    m_colorComputerPlayer = a_colorComputerPlayer;
+    
+    m_currentTurn = a_currentTurn;
+
+    humanPlayer = new human(m_colorHumanPlayer);
+    computerPlayer = new computer(m_colorComputerPlayer);
 }
 
 game::~game()

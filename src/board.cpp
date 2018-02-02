@@ -33,6 +33,7 @@ board::board(unsigned short a_boardSize)
 board::board(unsigned short a_boardSize, std::vector< std::vector <char> > &a_boardTable)
 {
     boardTable = &a_boardTable;
+    //memcpy(boardTable,boardTable,a_boardSize*sizeof(char));
 }
 
 bool board::isValidPieceToMove(char a_color, int a_row, int a_column)

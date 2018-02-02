@@ -1,14 +1,18 @@
-Round: 0
+Round: 3
+  
 Computer:
-Score: 0
-Color: White
+   Score: 17
+   Color: Black
+
 Human:
-Score: 0
-Color: Black
+   Score: 14
+   Color: White
+
 Board:
-B  O  B  B  W  
-O  O  W  O  B
-O  W  O  B  O  
-B  O  O  O  O  
-B  W  W  W  B  
+   W  W  W  W  W  
+   W  O  O  O  W
+   O  O  O  O  O
+   B  O  O  O  B  
+   B  B  B  B  B  
+
 Next Player: Human

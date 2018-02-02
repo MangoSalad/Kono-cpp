@@ -1,0 +1,14 @@
+Round: 3
+Computer:
+Score: 0
+Color: Black
+Human:
+Score: 51
+Color: White
+Board:
+W  W  W  W  W  
+W  O  O  O  W  
+O  O  O  O  O  
+B  O  O  O  B  
+B  B  B  B  B  
+Next Player: Human
