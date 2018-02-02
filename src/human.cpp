@@ -22,6 +22,7 @@ void human::play(board &gameBoard)
     {
         unsigned short finalRow = 0;
         unsigned short finalColumn = 0;
+        bool isSuperPiece = false;
 
         std::string locationToMove;
 
@@ -55,7 +56,13 @@ void human::play(board &gameBoard)
         // std::cin >> finalColumn;
 
         // Check if the location is valid.
-        if(gameBoard.isValidLocationToMove(finalRow,finalColumn))
+        if(gameBoard.getPieceAtLocation(initialRow,initialColumn) == tolower(m_color,std::locale()))
+        {
+            isSuperPiece = true;
+        }
+
+        
+        if(gameBoard.isValidLocationToMove(finalRow,finalColumn,isSuperPiece))
         {
             gameBoard.updateBoard(initialRow, initialColumn, finalRow, finalColumn, m_color);
         }

@@ -21,7 +21,7 @@ class board {
         bool isValidPieceToMove(char a_color, int a_row, int a_column);
 
         // checks if the spot can moved to 
-        bool isValidLocationToMove(int a_row, int a_column);
+        bool isValidLocationToMove(int a_row, int a_column,bool isSuperPiece = false);
 
         // checks if the spot on the board is open
         bool isValidOpenLocation(int a_row, int a_column);

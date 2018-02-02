@@ -50,7 +50,7 @@ bool board::isValidPieceToMove(char a_color, int a_row, int a_column)
 }
 
 // obvi needs better logic
-bool board::isValidLocationToMove(int a_row, int a_column)
+bool board::isValidLocationToMove(int a_row, int a_column,bool isSuperPiece)
 {
     if(a_row - 1 < 0 || a_column - 1 < 0 || a_row - 1 >= m_boardSize || a_column - 1 >= m_boardSize) 
     {
@@ -58,7 +58,14 @@ bool board::isValidLocationToMove(int a_row, int a_column)
     }
     else
     {
-        return ((*boardTable)[a_row-1][a_column-1] != 'W' && (*boardTable)[a_row-1][a_column-1] != 'B') ? true : false;
+        if(isSuperPiece)
+        {
+            return true;
+        }
+        else
+        {
+            return ((*boardTable)[a_row-1][a_column-1] != 'W' && (*boardTable)[a_row-1][a_column-1] != 'B') ? true : false;
+        }
     }
 }
 
@@ -111,3 +118,8 @@ bool board::isReadyToUpgrade(int a_row,char a_color)
         return false;
     }
 }
+
+char board::getPieceAtLocation(int a_row, int a_column) const
+{
+    return (*boardTable)[a_row-1][a_column-1];
+};
