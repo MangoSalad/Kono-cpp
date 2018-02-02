@@ -37,7 +37,14 @@ board::board(unsigned short a_boardSize, std::vector< std::vector <char> > &a_bo
 
 bool board::isValidPieceToMove(char a_color, int a_row, int a_column)
 {
-    return ((*boardTable)[a_row-1][a_column-1] == a_color) ? true : false;
+    if(a_row - 1 < 0 || a_column - 1 < 0 || a_row - 1 >= m_boardSize || a_column - 1 >= m_boardSize) 
+    {
+        return false;
+    }
+    else
+    {
+        return ((*boardTable)[a_row-1][a_column-1] == a_color) ? true : false;
+    }
 }
 
 // obvi needs better logic
@@ -50,6 +57,19 @@ bool board::isValidLocationToMove(int a_row, int a_column)
     else
     {
         return ((*boardTable)[a_row-1][a_column-1] != 'W' && (*boardTable)[a_row-1][a_column-1] != 'B') ? true : false;
+    }
+}
+
+// obvi needs better logic
+bool board::isValidOpenLocation(int a_row, int a_column)
+{
+    if(a_row - 1 < 0 || a_column - 1 < 0 || a_row - 1 >= m_boardSize || a_column - 1 >= m_boardSize) 
+    {
+        return false;
+    }
+    else
+    {
+        return ((*boardTable)[a_row-1][a_column-1] == '+') ? true : false;
     }
 }
 

@@ -22,6 +22,8 @@ class board {
 
         bool isValidLocationToMove(int a_row, int a_column);
 
+        bool isValidOpenLocation(int a_row, int a_column);
+
         void updateBoard(int a_initialRow, int a_initialColumn, int a_finalRow, int a_finalColumn,char a_color);
 
         int getBoardSize() const { return m_boardSize; };
