@@ -10,9 +10,9 @@ Human:
 
 Board:
    W  W  W  W  W  
-   W  O  O  O  W
+   B  O  O  O  W
    O  O  O  O  O
-   B  O  O  O  B  
-   B  B  B  B  B  
+   B  W  O  O  B  
+   B  B  O  B  B  
 
 Next Player: Human

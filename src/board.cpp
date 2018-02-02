@@ -32,6 +32,7 @@ board::board(unsigned short a_boardSize)
 
 board::board(unsigned short a_boardSize, std::vector< std::vector <char> > &a_boardTable)
 {
+    m_boardSize = a_boardSize;
     boardTable = &a_boardTable;
     //memcpy(boardTable,boardTable,a_boardSize*sizeof(char));
 }
@@ -44,7 +45,7 @@ bool board::isValidPieceToMove(char a_color, int a_row, int a_column)
     }
     else
     {
-        return ((*boardTable)[a_row-1][a_column-1] == a_color) ? true : false;
+        return ((*boardTable)[a_row-1][a_column-1] == a_color || (*boardTable)[a_row-1][a_column-1] == tolower(a_color,std::locale()) ) ? true : false;
     }
 }
 
@@ -76,6 +77,37 @@ bool board::isValidOpenLocation(int a_row, int a_column)
 
 void board::updateBoard(int a_initialRow, int a_initialColumn, int a_finalRow, int a_finalColumn, char a_color)
 {
+    if(isReadyToUpgrade(a_finalRow,a_color))
+    {
+        (*boardTable)[a_finalRow-1][a_finalColumn-1] = tolower(a_color,std::locale());
+    }
+    else
+    {
+        if((*boardTable)[a_initialRow-1][a_initialColumn-1] == tolower(a_color,std::locale()))
+        {
+            (*boardTable)[a_finalRow-1][a_finalColumn-1] = tolower(a_color,std::locale());    
+        }
+        else
+        {
+            (*boardTable)[a_finalRow-1][a_finalColumn-1] = a_color;
+        }
+    }
     (*boardTable)[a_initialRow-1][a_initialColumn-1] = '+';
-    (*boardTable)[a_finalRow-1][a_finalColumn-1] = a_color;
+    
+}
+
+bool board::isReadyToUpgrade(int a_row,char a_color)
+{
+    if( (a_color == 'W' || a_color == 'w' ) && (a_row-1) == (m_boardSize -1) )
+    {
+        return true;
+    }
+    else if ( (a_color == 'B' || a_color == 'b' ) && (a_row-1) == 0 )
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }

@@ -20,27 +20,29 @@ class board {
         // Checks if the piece selected to move is valid.
         bool isValidPieceToMove(char a_color, int a_row, int a_column);
 
+        // checks if the spot can moved to 
         bool isValidLocationToMove(int a_row, int a_column);
 
+        // checks if the spot on the board is open
         bool isValidOpenLocation(int a_row, int a_column);
 
+        // updates a position of the board 
         void updateBoard(int a_initialRow, int a_initialColumn, int a_finalRow, int a_finalColumn,char a_color);
 
+        // gets size of board
         int getBoardSize() const { return m_boardSize; };
+
+        // get specific piece at location
+        char getPieceAtLocation(int a_row, int a_column) const;
     
     protected:
-        //  Set of variables that reflects the state of the board at a certain position.
-        enum positionState {
-            BLANK = '+',
-            WHITE = 'W',
-            BLACK = 'B',
-            SUPERWHITE = 'W',
-            SUPERBLACK = 'B'
-            };
 
     private:
         // Size of the Board.
         int m_boardSize;
+
+        // checks if the piece can be upgraded to super piece
+        bool isReadyToUpgrade(int a_row,char a_color);
 
         //board
         std::vector <std::vector <char> > * boardTable;
