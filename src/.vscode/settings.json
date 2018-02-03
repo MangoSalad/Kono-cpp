@@ -27,6 +27,11 @@
         "type_traits": "cpp",
         "__locale": "cpp",
         "locale": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "__functional_base": "cpp",
+        "functional": "cpp",
+        "limits": "cpp",
+        "ratio": "cpp",
+        "tuple": "cpp"
     }
 }

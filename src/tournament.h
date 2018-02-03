@@ -47,6 +47,9 @@ class tournament {
         // Creates new round.
         void newRound();
 
+        // Deduct 5 points from player for quiting game.
+        void quitGamePenalty();
+
     protected:
 
     private:

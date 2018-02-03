@@ -108,6 +108,7 @@ int main(int argc, char * argv [])
 
             // Exits game.
             case 4:
+                Kono -> quitGamePenalty();
                 Kono -> showWinner();
                 delete Kono;
                 return EXIT_SUCCESS;

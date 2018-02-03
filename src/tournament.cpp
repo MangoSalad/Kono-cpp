@@ -404,3 +404,23 @@ tournament::isGameWon()
 {
     return (round -> isHomeSideCapture()) ? true : false;
 };
+
+/* ********************************************************************* 
+Function Name: quitGamePenalty 
+Purpose: Deducts 5 points from player for quiting game.
+Parameters: 
+            none.
+Return Value: none.
+Local Variables: 
+            none.
+Algorithm: 
+            1) Notify user.
+            2) Subtract 5 from human score.
+Assistance Received: none 
+********************************************************************* */
+void
+tournament::quitGamePenalty() 
+{
+    std::cout << "Deducting 5 points from tournament score for quiting game." << std::endl;
+    m_humanScore-=5;
+}
