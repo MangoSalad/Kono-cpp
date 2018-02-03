@@ -121,5 +121,12 @@ bool board::isReadyToUpgrade(int a_row,char a_color)
 
 char board::getPieceAtLocation(int a_row, int a_column) const
 {
-    return (*boardTable)[a_row-1][a_column-1];
+    if(a_row - 1 < 0 || a_column - 1 < 0 || a_row - 1 >= m_boardSize || a_column - 1 >= m_boardSize) 
+    {
+        return ' ';
+    }
+    else
+    {
+        return (*boardTable)[a_row-1][a_column-1];
+    }
 };

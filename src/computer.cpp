@@ -31,6 +31,36 @@ void computer::playOffensively(board &gameBoard)
         {
         std::pair<int,int> pieceToMove = pickRandomPiece();
 
+        // check if can capture nearby.
+        if(gameBoard.getPieceAtLocation(pieceToMove.first+1,pieceToMove.second+1) == tolower(m_color,std::locale()))
+        {
+            // if opponent piece is located in NE
+            if(gameBoard.getPieceAtLocation(pieceToMove.first,pieceToMove.second+2) == m_opponentColor ||  gameBoard.getPieceAtLocation(pieceToMove.first,pieceToMove.second+2) == tolower(m_opponentColor,std::locale()))
+            {
+                gameBoard.updateBoard(pieceToMove.first+1, pieceToMove.second+1, pieceToMove.first,pieceToMove.second+2, tolower(m_color,std::locale()) );
+                didMove = false;
+            }
+            // if opponent piece is located in SE
+            else if(gameBoard.getPieceAtLocation(pieceToMove.first+2,pieceToMove.second+2) == m_opponentColor ||  gameBoard.getPieceAtLocation(pieceToMove.first+2,pieceToMove.second+2) == tolower(m_opponentColor,std::locale()))
+            {
+                gameBoard.updateBoard(pieceToMove.first+1, pieceToMove.second+1, pieceToMove.first+2,pieceToMove.second+2, tolower(m_color,std::locale()) );
+                didMove = false;
+            }
+            // if opponent piece is located in SW
+            else if(gameBoard.getPieceAtLocation(pieceToMove.first+2,pieceToMove.second) == m_opponentColor ||  gameBoard.getPieceAtLocation(pieceToMove.first+2,pieceToMove.second) == tolower(m_opponentColor,std::locale()))
+            {
+                gameBoard.updateBoard(pieceToMove.first+1, pieceToMove.second+1, pieceToMove.first+2,pieceToMove.second, tolower(m_color,std::locale()) );
+                didMove = false;
+            }
+            // if opponent piece is located in NW
+            else if(gameBoard.getPieceAtLocation(pieceToMove.first,pieceToMove.second) == m_opponentColor ||  gameBoard.getPieceAtLocation(pieceToMove.first,pieceToMove.second) == tolower(m_opponentColor,std::locale()))
+            {
+                gameBoard.updateBoard(pieceToMove.first+1, pieceToMove.second+1, pieceToMove.first,pieceToMove.second, tolower(m_color,std::locale()) );
+                didMove = false;
+            }
+        }
+
+
         if(gameBoard.isValidPieceToMove(m_color,pieceToMove.first+1,pieceToMove.second+1))
         {
             if(gameBoard.isValidLocationToMove(pieceToMove.first+2,pieceToMove.second+2))
@@ -387,7 +417,7 @@ void computer::updateState(board &gameBoard)
     {
         for( int col = 0; col < m_boardSize; col++ )
         {
-            if(boardTable[row][col]==m_color)
+            if(boardTable[row][col]==m_color || boardTable[row][col]==tolower(m_color,std::locale()) )
             {
                 std::cout<<boardTable[row][col]<< std::endl;
                 m_availablePieces -> push_back( std::make_pair(row,col) );

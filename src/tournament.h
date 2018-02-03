@@ -35,8 +35,10 @@ class tournament {
         // Enters help mode.
         void helpGame() const;
 
+        // Print winner and overall tournament score to the screen.
         void getWinner() const;
 
+        // Calculate tournament scores.
         void calculateScores();
 
     protected:

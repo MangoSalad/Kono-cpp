@@ -18,7 +18,7 @@ tournament::tournament(std::string a_savedGame)
     }
     else
     {
-        std::cout << "File is invalid. Exiting game now." << std::endl;
+        std::cout << "Exiting game now." << std::endl;
         exit(1);
     }
 }
@@ -31,18 +31,34 @@ tournament::~tournament()
     delete round;
 }
 
-// Checks to see if the filename provided is a valid/compliant save file.
-// After check, then loads the contents of the file.
-bool tournament::loadSavedFile(std::string a_savedGame)
+/* ********************************************************************* 
+Function Name: loadSavedFile 
+Purpose: Load contents of a saved game file. (serialization)
+Parameters: 
+            a_savedGame, string passed by value. Holds the name of the file to load.
+Return Value: boolean that confirms if the file successfully loaded and is valid.
+Local Variables: 
+            inFile, ifstream object holding file
+            buff, string buffer for parsing lines
+            fileContents, vector holding file contents
+Algorithm: 
+            1) @@@@@@@@@@@@@@@@@@@
+            2) @@@@@@@@@@@@@@@@@@@
+Assistance Received: none 
+********************************************************************* */
+bool
+tournament::loadSavedFile(std::string a_savedGame)
 {
     std::ifstream inFile;
     std::string buff;
     std::vector<std::string> fileContents;
 
+    // If file cannot be open, then cannot proceed.
     inFile.open(a_savedGame);
+
     if (!inFile)
     {   
-        std::cout << "Could not open file.. Terminating Kono." << std::endl;
+        std::cout << "Cannot access file." << std::endl;
         return false;
     }
 
@@ -62,72 +78,98 @@ bool tournament::loadSavedFile(std::string a_savedGame)
         }
     }
 
-    // ADD TRY CATCH BLOCK HERE
-
-    // Get round #
-    m_tournamentRound = stoi(fileContents[1]);
-
-    // Get computer score.
-    m_computerScore = stoi(fileContents[4]);
-
-    // Get computer color.
-    if(fileContents[6] == "Black")
+    // Validate each component of saved file and assign them to local variables.
+    try
     {
-        m_computerColorFromFile = 'B';
-    }
-    else if(fileContents[6] == "White")
-    {
-        m_computerColorFromFile = 'W';
-    }
-    
-    // Get Human score.
-    m_humanScore = stoi(fileContents[9]);
+        // Get round #
+        m_tournamentRound = stoi(fileContents[1]);
 
-    // Get Human color.
-    if(fileContents[11] == "Black")
-    {
-        m_humanColorFromFile = 'B';
-    }
-    else if(fileContents[11] == "White")
-    {
-        m_humanColorFromFile = 'W';
-    }
+        // Get computer score.
+        m_computerScore = stoi(fileContents[4]);
 
-    // Get Board state.
-    std::vector<std::string>::iterator first = find(fileContents.begin(),fileContents.end(),"Board:")+1;
-    std::vector<std::string>::iterator last = find(fileContents.begin(),fileContents.end(),"Next");
-    
-    m_boardSizeFromFile = std::sqrt(std::distance(first,last));
-
-    std::vector <char> rows (m_boardSizeFromFile,'+');
-    m_boardTableFromFile = new std::vector < std::vector<char> > (m_boardSizeFromFile,rows);
-
-    int startIndex = std::distance(fileContents.begin(),first);
-
-    for(int i = 0; i < m_boardSizeFromFile; i++)
-    {
-        for(int j = 0; j < m_boardSizeFromFile; j++)
+        // Get computer color.
+        if(fileContents[6] == "Black")
         {
-            if(fileContents[startIndex].c_str()[0] == 'O')
+            m_computerColorFromFile = 'B';
+        }
+        else if(fileContents[6] == "White")
+        {
+            m_computerColorFromFile = 'W';
+        }
+        
+        // Get Human score.
+        m_humanScore = stoi(fileContents[9]);
+
+        // Get Human color.
+        if(fileContents[11] == "Black")
+        {
+            m_humanColorFromFile = 'B';
+        }
+        else if(fileContents[11] == "White")
+        {
+            m_humanColorFromFile = 'W';
+        }
+
+        // Get Board state.
+        std::vector<std::string>::iterator first = find(fileContents.begin(),fileContents.end(),"Board:")+1;
+        std::vector<std::string>::iterator last = find(fileContents.begin(),fileContents.end(),"Next");
+        
+        // Get Board size.
+        m_boardSizeFromFile = std::sqrt(std::distance(first,last));
+
+        std::vector <char> rows (m_boardSizeFromFile,'+');
+        m_boardTableFromFile = new std::vector < std::vector<char> > (m_boardSizeFromFile,rows);
+
+        int startIndex = std::distance(fileContents.begin(),first);
+
+        for(int i = 0; i < m_boardSizeFromFile; i++)
+        {
+            for(int j = 0; j < m_boardSizeFromFile; j++)
             {
-                (*m_boardTableFromFile)[i][j] = '+';
+                if(fileContents[startIndex].c_str()[0] == 'O')
+                {
+                    (*m_boardTableFromFile)[i][j] = '+';
+                }
+                else
+                {
+                    std::cout << fileContents[startIndex] << std::endl;
+                    if(fileContents[startIndex] == "W")
+                    {
+                        (*m_boardTableFromFile)[i][j] = 'W';
+                    }
+                    else if (fileContents[startIndex] == "B")
+                    {
+                        (*m_boardTableFromFile)[i][j] = 'B';
+                    }
+                    else if (fileContents[startIndex] == "WW")
+                    {
+                        (*m_boardTableFromFile)[i][j] = 'w';
+                    }
+                    else if (fileContents[startIndex] == "BB")
+                    {
+                        (*m_boardTableFromFile)[i][j] = 'b';
+                    }
+                    //(*m_boardTableFromFile)[i][j] = (char)fileContents[startIndex].c_str()[0];
+                    //memcpy((*m_boardTableFromFile)[i][j],(char)fileContents[startIndex].c_str(),sizeof)
+                }
+                startIndex++;
             }
-            else
-            {
-                (*m_boardTableFromFile)[i][j] = fileContents[startIndex].c_str()[0];
-            }
-            startIndex++;
+        }
+            
+        // Get next player.
+        if(fileContents[40] == "Human")
+        {
+            m_nextPlayerFromFile = 'h';
+        }
+        else if(fileContents[40] == "Computer")
+        {
+            m_nextPlayerFromFile = 'c';
         }
     }
-        
-    // Get next player.
-    if(fileContents[40] == "Human")
+    catch (std::exception &e)
     {
-        m_nextPlayerFromFile = 'h';
-    }
-    else if(fileContents[40] == "Computer")
-    {
-        m_nextPlayerFromFile = 'c';
+        std::cout << "Invalid file format. Please check your file. " << std::endl;
+        return false;
     }
 
     return true;
@@ -159,9 +201,26 @@ void tournament::saveGame(std::string a_fileName) const
         for( int col = 0; col < boardSize; col++ )
         {
             if(boardTable[row][col] == '+')
+            {
                 outFile << "O  ";
-            else
-                outFile << boardTable[row][col] << "  ";
+            }
+            else if(boardTable[row][col] == 'W')
+            {
+                outFile << "W  ";
+            }
+            else if(boardTable[row][col] == 'B')
+            {
+                outFile << "B  ";
+            }
+            else if(boardTable[row][col] == 'w')
+            {
+                outFile << "WW  ";
+            }
+            else if(boardTable[row][col] == 'b')
+            {
+                outFile << "BB  ";
+            }
+            //outFile << boardTable[row][col] << "  ";
         }
 
         outFile <<"\n";

@@ -3,12 +3,12 @@ Computer:
 Score: 0
 Color: Black
 Human:
-Score: 51
+Score: 0
 Color: White
 Board:
-W  W  W  W  W  
-W  O  O  O  W  
+W  W  W  WW  W  
+B  O  O  O  W  
 O  O  O  O  O  
-B  O  O  O  B  
-B  B  B  B  B  
+B  WW  O  O  B  
+BB  B  O  B  BB  
 Next Player: Human

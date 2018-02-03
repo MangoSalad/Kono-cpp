@@ -12,18 +12,19 @@
 
 int main(int argc, char * argv [])
 {
-
     tournament * Kono;
 
     // Seed random number for dice throwing.
     srand (time(NULL));
 
+    // Variables for user input.
     char choice = ' ';
     std::string fileName = "";
+    int menuChoice = 0;
 
+    // Give user choice to load game from file or create a new game.
     while(choice != 'y' && choice != 'n')
     {
-        // Asks user for option to continue game from a previously saved state.
         std::cout << "Do you want to start a game from a previously saved state? (y/n) ";
         std::cin >> choice;
 
@@ -49,8 +50,6 @@ int main(int argc, char * argv [])
         }    
     }
 
-    int menuChoice = 0;
-
     // Show menu options until player decides to exit game.
     while(menuChoice!=4)
     {
@@ -64,9 +63,9 @@ int main(int argc, char * argv [])
                 std::cout << "Please enter your desired filename: ";
                 std::cin >> fileName;
                 Kono -> saveGame(fileName);
+                // Exit upon serialization.
                 delete Kono;
-                return 1;
-                break;
+                return EXIT_SUCCESS;
 
             // Play game.
             case 2:
@@ -81,7 +80,7 @@ int main(int argc, char * argv [])
             // Exits game.
             case 4:
                 delete Kono;
-                return 1;
+                return EXIT_SUCCESS;
 
             // Incorrect choice.
             default:
@@ -91,6 +90,6 @@ int main(int argc, char * argv [])
         }
     }
 
-    // Free memory.
     delete Kono;
+    return EXIT_SUCCESS;
 }
