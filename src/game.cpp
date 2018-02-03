@@ -1,45 +1,45 @@
 #include "game.h"
 #include "stdafx.h"
 
-// Logic to start a round.
+// Default constructor to start a new round.
 game::game()
 {
+    // Initialize variables.
     m_humanScore = 0;
     m_computerScore = 0;
-
     m_gameBoardSize = 0;
 
     // Set Board.
     setBoardSize();
     gameBoard = new board(m_gameBoardSize);
 
-    // Display Display Board.
+    // Board View.
     display = new boardView();
 
-    // Set Player.
+    // Set logic for first player.
     calculateFirstPlayer();
     setFirstPlayerColor();
 
-    // Set Players.
+    // Instantiate Players.
     humanPlayer = new human(m_colorHumanPlayer);
     computerPlayer = new computer(m_colorComputerPlayer);
 };
 
-// Loads game from file.
+// Constructor to load an existing round from file.
 game::game(char a_colorHumanPlayer, char a_colorComputerPlayer, char a_currentTurn,unsigned short a_boardSize, std::vector< std::vector <char> > &boardTable)
 {
-
+    // Initialize round score to zero.
     m_humanScore = 0;
     m_computerScore = 0;
 
-    m_gameBoardSize = a_boardSize;
-
     // Set Board.
+    m_gameBoardSize = a_boardSize;
     gameBoard = new board(m_gameBoardSize, boardTable);
 
-    // Set Display Board.
+    // Board View.
     display = new boardView();
 
+    // Colors of players.
     m_colorHumanPlayer = a_colorHumanPlayer;
     m_colorComputerPlayer = a_colorComputerPlayer;
 
@@ -52,6 +52,7 @@ game::game(char a_colorHumanPlayer, char a_colorComputerPlayer, char a_currentTu
         std::cout << "You are playing black. Computer is playing white." << std::endl;
     }
     
+    // Current turn.
     m_currentTurn = a_currentTurn;
     if(m_currentTurn == 'h')
     {
@@ -62,58 +63,90 @@ game::game(char a_colorHumanPlayer, char a_colorComputerPlayer, char a_currentTu
         std::cout << "It is the computer's turn." << std::endl;
     }
 
+    // Instantiate Players.
     humanPlayer = new human(m_colorHumanPlayer);
     computerPlayer = new computer(m_colorComputerPlayer);
-}
+};
 
+// Destructor , free up resources.
 game::~game()
 {
     delete gameBoard;
     delete humanPlayer;
     delete computerPlayer;
     delete display;
-}
+};
 
-void game::setFirstPlayerColor()
+/* ********************************************************************* 
+Function Name: setFirstPlayerColor 
+Purpose: Asks the user for what color they will play. If first player is computer, computer will randomly pick the color.
+Parameters: 
+            none.
+Return Value: none.
+Local Variables: 
+            choice, char holding the choice for what color the human will pick.
+            randonChoice, a boolean for what color the computer iwll pick.
+Algorithm: 
+            1) If the current turn is the human, ask the human what color they will play as. Record this color into variable.
+            2) If the current turn is the computer, computer will randomly pick the color and record it into a variable.
+Assistance Received: none 
+********************************************************************* */
+void
+game::setFirstPlayerColor()
 {
 
-    // human chooses color
+    // First player is human, he/she chooses color.
     if(m_currentTurn == 'h')
     {
-        std::string choice = "";
-        while(choice != "black" && choice != "white")
+        char choice = ' ';
+
+        // Ask user for choice.
+        while(choice != 'b' && choice != 'w')
         {
-            std::cout << "What color do you pick to play? (white/black): ";
+            std::cout << "What color do you pick to play? (w/b): ";
             std::cin >> choice;
             
-            if(choice == "black")
+            // Assign human color to black.
+            if(choice == 'b')
             {
                 m_colorHumanPlayer = 'B';
                 m_colorComputerPlayer = 'W';
                 std::cout << "You will play as black." << std::endl;
             }
-            else if(choice == "white")
+
+            // Assign human color to white.
+            else if(choice == 'w')
             {
                 m_colorHumanPlayer = 'W';
                 m_colorComputerPlayer = 'B';
                 std::cout << "You will play as white." << std::endl;
             }
+
+            // Handle incorrect input.
             else
             {
-                std::cout << "Incorrect choice." << std::endl;
+                std::cout << "You chose an incorrect option. Please try again." << std::endl;
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
             }
         }
     }
+
     // Computer randomly chooses color.
     else
     {
+        // Either 1 or 0.
         bool randomChoice = rand() % 2;
+
+        // If 1, then computer will choice black.
         if(randomChoice)
         {
             std::cout << "Computer chose black. You will play as white." << std::endl;
             m_colorHumanPlayer = 'W';
             m_colorComputerPlayer = 'B';
         }
+        
+        // Else it will choose white.
         else
         {
             std::cout << "Computer chose white. You will play as black." << std::endl;
@@ -121,11 +154,37 @@ void game::setFirstPlayerColor()
             m_colorComputerPlayer = 'W';
         }
     }
+};
 
-}
+/* ********************************************************************* 
+Function Name: calculateFirstPlayer 
+Purpose: Calculates the first player of the game either by random dice roll or by loading a dice file with preconfigured dice rolls.
+Parameters: 
+            none.
+Return Value: none.
+Local Variables: 
+            diceFile, ifstream object. Used to open dice file if it exists.
+            humanDice, an integer. Holds result of random dice toss for human.
+            computerDice, an integer. Holds result of random dice toss for computer.
+            buff, a string. Holds buffer from reading dice file.
+            fileContents, a string stack. Holds contents from the dice file.
+            line, an istringstream object. Used to parse the dice file.
+Algorithm: 
+            1) If there is a dice.txt file. Skip to step 5.
+            2) If there is no dice.txt file, then call randomDice() method for human and computer to generate random dice rolls.
+            3) If a dice pair is greater than the other, then the owner of the random dice pair is the first player.
+            4) If both pairs are equal, then reroll.
+            5) Open dice.txt and parse each line using istringstream.
+            6) Load each number from file onto stack.
+            7) If stack is size 4, then 2 numbers will be human rolls and 2 will be computer rolls.
+            8) Depending which roll is greater, they will go first.
+            9) If both are equal, then continue to read file for greater pairs.
+            10) If file cannot provide a greater pair for dice roll, then exit game and inform user.
 
-// Calculates the first player by calling random dice.
-void game::calculateFirstPlayer()
+Assistance Received: none 
+********************************************************************* */
+void
+game::calculateFirstPlayer()
 {
     std::ifstream diceFile("dice.txt");
 
@@ -135,113 +194,195 @@ void game::calculateFirstPlayer()
 
     if (!diceFile)
     {
+        // Toss doss until one pair is greater than the other.
         while(humanDice != computerDice)
         {
-
+            // Get random dice pairs.
             humanDice = randomDice();
             computerDice = randomDice();
 
+            // Announce dice rolls.
             std::cout << "Computer rolls a pair of dice... " << computerDice << std::endl;
             std::cout << "Human rolls a pair of dice... " << humanDice << std::endl;
 
+            // Human player won the dice roll. Human player is first.
             if(humanDice > computerDice)
             {
                 std::cout << "Human is first player." << std::endl; 
                 m_currentTurn = 'h';
                 break;
             }
+
+            // Computer player won the dice roll. Computer player is first.
             else if (humanDice < computerDice)
             {
                 std::cout << "Computer is first player." << std::endl; 
                 m_currentTurn = 'c';
                 break;
             }
-        
+
+            // Annouce to player that dice will roll again.
+            else
+            {
+                std::cout << "Rolling again.." << std::endl;
+            }
         };
     }
 
     // Read dice file.
     else
     {
+        // Buffer for lines from file.
         std::string buff;
+
+        // Stack for holding lines from file.s
         std::stack<std::string> fileContents;
+
+        // While the file is not empty, read each line.
         while(!diceFile.eof())
         {
             getline(diceFile, buff);
             std::istringstream line(buff);
+
+            // For each line, push it onto the stack.
             while(line)
             {
                 buff.clear();
                 line >> buff;
                 if(buff!="")
                 {   
-                    std::cout << buff;
                     fileContents.push(buff);
                 }
-            }
+            };
+
+            // If there are enough dice rolls on the stack, read them.
             if(fileContents.size()==4)
             {
+                // Human roll #1
                 humanDice = stoi(fileContents.top());
                 fileContents.pop();
+
+                // Human roll #2
                 humanDice += stoi(fileContents.top());
                 fileContents.pop();
+
+                // Computer roll #1
                 computerDice = stoi(fileContents.top());
                 fileContents.pop();
+
+                // Computer roll #2
                 computerDice += stoi(fileContents.top());
 
+                // Announce rolls to user.
                 std::cout << "Computer rolls a pair of dice... " << computerDice << std::endl;
                 std::cout << "Human rolls a pair of dice... " << humanDice << std::endl;
 
+                // Announce human is first player.
                 if(humanDice > computerDice)
                 {
                     std::cout << "Human is first player." << std::endl; 
                     m_currentTurn = 'h';
                     break;
                 }
+
+                // Announce computer is first player.
                 else if (humanDice < computerDice)
                 {
                     std::cout << "Computer is first player." << std::endl; 
                     m_currentTurn = 'c';
                     break;
                 }
+
+                // Announce that the results are inconclusive.
                 else
                 {
                     std::cout << "Rolling again." <<std::endl;
                 }
             }
-        }
+            
+            // Not enough pairs in the file. Exit the game because the file cannot be used.
+            else
+            {
+                std::cout<<"Dice file provides poor results. Exiting game."<<std::endl;    
+                exit(1);
+            }
+        };
 
+        // If all the tosses were equal. The provided file cannot be used. Exit the game.
         if(humanDice == computerDice)
         {
             std::cout<<"Dice file provides poor results. Exiting game."<<std::endl;
             exit(1);
-        }
+        };
+    };
+};
 
-    }
-}
-
-// Shows the available menu.
-void game::showMenu() const
-{ 
+/* ********************************************************************* 
+Function Name: showMenu 
+Purpose: Shows menu to user playing.
+Parameters: 
+            none.
+Return Value: none.
+Local Variables: 
+            none.
+Algorithm: 
+            1) Display the board by calling showBoard() method in boardview object.
+            2) If the current turn is human, then provide option to ask for help.
+Assistance Received: none 
+********************************************************************* */
+void
+game::showMenu() const
+{
+    // Display the board. 
     display->showBoard(gameBoard -> getBoard());
 
+    // Show menu options.
     std::cout << "1. Save the game. " << std::endl;
     std::cout << "2. Make a move. " << std::endl;
+
+    // If current turn is human, provide option to ask for help.
     if(m_currentTurn=='h')
     {
         std::cout << "3. Ask for help. " << std::endl;   
     }
+
     std::cout << "4. Quit the game. " << std::endl;
 }
 
-// Returns number between 2 and 12.
-int game::randomDice()
+/* ********************************************************************* 
+Function Name: randomDice 
+Purpose: Generates a random number between 2 and 12 to simulate dice roll.
+Parameters: 
+            none.
+Return Value: integer between 2 and 12.
+Local Variables: 
+            none.
+Algorithm: 
+            1) Call rand() to generate random number between 2 and 12.
+Assistance Received: none 
+********************************************************************* */
+int
+game::randomDice()
 {
     return rand() % 12 + 2;
 }
 
-// Sets the board size for the round
-void game::setBoardSize()
+/* ********************************************************************* 
+Function Name: setBoardSize 
+Purpose: Asks user for the board size and sets it accordingly.
+Parameters: 
+            none.
+Return Value: none.
+Local Variables: 
+            none.
+Algorithm: 
+            1) Ask user for their board size choice (5,7,9)
+            2) Validate input.
+            3) Set the board size to their input.
+Assistance Received: none 
+********************************************************************* */
+void
+game::setBoardSize()
 {
     int choice;
     do 
@@ -262,7 +403,21 @@ void game::setBoardSize()
     }while(choice != 5 && choice != 7 && choice != 9);
 };
 
-void game::playRound()
+/* ********************************************************************* 
+Function Name: playRound 
+Purpose: Calls the play() method for either human or computer depending on the current turn.
+Parameters: 
+            none.
+Return Value: none.
+Local Variables: 
+            none.
+Algorithm: 
+            1) If current turn is human, human will play.
+            2) Else, computer will play.
+Assistance Received: none 
+********************************************************************* */
+void
+game::playRound()
 {
     if(m_currentTurn == 'h')
     {
@@ -274,15 +429,24 @@ void game::playRound()
         computerPlayer -> play(*gameBoard);
         m_currentTurn = 'h';
     }
-
 }
 
-void game::getHelp()
+/* ********************************************************************* 
+Function Name: getHelp 
+Purpose: Calls help() method in player class in order to provide help to the human.
+Parameters: 
+            none.
+Return Value: none.
+Local Variables: 
+            none.
+Algorithm: 
+            1) Call help() method.
+Assistance Received: none 
+********************************************************************* */
+void
+game::getHelp()
 {
     humanPlayer -> help(*gameBoard, m_colorHumanPlayer,m_colorComputerPlayer);
-    //Which piece to play
-    //The direction in which to play it (northwest, northeast...)
-    //Why: To advance (toward which home point); to retreat; to block (which piece); or to capture (which piece). 
 }
 
 void game::calculateScore()
@@ -551,41 +715,52 @@ void game::calculateScore()
     }
 }
 
-bool game::isHomeSideCapture()
+/* ********************************************************************* 
+Function Name: isHomeSideCapture 
+Purpose: Checks if the a side's pieces have captured the opponent's home spaces.
+Parameters: 
+            none.
+Return Value: Boolean value confirming if a side has captured the other side's spaces.
+Local Variables: 
+            blackSide, char vector. Holds the black side.
+            numberOfBlack, integer. The number of remaining black pieces.
+            whiteSide, char vector. Holds the white side.
+            numberOfWhite, integer. The number of remaining white pieces.
+Algorithm: 
+            1) Get a vector holding the pieces of the black side.
+            2) Get a count of how many black pieces there are left.
+            3) Get a vector holding the pieces of the white side.
+            4) Get a count of how many white pieces there are left.
+            5) Iterate through the black side vector and get a count of how many remaining white pieces have not captured the black side.
+            6) Iterate through the white side vector and get a count of how many remaining black pieces have not captured the white side.
+            7) If all the pieces of one side have captured the other side, return true. This means that this is a winning condition.
+Assistance Received: none 
+********************************************************************* */
+bool
+game::isHomeSideCapture()
 {
-    std::cout << "in isHomeSideCapture()\n";
-    // Check if black pieces occupy white spaces.
+    // Get a vector of the entire home space of the black side.
     std::vector <char> blackSide = gameBoard -> getBlackSide();
-    // Get all remaining black pieces.
+    
+    // Get the total number of black pieces.
     int numberOfBlack = gameBoard -> getNumberOfBlackPieces();
 
-    // Check if white pieces occupy black spaces;
+    // Get a vector of the entire home space of the white side.
     std::vector <char> whiteSide = gameBoard -> getWhiteSide();
-    // Get all remaining black pieces.
+
+    // Get the total number of white pieces.
     int numberOfWhite = gameBoard -> getNumberOfWhitePieces();
 
-    std::cout << "Black: ";
-    for(int i = 0; i < blackSide.size(); i++)
-    {
-        std::cout<<blackSide[i] <<" ";
-        if(blackSide[i]=='W' || blackSide[i]=='w')
-        {
-            numberOfWhite--;
-        }
-    }
+    // Get a count of the remaining # of white pieces have occupied the black side.
+    numberOfWhite -= count(blackSide.begin(),blackSide.end(),'W');
+    numberOfWhite -= count(blackSide.begin(),blackSide.end(),'w');
 
-    std::cout << "\nWhite: ";
-    for(int i = 0; i < whiteSide.size(); i++)
-    {
-        std::cout<<whiteSide[i] <<" ";
-        if(whiteSide[i]=='B' || whiteSide[i]=='b')
-        {
-            numberOfBlack--;
-        }
-    }
+    // Get a count of the remaining # of black pieces have occupied the white side.
+    numberOfBlack -= count(whiteSide.begin(),whiteSide.end(),'B');
+    numberOfBlack -= count(whiteSide.begin(),whiteSide.end(),'b');
 
-    std::cout <<"B: "<<numberOfBlack << " W: " << numberOfWhite << std::endl;
-
+    // If either all white pieces are on the black side, or all black pieces are on the white side - then a home side has been captured.
+    // This is a winning condition.
     if(numberOfWhite == 0 || numberOfBlack == 0)
     {
         return true;
