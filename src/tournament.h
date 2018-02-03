@@ -44,6 +44,9 @@ class tournament {
         // Checks to see if game won.
         bool isGameWon();
 
+        // Prompts user to decide if they would like to play another round.
+        bool continueGame();
+
     protected:
 
     private:
@@ -72,8 +75,7 @@ class tournament {
         // Load existing game file and perform checks on it.
         bool loadSavedFile(std::string a_savedGame);
 
-        // Prompts user to decide if they would like to play another round.
-        bool continueGame();
+        
 };
 
 #endif

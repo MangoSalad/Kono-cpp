@@ -72,8 +72,7 @@ int main(int argc, char * argv [])
                 Kono -> playGame();
                 if(Kono -> isGameWon())
                 {
-                    delete Kono;
-                    return EXIT_SUCCESS;
+                    Kono -> continueGame();
                 }
                 break;
             

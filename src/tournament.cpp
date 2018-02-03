@@ -25,6 +25,7 @@ tournament::tournament(std::string a_savedGame)
 
 tournament::~tournament()
 {
+    //m_humanScore-=5;
     calculateScores();
     getWinner();
     std::cout << "Thanks for playing. Exiting game." << std::endl;
@@ -243,6 +244,10 @@ void tournament::helpGame() const
 
 bool tournament::continueGame()
 {
+    calculateScores();
+    getWinner();
+    delete round;
+
     std::string choice = "";
     while(choice != "Yes" || choice != "No")
     {
@@ -250,7 +255,10 @@ bool tournament::continueGame()
         std::cin >> choice;
 
         if(choice == "Yes")
+        {
+            round = new game();
             return true;
+        } 
 
         else if(choice == "No")
             return false;
