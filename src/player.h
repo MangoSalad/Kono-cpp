@@ -9,13 +9,19 @@ class player{
         virtual void play(std::vector< std::vector <char> > &boardTable);
 
         // provides help to user for strategy.
-        void strategyHelp(char a_color,board &gameBoard);
-        void updateStateForStrategy(board &gameBoard);
+        void updateState(board &gameBoard);
 
-        bool checkDefensiveWestStrategy(board &gameBoard);
-        bool checkDefensiveEastStrategy(board &gameBoard);
-        void checkOffensiveStrategy(board &gameBoard);
-        std::pair<int,int> pickOffensivePiece();
+        void playOffensively(board &gameBoard);
+        bool blockFromWest(board &gameBoard);
+        bool blockFromEast(board &gameBoard);
+        void help(board &gameBoard,char a_color,char a_opponentColor);
+        std::pair<int,int> pickRandomPiece();
+
+        // Outputs the decision for the user to play offensively.
+        void showOffensiveDecision(int a_initalRow, int a_initialColumn, int a_finalRow, int a_finalColumn);
+
+        // Outputs the decision for the user to play defensively.
+        void showDefensiveDecision(int a_initalRow, int a_initialColumn, int a_finalRow, int a_finalColumn);
 
     protected:
     private:

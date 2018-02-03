@@ -279,6 +279,7 @@ void game::playRound()
 
 void game::getHelp()
 {
+    humanPlayer -> help(*gameBoard, m_colorHumanPlayer,m_colorComputerPlayer);
     //Which piece to play
     //The direction in which to play it (northwest, northeast...)
     //Why: To advance (toward which home point); to retreat; to block (which piece); or to capture (which piece). 
