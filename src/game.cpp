@@ -34,7 +34,6 @@ game::game(char a_colorHumanPlayer, char a_colorComputerPlayer, char a_currentTu
 
     m_gameBoardSize = a_boardSize;
 
-    std::cout << "board size: " << m_gameBoardSize << std::endl;
     // Set Board.
     gameBoard = new board(m_gameBoardSize, boardTable);
 
@@ -43,8 +42,25 @@ game::game(char a_colorHumanPlayer, char a_colorComputerPlayer, char a_currentTu
 
     m_colorHumanPlayer = a_colorHumanPlayer;
     m_colorComputerPlayer = a_colorComputerPlayer;
+
+    if(m_colorHumanPlayer == 'W')
+    {
+        std::cout << "You are playing white. Computer is playing black." << std::endl;
+    }
+    else
+    {
+        std::cout << "You are playing black. Computer is playing white." << std::endl;
+    }
     
     m_currentTurn = a_currentTurn;
+    if(m_currentTurn == 'h')
+    {
+        std::cout << "It is your turn." << std::endl;
+    }
+    else
+    {
+        std::cout << "It is the computer's turn." << std::endl;
+    }
 
     humanPlayer = new human(m_colorHumanPlayer);
     computerPlayer = new computer(m_colorComputerPlayer);
@@ -531,5 +547,50 @@ void game::calculateScore()
         {
             m_computerScore+=1;
         }
+    }
+}
+
+bool game::isHomeSideCapture()
+{
+    std::cout << "in isHomeSideCapture()\n";
+    // Check if black pieces occupy white spaces.
+    std::vector <char> blackSide = gameBoard -> getBlackSide();
+    // Get all remaining black pieces.
+    int numberOfBlack = gameBoard -> getNumberOfBlackPieces();
+
+    // Check if white pieces occupy black spaces;
+    std::vector <char> whiteSide = gameBoard -> getWhiteSide();
+    // Get all remaining black pieces.
+    int numberOfWhite = gameBoard -> getNumberOfWhitePieces();
+
+    std::cout << "Black: ";
+    for(int i = 0; i < blackSide.size(); i++)
+    {
+        std::cout<<blackSide[i] <<" ";
+        if(blackSide[i]=='W' || blackSide[i]=='w')
+        {
+            numberOfWhite--;
+        }
+    }
+
+    std::cout << "\nWhite: ";
+    for(int i = 0; i < whiteSide.size(); i++)
+    {
+        std::cout<<whiteSide[i] <<" ";
+        if(whiteSide[i]=='B' || whiteSide[i]=='b')
+        {
+            numberOfBlack--;
+        }
+    }
+
+    std::cout <<"B: "<<numberOfBlack << " W: " << numberOfWhite << std::endl;
+
+    if(numberOfWhite == 0 || numberOfBlack == 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }

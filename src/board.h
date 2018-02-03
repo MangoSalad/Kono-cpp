@@ -34,6 +34,14 @@ class board {
 
         // get specific piece at location
         char getPieceAtLocation(int a_row, int a_column) const;
+
+        std::vector <char> getBlackSide() const;
+
+        std::vector <char> getWhiteSide() const;
+
+        int getNumberOfBlackPieces() const;
+        
+        int getNumberOfWhitePieces() const;
     
     protected:
 

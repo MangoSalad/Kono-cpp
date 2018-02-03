@@ -13,7 +13,6 @@ computer::computer(char a_color)
     {
         m_opponentColor = 'W';
     }
-    std::cout << "in computer " <<std::endl;
 };
 
 std::pair<int,int> computer::pickRandomPiece()
@@ -399,16 +398,13 @@ void computer::play(board &gameBoard)
 // Allows computer to recognize friendly and opponent pieces.
 void computer::updateState(board &gameBoard)
 {
-    std::cout << "in comp update \n";
     boardTable = gameBoard.getBoard();
     m_boardSize = gameBoard.getBoardSize();
-
-    std::cout << "called board\n";
 
     iter friendlySide;
     iter opponentSide;
 
-    // vector of availble friendly pieces
+    // vector of availble friendly pieces 
     m_availablePieces = new std::vector< std::pair<int,int> >;
     
 
@@ -419,7 +415,6 @@ void computer::updateState(board &gameBoard)
         {
             if(boardTable[row][col]==m_color || boardTable[row][col]==tolower(m_color,std::locale()) )
             {
-                std::cout<<boardTable[row][col]<< std::endl;
                 m_availablePieces -> push_back( std::make_pair(row,col) );
             }
         }

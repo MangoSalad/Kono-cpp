@@ -43,9 +43,28 @@ class game {
         
         int getComputerScore() const { return m_computerScore; };
 
+        bool isHomeSideCapture();
+
     protected:
 
     private:
+
+        board * gameBoard;
+        human  * humanPlayer;
+        computer * computerPlayer;
+        boardView * display;
+
+        int m_humanScore;
+        int m_computerScore;
+
+        unsigned short m_gameBoardSize;
+
+        // Color of the human player. Either 'B' for "black" or 'W' for "white" 
+        char m_colorHumanPlayer;
+        char m_colorComputerPlayer;
+
+        // 'h' for human, 'c' for computer.
+        char m_currentTurn;
 
         // Calls menu, and determines what to do after menu
         void continueGame();
@@ -64,23 +83,6 @@ class game {
 
         // Sums the current score state for player.
         unsigned short calculateScoreForPlayer();
-        
-        board * gameBoard;
-        human  * humanPlayer;
-        computer * computerPlayer;
-        boardView * display;
-
-        int m_humanScore;
-        int m_computerScore;
-
-        unsigned short m_gameBoardSize;
-
-        // Color of the human player. Either 'B' for "black" or 'W' for "white" 
-        char m_colorHumanPlayer;
-        char m_colorComputerPlayer;
-
-        // 'h' for human, 'c' for computer.
-        char m_currentTurn;
 
 };
 

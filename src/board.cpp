@@ -130,3 +130,75 @@ char board::getPieceAtLocation(int a_row, int a_column) const
         return (*boardTable)[a_row-1][a_column-1];
     }
 };
+
+std::vector <char> board::getBlackSide() const
+{
+    std::vector <char> blackSide (m_boardSize+2,'+');
+
+    int i = 0;
+    for(; i < m_boardSize; i++)
+    {
+        blackSide[i] = (*boardTable)[m_boardSize-1][i];
+    }
+
+    blackSide[i] = (*boardTable)[m_boardSize-2][0];
+    i++;
+    blackSide[i] = (*boardTable)[m_boardSize-2][m_boardSize-1];
+
+    return blackSide;
+
+};
+
+std::vector <char> board::getWhiteSide() const
+{
+    std::vector <char> whiteSide (m_boardSize+2,'+');
+
+    int i = 0;
+    for(; i < m_boardSize; i++)
+    {
+        whiteSide[i] = (*boardTable)[0][i];
+    }
+
+    whiteSide[i] = (*boardTable)[1][0];
+    i++;
+    whiteSide[i] = (*boardTable)[1][m_boardSize-1];
+
+    return whiteSide;
+
+};
+
+int board::getNumberOfBlackPieces() const
+{
+    int numberOfBlack=0;
+
+    for(int i = 0; i < m_boardSize; i++)
+    {
+        for(int j = 0; j < m_boardSize; j++)
+        {
+            if((*boardTable)[i][j] == 'B' || (*boardTable)[i][j] == 'b')
+            {
+                numberOfBlack++;
+            }
+        }
+    }
+
+    return numberOfBlack;
+};
+        
+int board::getNumberOfWhitePieces() const
+{
+    int numberOfWhite=0;
+
+    for(int i = 0; i < m_boardSize; i++)
+    {
+        for(int j = 0; j < m_boardSize; j++)
+        {
+            if((*boardTable)[i][j] == 'W' || (*boardTable)[i][j] == 'w')
+            {
+                numberOfWhite++;
+            }
+        }
+    }
+
+    return numberOfWhite;
+};

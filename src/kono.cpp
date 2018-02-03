@@ -70,6 +70,11 @@ int main(int argc, char * argv [])
             // Play game.
             case 2:
                 Kono -> playGame();
+                if(Kono -> isGameWon())
+                {
+                    delete Kono;
+                    return EXIT_SUCCESS;
+                }
                 break;
             
             // Enter help mode. Menu only shows this option when turn is human's.

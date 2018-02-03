@@ -132,7 +132,6 @@ tournament::loadSavedFile(std::string a_savedGame)
                 }
                 else
                 {
-                    std::cout << fileContents[startIndex] << std::endl;
                     if(fileContents[startIndex] == "W")
                     {
                         (*m_boardTableFromFile)[i][j] = 'W';
@@ -234,6 +233,7 @@ void tournament::saveGame(std::string a_fileName) const
 void tournament::playGame() const
 {
     round -> playRound();
+    //check for did win?
 };
 
 void tournament::helpGame() const
@@ -283,4 +283,29 @@ void tournament::calculateScores()
     round ->calculateScore();
     m_humanScore += round -> getHumanScore();
     m_computerScore += round -> getComputerScore();
+}
+
+bool tournament::isGameWon()
+{
+    std::cout << "in isGameWon()" << std::endl;
+    // A player places all his pieces in the home points of the opponent.
+    // Call game to check if pieces have captured home base.
+    if( round -> isHomeSideCapture() )
+    {
+        return true;
+    }
+
+    // One of the players quits the game.
+    // else if(a_playerQuit == true)
+    // {
+    //     m_humanScore -= 5;
+    //     return true;
+    // }
+    
+    else
+    {
+        return false;
+    }
+
+
 }

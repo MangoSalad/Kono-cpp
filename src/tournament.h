@@ -41,6 +41,9 @@ class tournament {
         // Calculate tournament scores.
         void calculateScores();
 
+        // Checks to see if game won.
+        bool isGameWon();
+
     protected:
 
     private:
@@ -64,7 +67,7 @@ class tournament {
         // Filename of saved game.
         std::string m_savedGame;
 
-        // Utility Functions
+        // Utility Functions        
 
         // Load existing game file and perform checks on it.
         bool loadSavedFile(std::string a_savedGame);
