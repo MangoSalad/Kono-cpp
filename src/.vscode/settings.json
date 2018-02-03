@@ -25,6 +25,8 @@
         "chrono": "cpp",
         "iosfwd": "cpp",
         "type_traits": "cpp",
-        "__locale": "cpp"
+        "__locale": "cpp",
+        "locale": "cpp",
+        "fstream": "cpp"
     }
 }

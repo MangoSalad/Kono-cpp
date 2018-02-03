@@ -43,8 +43,11 @@ Local Variables:
             buff, string buffer for parsing lines
             fileContents, vector holding file contents
 Algorithm: 
-            1) @@@@@@@@@@@@@@@@@@@
-            2) @@@@@@@@@@@@@@@@@@@
+            1) Check if the provided filename is valid and can be found in the current working directory.
+            2) Using istringstream, parse each line of the file and load into a buffer.
+            3) Push each buffer into a vector.
+            4) Each file contents should be in a particular index of the vector. Iterate through the vector and load file contents to local variables.
+            5) If all the file contents are of the correct type and properly loaded, then return true. Else, return false.
 Assistance Received: none 
 ********************************************************************* */
 bool
@@ -82,7 +85,7 @@ tournament::loadSavedFile(std::string a_savedGame)
     // Validate each component of saved file and assign them to local variables.
     try
     {
-        // Get round #
+        // Get round #.
         m_tournamentRound = stoi(fileContents[1]);
 
         // Get computer score.
@@ -118,11 +121,15 @@ tournament::loadSavedFile(std::string a_savedGame)
         // Get Board size.
         m_boardSizeFromFile = std::sqrt(std::distance(first,last));
 
+        // Initialize rows.
         std::vector <char> rows (m_boardSizeFromFile,'+');
+
+        // Create vector to hold rows of board.
         m_boardTableFromFile = new std::vector < std::vector<char> > (m_boardSizeFromFile,rows);
 
         int startIndex = std::distance(fileContents.begin(),first);
 
+        // For each item in the file, load it into the vector.
         for(int i = 0; i < m_boardSizeFromFile; i++)
         {
             for(int j = 0; j < m_boardSizeFromFile; j++)
@@ -149,8 +156,6 @@ tournament::loadSavedFile(std::string a_savedGame)
                     {
                         (*m_boardTableFromFile)[i][j] = 'b';
                     }
-                    //(*m_boardTableFromFile)[i][j] = (char)fileContents[startIndex].c_str()[0];
-                    //memcpy((*m_boardTableFromFile)[i][j],(char)fileContents[startIndex].c_str(),sizeof)
                 }
                 startIndex++;
             }
@@ -173,17 +178,49 @@ tournament::loadSavedFile(std::string a_savedGame)
     }
 
     return true;
-}
+};
 
+/* ********************************************************************* 
+Function Name: showMenu 
+Purpose: Calls the Game object to show the menu to the user.
+Parameters: 
+            none.
+Return Value: none.
+Local Variables: 
+            none.
+Algorithm: 
+            1) Call showMenu() method in Game object.
+Assistance Received: none 
+********************************************************************* */
 void tournament::showMenu() const
 {
     round -> showMenu();
 }
 
+/* ********************************************************************* 
+Function Name: saveGame 
+Purpose: Save contents of game to file. (serialization)
+Parameters: 
+            a_fileName, string passed by value. Holds the name of the file to save to.
+Return Value: none.
+Local Variables: 
+            outFile, ofstream object holding file
+            boardSize, unsigned short that has the size of the board
+            boardTable, vector of vector char holding the state of the board.
+Algorithm: 
+            1) Open file.
+            2) Using ofstream, write each piece of content to file.
+            3) Call Game object to get board size and board state.
+            4) Write the rest of the contents to file.
+            5) close file.
+Assistance Received: none 
+********************************************************************* */
 void tournament::saveGame(std::string a_fileName) const
 {
+    // File to write to.
     std::ofstream outFile(a_fileName,std::ofstream::out);
 
+    // Write to file.
     outFile << "Round: " << m_tournamentRound << "\n";
     outFile << "Computer:\n";
     outFile << "Score: " << round -> getComputerScore() << "\n";
@@ -193,9 +230,11 @@ void tournament::saveGame(std::string a_fileName) const
     outFile << "Color: " << round -> getHumanColor() << "\n";
     outFile << "Board:\n";
 
+    // Get the board size and state.
     unsigned short boardSize = round -> getBoardSize();
     std::vector< std::vector <char> > boardTable = round ->getBoardState();
     
+    // Write the state of the board to file.
     for( int row = 0; row < boardSize; row++ )
     {
         for( int col = 0; col < boardSize; col++ )
@@ -220,7 +259,6 @@ void tournament::saveGame(std::string a_fileName) const
             {
                 outFile << "BB  ";
             }
-            //outFile << boardTable[row][col] << "  ";
         }
 
         outFile <<"\n";
