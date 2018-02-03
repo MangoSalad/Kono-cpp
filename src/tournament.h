@@ -36,7 +36,7 @@ class tournament {
         void helpGame() const;
 
         // Print winner and overall tournament score to the screen.
-        void getWinner() const;
+        void showWinner() const;
 
         // Calculate tournament scores.
         void calculateScores();
@@ -44,8 +44,8 @@ class tournament {
         // Checks to see if game won.
         bool isGameWon();
 
-        // Prompts user to decide if they would like to play another round.
-        bool continueGame();
+        // Creates new round.
+        void newRound();
 
     protected:
 
@@ -57,6 +57,7 @@ class tournament {
         // Current Round #.
         unsigned short m_tournamentRound;
 
+        // Player tournament scores.
         unsigned int m_computerScore;
         unsigned int m_humanScore;
 

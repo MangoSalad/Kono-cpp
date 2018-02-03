@@ -1,6 +1,7 @@
 #include "tournament.h"
 #include "stdafx.h"
 
+// Default constructor for loading new game.
 tournament::tournament()
 {
     m_tournamentRound = 0;
@@ -9,6 +10,7 @@ tournament::tournament()
     round = new game();
 }
 
+// Constructor for loading existing game from file.
 tournament::tournament(std::string a_savedGame)
 {    
     // File successfully loaded and is valid.
@@ -23,14 +25,12 @@ tournament::tournament(std::string a_savedGame)
     }
 }
 
+// Destructor announces the end of Kono and frees up objects.
 tournament::~tournament()
-{
-    //m_humanScore-=5;
-    calculateScores();
-    getWinner();
+{ 
     std::cout << "Thanks for playing. Exiting game." << std::endl;
     delete round;
-}
+};
 
 /* ********************************************************************* 
 Function Name: loadSavedFile 
@@ -192,10 +192,11 @@ Algorithm:
             1) Call showMenu() method in Game object.
 Assistance Received: none 
 ********************************************************************* */
-void tournament::showMenu() const
+void
+tournament::showMenu() const
 {
     round -> showMenu();
-}
+};
 
 /* ********************************************************************* 
 Function Name: saveGame 
@@ -215,7 +216,8 @@ Algorithm:
             5) close file.
 Assistance Received: none 
 ********************************************************************* */
-void tournament::saveGame(std::string a_fileName) const
+void
+tournament::saveGame(std::string a_fileName) const
 {
     // File to write to.
     std::ofstream outFile(a_fileName,std::ofstream::out);
@@ -269,44 +271,81 @@ void tournament::saveGame(std::string a_fileName) const
     outFile.close();
 };
 
-void tournament::playGame() const
+/* ********************************************************************* 
+Function Name: playGame 
+Purpose: Calls the Game object to play turn.
+Parameters: 
+            none.
+Return Value: none.
+Local Variables: 
+            none.
+Algorithm: 
+            1) Call Game object for playRound() method.
+Assistance Received: none 
+********************************************************************* */
+void
+tournament::playGame() const
 {
     round -> playRound();
-    //check for did win?
 };
 
-void tournament::helpGame() const
+/* ********************************************************************* 
+Function Name: helpGame 
+Purpose: Calls the Game object to ask for help.
+Parameters: 
+            none.
+Return Value: none.
+Local Variables: 
+            none.
+Algorithm: 
+            1) Call Game object for helpGame() method.
+Assistance Received: none 
+********************************************************************* */
+void
+tournament::helpGame() const
 {
     round -> getHelp();
 };
 
-bool tournament::continueGame()
+/* ********************************************************************* 
+Function Name: newRound 
+Purpose: Deletes old Game object and creates new one in order to start a new round.
+Parameters: 
+            none.
+Return Value: none.
+Local Variables: 
+            none.
+Algorithm: 
+            1) Delete instantiation of Game object.
+            2) Create new instantiation of Game Object.
+
+Assistance Received: none 
+********************************************************************* */
+void
+tournament::newRound()
 {
-    calculateScores();
-    getWinner();
     delete round;
-
-    std::string choice = "";
-    while(choice != "Yes" || choice != "No")
-    {
-        std::cout << "Do you want to play another round? (Yes/No)";
-        std::cin >> choice;
-
-        if(choice == "Yes")
-        {
-            round = new game();
-            return true;
-        } 
-
-        else if(choice == "No")
-            return false;
-  
-        else
-            continue;
-    }    
+    round = new game();
 };
 
-void tournament::getWinner() const
+/* ********************************************************************* 
+Function Name: showWinner 
+Purpose: Outputs the winner of the game as well as each player score to console.
+Parameters: 
+            none.
+Return Value: none.
+Local Variables: 
+            none.
+Algorithm: 
+            1) Output human player score.
+            2) Output computer player score.
+            3) If player scores are equal, then output that there is no clear winner.
+            4) If human score greater than computer score, output that the human player is the winner.
+            5) Else, output that the computer player is the winner. 
+Assistance Received: none 
+********************************************************************* */
+void
+tournament::showWinner() const
 {
     std::cout << "Human Score: " << m_humanScore << std::endl;
     std::cout << "Computer Score: " << m_computerScore << std::endl;
@@ -324,34 +363,44 @@ void tournament::getWinner() const
     }
 };
 
-void tournament::calculateScores()
+/* ********************************************************************* 
+Function Name: calculateScores 
+Purpose: Add the total points from the round to the existing tournament scores.
+Parameters: 
+            none.
+Return Value: none.
+Local Variables: 
+            none.
+Algorithm: 
+            1) Call Game object's calculateScores() method to add up points from the round.
+            2) Call Game object to get human score and add it to existing human tournament score.
+            3) Call Game object to get computer score and add it to existing computer tournament score.
+Assistance Received: none 
+********************************************************************* */
+void
+tournament::calculateScores()
 {
     round ->calculateScore();
     m_humanScore += round -> getHumanScore();
     m_computerScore += round -> getComputerScore();
-}
+};
 
-bool tournament::isGameWon()
+/* ********************************************************************* 
+Function Name: isGameWon 
+Purpose: Checks if the game is won by calling Game object's isHomeSideCaptured() method. That method checks to see if pieces occupy opponent side.
+Parameters: 
+            none.
+Return Value: boolean value that confirms if the round is complete.
+Local Variables: 
+            none.
+Algorithm: 
+            1) Call isHomeSideCapture() method in Game object to check if pieces occupy opponent side.
+            2) Call Game object to get computer score and add it to existing computer tournament score.
+            3) Return boolean value.
+Assistance Received: none 
+********************************************************************* */
+bool
+tournament::isGameWon()
 {
-    std::cout << "in isGameWon()" << std::endl;
-    // A player places all his pieces in the home points of the opponent.
-    // Call game to check if pieces have captured home base.
-    if( round -> isHomeSideCapture() )
-    {
-        return true;
-    }
-
-    // One of the players quits the game.
-    // else if(a_playerQuit == true)
-    // {
-    //     m_humanScore -= 5;
-    //     return true;
-    // }
-    
-    else
-    {
-        return false;
-    }
-
-
-}
+    return (round -> isHomeSideCapture()) ? true : false;
+};

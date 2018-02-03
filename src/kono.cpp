@@ -72,7 +72,32 @@ int main(int argc, char * argv [])
                 Kono -> playGame();
                 if(Kono -> isGameWon())
                 {
-                    Kono -> continueGame();
+                    Kono -> calculateScores();
+                    Kono -> showWinner();
+                    choice = ' ';
+                    // Ask user if he/she will play another round.
+                    while(choice != 'y' && choice != 'n')
+                    {
+                        std::cout << "Do you want to play another round? (y/n): ";
+                        std::cin >> choice;
+                        if(choice == 'y')
+                        {
+                            // Create new round.
+                            Kono -> newRound();
+                        }
+                        else if (choice == 'n')
+                        {
+                            // Exit game.
+                            delete Kono;
+                            return EXIT_SUCCESS;
+                        }
+                        else
+                        {
+                            std::cout << "You chose an incorrect option. Please try again." << std::endl;
+                            std::cin.clear();
+                            std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                        }
+                    }
                 }
                 break;
             
@@ -83,6 +108,7 @@ int main(int argc, char * argv [])
 
             // Exits game.
             case 4:
+                Kono -> showWinner();
                 delete Kono;
                 return EXIT_SUCCESS;
 
