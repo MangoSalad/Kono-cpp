@@ -17,24 +17,6 @@ computer::computer(char a_color)
 };
 
 /* ********************************************************************* 
-Function Name: pickRandomPiece 
-Purpose: Returns a random piece from available pieces. Used for offensive strategy.
-Parameters: 
-            none.
-Return Value: Pair of ints representing row/column coordinates.
-Local Variables: 
-            none.
-Algorithm: 
-            1) Use rand to return a random index of available pieces.
-Assistance Received: none 
-********************************************************************* */
-std::pair<int,int>
-computer::pickRandomPiece()
-{
-    return (*m_availablePieces)[rand() % (m_availablePieces->size()-1)];
-}
-
-/* ********************************************************************* 
 Function Name: showDefenseDecision 
 Purpose: Shows the computer's decision to play block a piece and play defensively.
 Parameters: 
@@ -83,69 +65,19 @@ computer::showOffenseDecision(int a_initialRow, int a_initialColumn,std::string 
 }
 
 void
-computer::playOffensively()
+computer::showRetreatDecision(int a_initialRow, int a_initialColumn,std::string a_direction, int a_finalRow, int a_finalColumn)
 {
-    if(m_color == 'W')
-    {
-        // Picking random piece.
-        bool didMove = true;
-        while(didMove)
-        {
-        std::pair<int,int> pieceToMove = pickRandomPiece();
-
-        if(localBoard -> isValidPieceToMove(m_color,pieceToMove.first+1,pieceToMove.second+1))
-        {
-            if(localBoard -> isValidLocationToMove(pieceToMove.first+2,pieceToMove.second+2))
-            {
-                localBoard -> updateBoard(pieceToMove.first+1, pieceToMove.second+1, pieceToMove.first+2,pieceToMove.second+2, m_color);
-                showOffenseDecision( pieceToMove.first + 1,pieceToMove.second + 1,"southeast",pieceToMove.first + 2,pieceToMove.second + 2);
-                didMove = false;
-            }
-            else if(localBoard -> isValidLocationToMove(pieceToMove.first+2,pieceToMove.second))
-            {
-                localBoard -> updateBoard(pieceToMove.first+1, pieceToMove.second+1, pieceToMove.first+2,pieceToMove.second, m_color);
-                showOffenseDecision(pieceToMove.first + 1,pieceToMove.second + 1,"southwest",pieceToMove.first + 2, pieceToMove.second);
-                didMove = false;
-            }
-            else
-            {
-                std::cout << "Invalid location to move to.\n";
-            }
-        }
-        }   
-    }
-    // computer is black
-    else
-    {
-        // Picking random piece.
-        bool didMove = true;
-        while(didMove)
-        {
-        std::pair<int,int> pieceToMove = pickRandomPiece();
-
-        if(localBoard -> isValidPieceToMove(m_color,pieceToMove.first+1,pieceToMove.second+1))
-        {
-            if(localBoard -> isValidLocationToMove(pieceToMove.first,pieceToMove.second+2))
-            {
-                localBoard -> updateBoard(pieceToMove.first+1, pieceToMove.second+1, pieceToMove.first,pieceToMove.second+2, m_color);
-                showOffenseDecision(pieceToMove.first + 1,pieceToMove.second + 1,"northeast",pieceToMove.first,pieceToMove.second + 2);
-                didMove = false;
-            }
-            else if(localBoard -> isValidLocationToMove(pieceToMove.first,pieceToMove.second))
-            {
-                localBoard -> updateBoard(pieceToMove.first+1, pieceToMove.second+1, pieceToMove.first,pieceToMove.second, m_color);
-                showOffenseDecision(pieceToMove.first + 1,pieceToMove.second + 1,"northwest",pieceToMove.first,pieceToMove.second);
-                didMove = false;
-            }
-            else
-            {
-                std::cout << "Invalid location to move to.\n";
-            }
-        }
-        }
-    }
-
+    std::cout << "The computer moved the piece at (" << a_initialRow << "," << a_initialColumn << ") " << a_direction << "." << std::endl;
+    std::cout << "It wanted to retreat its piece to (" << a_finalRow << "," << a_finalColumn << ")" << std::endl;
 }
+
+void
+computer::showCaptureDecision(int a_initialRow, int a_initialColumn,std::string a_direction, int a_finalRow, int a_finalColumn)
+{
+    std::cout << "The computer moved the piece at (" << a_initialRow << "," << a_initialColumn << ") " << a_direction << "." << std::endl;
+    std::cout << "It wanted to capture the human piece at (" << a_finalRow << "," << a_finalColumn << ")" << std::endl;
+}
+
 
 bool computer::blockFromWest()
 {
@@ -197,7 +129,7 @@ bool computer::blockFromWest()
         if(localBoard -> isValidPieceToMove(m_color,m_closestOpponent.first+1,m_closestOpponent.second-1) && localBoard -> isValidLocationToMove(m_closestOpponent.first+2,m_closestOpponent.second))
         //    boardTable[m_closestOpponent.first-2][m_closestOpponent.second-2] == m_color)
         {
-            localBoard -> updateBoard(m_closestOpponent.first+1, m_closestOpponent.second-1, m_closestOpponent.first+1,m_closestOpponent.second, m_color); 
+            localBoard -> updateBoard(m_closestOpponent.first+1, m_closestOpponent.second-1, m_closestOpponent.first+2,m_closestOpponent.second, m_color); 
             showDefenseDecision(m_closestOpponent.first+1,m_closestOpponent.second-1,"southeast",m_closestOpponent.first+1,m_closestOpponent.second+1);
             return true;
         }
@@ -311,7 +243,10 @@ bool computer::blockFromEast()
 
 
 
-//Prioritize defense
+// Prioritize defense.
+// Check for capture.
+// Check if retreat necessary.
+// make offensive move.
 void
 computer::play(board &gameBoard)
 {
@@ -336,7 +271,17 @@ computer::play(board &gameBoard)
             if( boardTable[m_closestOpponent.first-1][m_closestOpponent.second-1] == m_color && boardTable[m_closestOpponent.first-1][m_closestOpponent.second+1] == m_color)
             {   
                 std::cout << "Piece is already blocked. " << boardTable[m_closestOpponent.first-1][m_closestOpponent.second-1] << boardTable[m_closestOpponent.first-1][m_closestOpponent.second+1] << " \n";
-                playOffensively();      
+                if(!playCapture())
+                {
+                    if(checkForRetreat())
+                    {
+                        playRetreat();
+                    }
+                    else
+                    {
+                        playOffensively();
+                    }
+                }
             }                
             //ELSE - Check available pieces that can block opponent.
             else
@@ -346,7 +291,17 @@ computer::play(board &gameBoard)
                 {
                     if(!blockFromWest())
                     {
-                        playOffensively();
+                        if(!playCapture())
+                        {
+                            if(checkForRetreat())
+                            {
+                                playRetreat();
+                            }
+                            else
+                            {
+                                playOffensively();
+                            }
+                        }
                     }
                 }
             }
@@ -354,13 +309,17 @@ computer::play(board &gameBoard)
         else
         //ELSE - randomly move piece to opponent's end.
         {
-            // Check capture strategy.
-
-            // Check if all pieces are stuck and one must retreat.
-            checkForRetreat();
-
-            // Advance one piece forward.
-            playOffensively();   
+            if(!playCapture())
+            {
+                if(checkForRetreat())
+                {
+                    playRetreat();
+                }
+                else
+                {
+                    playOffensively();
+                }
+            }
         }
     }
 
@@ -373,37 +332,55 @@ computer::play(board &gameBoard)
             if( localBoard -> isValidOpenLocation(m_closestOpponent.first+2,m_closestOpponent.second) && localBoard -> isValidOpenLocation(m_closestOpponent.first+2,m_closestOpponent.second+2))
             {   
                 std::cout << "Piece is already blocked. " << boardTable[m_closestOpponent.first+2][m_closestOpponent.second] << boardTable[m_closestOpponent.first+2][m_closestOpponent.second+2] << " \n";
-                playOffensively();      
+                if(!playCapture())
+                {
+                    if(checkForRetreat())
+                    {
+                        playRetreat();
+                    }
+                    else
+                    {
+                        playOffensively();
+                    }
+                }
             }                
             //ELSE - Check available pieces that can block opponent.
             else
             {
-                //if(boardTable[m_closestOpponent.first-2][m_closestOpponent.second] == m_color)
-                std::cout << "Moving to block piece at " << "(" << m_closestOpponent.first + 1<< "," << m_closestOpponent.second + 1 << "). \n";
-
-                std::cout<<"moving piece to block it"<<std::endl;
-
-                bool didBlock = false;
-                
                 // Check if west side is blocked, if so, then prepare to block from east.
-                if(localBoard -> isValidOpenLocation(m_closestOpponent.first+2,m_closestOpponent.second))
+                if(!blockFromEast())
                 {
-                    didBlock = blockFromEast();
-                }
-                if(localBoard -> isValidOpenLocation(m_closestOpponent.first+2,m_closestOpponent.second+2))
-                {
-                    didBlock = blockFromWest();
-                }
-                if(!didBlock)
-                {
-                    playOffensively();
+                    if(!blockFromWest())
+                    {
+                        if(!playCapture())
+                        {
+                            if(checkForRetreat())
+                            {
+                                playRetreat();
+                            }
+                            else
+                            {
+                                playOffensively();
+                            }
+                        }
+                    }
                 }
             }
         }
         else
         //ELSE - randomly move piece to opponent's end.
         {
-            playOffensively();   
+            if(!playCapture())
+            {
+                if(checkForRetreat())
+                {
+                    playRetreat();
+                }
+                else
+                {
+                    playOffensively();
+                }
+            }
         }
     }
     
@@ -504,3 +481,236 @@ void computer::updateState()
     }
 
 };
+
+bool computer::playCapture()
+{
+    for( std::pair<int,int> eachPiece : (*m_availablePieces))
+    {
+        // Check if piece is a super piece.
+        if(localBoard -> getPieceAtLocation(eachPiece.first+1,eachPiece.second+1) == tolower(m_color,std::locale()))
+        {
+            std::cout << "found super piece\n";
+            // Check if opponent is located southeast.
+            if(localBoard->getPieceAtLocation(eachPiece.first+2,eachPiece.second+2) == m_opponentColor || localBoard->getPieceAtLocation(eachPiece.first+2,eachPiece.second+2) == tolower(m_opponentColor,std::locale()) )
+            {
+                // Check if piece can move Southeast.
+                if(localBoard -> isValidLocationToMove(eachPiece.first+2,eachPiece.second+2,true))
+                {
+                    localBoard -> updateBoard(eachPiece.first+1, eachPiece.second+1, eachPiece.first+2,eachPiece.second+2, m_color);
+                    showCaptureDecision( eachPiece.first + 1,eachPiece.second + 1,"southeast",eachPiece.first+2,eachPiece.second+2);
+                    return true;
+                }
+            }
+            // Check if opponent is located Southwest.
+            else if(localBoard->getPieceAtLocation(eachPiece.first+2,eachPiece.second) == m_opponentColor || localBoard->getPieceAtLocation(eachPiece.first+2,eachPiece.second) == tolower(m_opponentColor,std::locale()) )
+            {
+                // Check if piece can move Southwest.
+                if(localBoard -> isValidLocationToMove(eachPiece.first+2,eachPiece.second,true))
+                {
+                    localBoard -> updateBoard(eachPiece.first+1, eachPiece.second+1, eachPiece.first+2,eachPiece.second, m_color);
+                    showCaptureDecision( eachPiece.first + 1,eachPiece.second + 1,"southwest",eachPiece.first+2,eachPiece.second);
+                    return true;
+                }
+            }
+            // Check if opponent is located Northwest.
+            else if(localBoard->getPieceAtLocation(eachPiece.first,eachPiece.second) == m_opponentColor || localBoard->getPieceAtLocation(eachPiece.first,eachPiece.second) == tolower(m_opponentColor,std::locale()) )
+            {
+                // Check if piece can move Northwest.
+                if(localBoard -> isValidLocationToMove(eachPiece.first,eachPiece.second,true))
+                {
+                    localBoard -> updateBoard(eachPiece.first+1, eachPiece.second+1, eachPiece.first,eachPiece.second, m_color);
+                    showCaptureDecision( eachPiece.first + 1,eachPiece.second + 1,"northwest",eachPiece.first,eachPiece.second);
+                    return true;
+                }
+            }
+            // Check if opponent is located Northeast.
+            else if(localBoard->getPieceAtLocation(eachPiece.first,eachPiece.second+2) == m_opponentColor || localBoard->getPieceAtLocation(eachPiece.first,eachPiece.second+2) == tolower(m_opponentColor,std::locale()) )
+            {
+                // Check if piece can move Northeast.
+                if(localBoard -> isValidLocationToMove(eachPiece.first,eachPiece.second+2,true))
+                {
+                    localBoard -> updateBoard(eachPiece.first+1, eachPiece.second+1, eachPiece.first,eachPiece.second+2, m_color);
+                    showCaptureDecision( eachPiece.first + 1,eachPiece.second + 1,"northeast",eachPiece.first,eachPiece.second+2);
+                    return true;
+                }
+            }               
+        }
+    }
+    // No available moves that can capture pieces.
+    return false;    
+}
+
+
+bool computer::checkForRetreat()
+{
+    if(m_color == 'W')
+    {
+        for( std::pair<int,int> eachPiece : (*m_availablePieces))
+        {
+            // Check if piece can move Southeast.
+            if(localBoard -> isValidLocationToMove(eachPiece.first+2,eachPiece.second+2))
+            {
+                return false;
+            }
+            // Check if piece can move Southwest.
+            else if(localBoard -> isValidLocationToMove(eachPiece.first+2,eachPiece.second))
+            {
+                return false;
+            }
+        }
+        // There are no available pieces that can move forward.
+        return true;
+    }
+
+    if(m_color == 'B')
+    {
+        for( std::pair<int,int> eachPiece : (*m_availablePieces))
+        {
+            // Check if piece can move Northeast.
+            if(localBoard -> isValidLocationToMove(eachPiece.first,eachPiece.second+2))
+            {
+                return false;
+            }
+            // Check if piece can move Northwest.
+            else if(localBoard -> isValidLocationToMove(eachPiece.first,eachPiece.second))
+            {
+                return false;
+            }
+        }
+        // There are no available pieces that can move forward.
+        return true;
+    }
+};
+
+void 
+computer::playRetreat()
+{
+    if(m_color == 'W')
+    {
+        // Picking random piece.
+        bool didMove = true;
+        while(didMove)
+        {
+            std::pair<int,int> pieceToMove = pickRandomPiece();
+
+            if(localBoard -> isValidPieceToMove(m_color,pieceToMove.first+1,pieceToMove.second+1))
+            {
+                // Retreat Northwest.
+                if(localBoard -> isValidLocationToMove(pieceToMove.first,pieceToMove.second))
+                {
+                    localBoard -> updateBoard(pieceToMove.first+1, pieceToMove.second+1, pieceToMove.first,pieceToMove.second, m_color);
+                    showRetreatDecision( pieceToMove.first + 1,pieceToMove.second + 1,"northwest",pieceToMove.first,pieceToMove.second);
+                    didMove = false;
+                }
+                // Retreat Northeast
+                else if(localBoard -> isValidLocationToMove(pieceToMove.first,pieceToMove.second+2))
+                {
+                    localBoard -> updateBoard(pieceToMove.first+1, pieceToMove.second+1, pieceToMove.first,pieceToMove.second+2, m_color);
+                    showRetreatDecision(pieceToMove.first + 1,pieceToMove.second + 1,"northeast",pieceToMove.first, pieceToMove.second+2);
+                    didMove = false;
+                }
+            }
+        }  
+    }
+    else
+    {
+        bool didMove = true;
+        while(didMove)
+        {
+            std::pair<int,int> pieceToMove = pickRandomPiece();
+
+            if(localBoard -> isValidPieceToMove(m_color,pieceToMove.first+1,pieceToMove.second+1))
+            {
+                // Retreat Southeast.
+                if(localBoard -> isValidLocationToMove(pieceToMove.first+2,pieceToMove.second+2))
+                {
+                    localBoard -> updateBoard(pieceToMove.first+1, pieceToMove.second+1, pieceToMove.first+2,pieceToMove.second+2, m_color);
+                    showRetreatDecision( pieceToMove.first + 1,pieceToMove.second + 1,"southeast",pieceToMove.first + 2,pieceToMove.second + 2);
+                    didMove = false;
+                }
+                // Retreat Southwest.
+                else if(localBoard -> isValidLocationToMove(pieceToMove.first+2,pieceToMove.second))
+                {
+                    localBoard -> updateBoard(pieceToMove.first+1, pieceToMove.second+1, pieceToMove.first+2,pieceToMove.second, m_color);
+                    showRetreatDecision(pieceToMove.first + 1,pieceToMove.second + 1,"southwest",pieceToMove.first + 2, pieceToMove.second);
+                    didMove = false;
+                }
+            }
+        } 
+    }  
+};
+
+void
+computer::playOffensively()
+{
+    if(m_color == 'W')
+    {
+        // Picking random piece.
+        bool didMove = true;
+        while(didMove)
+        {
+            std::pair<int,int> pieceToMove = pickRandomPiece();
+
+            if(localBoard -> isValidPieceToMove(m_color,pieceToMove.first+1,pieceToMove.second+1))
+            {
+                if(localBoard -> isValidLocationToMove(pieceToMove.first+2,pieceToMove.second+2))
+                {
+                    localBoard -> updateBoard(pieceToMove.first+1, pieceToMove.second+1, pieceToMove.first+2,pieceToMove.second+2, m_color);
+                    showOffenseDecision( pieceToMove.first + 1,pieceToMove.second + 1,"southeast",pieceToMove.first + 2,pieceToMove.second + 2);
+                    didMove = false;
+                }
+                else if(localBoard -> isValidLocationToMove(pieceToMove.first+2,pieceToMove.second))
+                {
+                    localBoard -> updateBoard(pieceToMove.first+1, pieceToMove.second+1, pieceToMove.first+2,pieceToMove.second, m_color);
+                    showOffenseDecision(pieceToMove.first + 1,pieceToMove.second + 1,"southwest",pieceToMove.first + 2, pieceToMove.second);
+                    didMove = false;
+                }
+            }
+        }   
+    }
+    // computer is black
+    else
+    {
+        // Picking random piece.
+        bool didMove = true;
+        while(didMove)
+        {
+            std::pair<int,int> pieceToMove = pickRandomPiece();
+
+            if(localBoard -> isValidPieceToMove(m_color,pieceToMove.first+1,pieceToMove.second+1))
+            {
+                if(localBoard -> isValidLocationToMove(pieceToMove.first,pieceToMove.second+2))
+                {
+                    localBoard -> updateBoard(pieceToMove.first+1, pieceToMove.second+1, pieceToMove.first,pieceToMove.second+2, m_color);
+                    showOffenseDecision(pieceToMove.first + 1,pieceToMove.second + 1,"northeast",pieceToMove.first,pieceToMove.second + 2);
+                    didMove = false;
+                }
+                else if(localBoard -> isValidLocationToMove(pieceToMove.first,pieceToMove.second))
+                {
+                    localBoard -> updateBoard(pieceToMove.first+1, pieceToMove.second+1, pieceToMove.first,pieceToMove.second, m_color);
+                    showOffenseDecision(pieceToMove.first + 1,pieceToMove.second + 1,"northwest",pieceToMove.first,pieceToMove.second);
+                    didMove = false;
+                }
+            }
+        }
+    }
+
+};
+
+/* ********************************************************************* 
+Function Name: pickRandomPiece 
+Purpose: Returns a random piece from available pieces. Used for offensive strategy.
+Parameters: 
+            none.
+Return Value: Pair of ints representing row/column coordinates.
+Local Variables: 
+            none.
+Algorithm: 
+            1) Use rand to return a random index of available pieces.
+Assistance Received: none 
+********************************************************************* */
+std::pair<int,int>
+computer::pickRandomPiece()
+{
+    return (*m_availablePieces)[rand() % (m_availablePieces->size()-1)];
+}

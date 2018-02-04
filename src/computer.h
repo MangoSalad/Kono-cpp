@@ -47,20 +47,24 @@ class computer : public player {
         std::pair<int,int> pickRandomPiece();
 
         // Offensive Strategy
-        void playOffensively();
+        void playOffensively();        
 
         // Defensive Strategies
         bool blockFromWest();
         bool blockFromEast();
 
-        // Add Blocking strategy
+        // Capture strategy
+        bool playCapture();
 
-        // Add Retreat Strategy
+        // Retreat Strategy
         bool checkForRetreat();
+        void playRetreat();
 
         // Output to console decisions of the computer.
         void showDefenseDecision(int a_initialRow, int a_initialColumn,std::string a_direction, int a_finalRow, int a_finalColumn);
         void showOffenseDecision(int a_initialRow, int a_initialColumn,std::string a_direction, int a_finalRow, int a_finalColumn);
+        void showRetreatDecision(int a_initialRow, int a_initialColumn,std::string a_direction, int a_finalRow, int a_finalColumn);
+        void showCaptureDecision(int a_initialRow, int a_initialColumn,std::string a_direction, int a_finalRow, int a_finalColumn);
 
 };
 

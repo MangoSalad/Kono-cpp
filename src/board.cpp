@@ -103,7 +103,7 @@ board::isValidLocationToMove(int a_row, int a_column,bool isSuperPiece)
         else
         {
             // Check if the location is open '+' .
-            return ((*boardTable)[a_row-1][a_column-1] != 'W' && (*boardTable)[a_row-1][a_column-1] != 'B') ? true : false;
+            return ((*boardTable)[a_row-1][a_column-1] == '+') ? true : false;
         }
     }
 }
