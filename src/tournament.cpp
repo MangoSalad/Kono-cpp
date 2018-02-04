@@ -347,8 +347,15 @@ Assistance Received: none
 void
 tournament::showWinner() const
 {
-    std::cout << "Human Score: " << m_humanScore << std::endl;
-    std::cout << "Computer Score: " << m_computerScore << std::endl;
+    std::cout << "==========" << std::endl;
+    std::cout << "Round Scores: " << std::endl;
+    std::cout << "Human: " << round -> getHumanScore() << std::endl;
+    std::cout << "Computer: " << round -> getComputerScore() << std::endl;
+    std::cout << "==========" << std::endl;
+    std::cout << "Tournament Scores: " << std::endl;
+    std::cout << "Human: " << m_humanScore << std::endl;
+    std::cout << "Computer: " << m_computerScore << std::endl;
+    std::cout << "==========" << std::endl;
     if(m_humanScore == m_computerScore)
     {
         std::cout << "There is no clear winner. It is a draw." << std::endl;

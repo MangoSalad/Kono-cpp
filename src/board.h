@@ -16,13 +16,13 @@ class board {
         std::vector <std::vector <char> > & getBoard() const { return *boardTable; };
 
         // Checks if the piece selected to move is valid.
-        bool isValidPieceToMove(char a_color, int a_row, int a_column);
+        bool isValidPieceToMove(char a_color, int a_row, int a_column) const;
 
         // Checks if the spot can moved to.
-        bool isValidLocationToMove(int a_row, int a_column,bool isSuperPiece = false);
+        bool isValidLocationToMove(int a_row, int a_column,bool isSuperPiece = false) const;
 
         // Checks if the spot on the board is open.
-        bool isValidOpenLocation(int a_row, int a_column);
+        bool isValidOpenLocation(int a_row, int a_column) const;
 
         // Updates a position of the board.
         void updateBoard(int a_initialRow, int a_initialColumn, int a_finalRow, int a_finalColumn,char a_color);
@@ -52,11 +52,11 @@ class board {
         // Size of the Board.
         int m_boardSize;
 
-        // Checks if the piece can be upgraded to super piece.
-        bool isReadyToUpgrade(int a_row,char a_color);
-
         // Table
         std::vector <std::vector <char> > * boardTable;
+
+        // Checks if the piece can be upgraded to super piece.
+        bool isReadyToUpgrade(int a_row,char a_color) const;
 };
 
 #endif

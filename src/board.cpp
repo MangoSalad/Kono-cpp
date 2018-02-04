@@ -57,7 +57,7 @@ Algorithm:
 Assistance Received: none 
 ********************************************************************* */
 bool
-board::isValidPieceToMove(char a_color, int a_row, int a_column)
+board::isValidPieceToMove(char a_color, int a_row, int a_column) const
 {
     // Row or column is out of bounds.
     if(a_row - 1 < 0 || a_column - 1 < 0 || a_row - 1 >= m_boardSize || a_column - 1 >= m_boardSize) 
@@ -88,7 +88,7 @@ Algorithm:
 Assistance Received: none 
 ********************************************************************* */
 bool
-board::isValidLocationToMove(int a_row, int a_column,bool isSuperPiece)
+board::isValidLocationToMove(int a_row, int a_column,bool isSuperPiece) const
 {
     if(a_row - 1 < 0 || a_column - 1 < 0 || a_row - 1 >= m_boardSize || a_column - 1 >= m_boardSize) 
     {
@@ -109,7 +109,7 @@ board::isValidLocationToMove(int a_row, int a_column,bool isSuperPiece)
 }
 
 // what is this?
-bool board::isValidOpenLocation(int a_row, int a_column)
+bool board::isValidOpenLocation(int a_row, int a_column) const
 {
     if(a_row - 1 < 0 || a_column - 1 < 0 || a_row - 1 >= m_boardSize || a_column - 1 >= m_boardSize) 
     {
@@ -184,7 +184,7 @@ Algorithm:
 Assistance Received: none 
 ********************************************************************* */
 bool
-board::isReadyToUpgrade(int a_row,char a_color)
+board::isReadyToUpgrade(int a_row,char a_color) const
 {
     // If the piece color is white and is located at the black-side of the board. Then it is ready to become super piece.
     if( (a_color == 'W' || a_color == 'w' ) && (a_row-1) == (m_boardSize -1) )

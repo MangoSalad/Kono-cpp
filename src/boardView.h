@@ -10,7 +10,7 @@ class boardView {
         boardView();
 
         // Prints board in proper format.
-        void showBoard(std::vector< std::vector <char> > &boardTable);
+        void showBoard(std::vector< std::vector <char> > &boardTable) const;
     
     protected:
 

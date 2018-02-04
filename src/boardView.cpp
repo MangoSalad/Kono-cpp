@@ -26,7 +26,7 @@ Algorithm:
 Assistance Received: none 
 ********************************************************************* */
 void
-boardView::showBoard(std::vector< std::vector <char> > & boardTable) 
+boardView::showBoard(std::vector< std::vector <char> > & boardTable) const
 {
     // Get size of board.
     int boardSize = boardTable.size();

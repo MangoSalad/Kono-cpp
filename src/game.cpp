@@ -333,6 +333,14 @@ Assistance Received: none
 void
 game::showMenu() const
 {
+    if(m_currentTurn == 'h')
+    {
+        std::cout<<"It is your turn." << std::endl;
+    }
+    else
+    {
+        std::cout << "It is the computer's turn." << std::endl;
+    }
     // Display the board. 
     display->showBoard(gameBoard -> getBoard());
 
