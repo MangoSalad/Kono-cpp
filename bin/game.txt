@@ -1,0 +1,18 @@
+Round: 3
+  
+Computer:
+   Score: 17
+   Color: Black
+
+Human:
+   Score: 14
+   Color: White
+
+Board:
+   O  W  O  O  W  
+   O  O  W  W  W
+   W  W  B  B  O
+   B  B  B  O  O  
+   O  B  O  O  B  
+
+Next Player: Human
