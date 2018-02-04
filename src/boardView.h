@@ -5,6 +5,8 @@
 
 class boardView {
     public:
+
+        // Default Constructor.
         boardView();
 
         // Prints board in proper format.
@@ -13,6 +15,7 @@ class boardView {
     protected:
 
     private:
+    
 };
 
 #endif
