@@ -364,7 +364,7 @@ Assistance Received: none
 int
 game::randomDice()
 {
-    return rand() % 12 + 2;
+    return rand() % 11 + 2;
 }
 
 /* ********************************************************************* 

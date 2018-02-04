@@ -18,7 +18,7 @@ class computer : public player {
     private:
         
         // Board object
-        board * gameBoard;
+        board * localBoard;
 
         // Color of the computer.
         char m_color;
@@ -41,21 +41,22 @@ class computer : public player {
         std::pair<int,int> m_closestOpponent;
 
         // Updates variables pertaining the computer player so that computer can make decisions.
-        void updateState(board &gameBoard);
+        void updateState();
 
         // Get pieces to move offensively.
         std::pair<int,int> pickRandomPiece();
 
         // Offensive Strategy
-        void playOffensively(board &gameBoard);
+        void playOffensively();
 
         // Defensive Strategies
-        bool blockFromWest(board &gameBoard);
-        bool blockFromEast(board &gameBoard);
+        bool blockFromWest();
+        bool blockFromEast();
 
         // Add Blocking strategy
 
         // Add Retreat Strategy
+        bool checkForRetreat();
 
         // Output to console decisions of the computer.
         void showDefenseDecision(int a_initialRow, int a_initialColumn,std::string a_direction, int a_finalRow, int a_finalColumn);
