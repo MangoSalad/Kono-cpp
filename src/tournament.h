@@ -61,8 +61,8 @@ class tournament {
         unsigned short m_tournamentRound;
 
         // Player tournament scores.
-        unsigned int m_computerScore;
-        unsigned int m_humanScore;
+        int m_computerScore;
+        int m_humanScore;
 
         // Attributes loaded from existing game file.
         char m_computerColorFromFile;

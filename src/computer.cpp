@@ -274,7 +274,6 @@ bool computer::blockFromEast(board &gameBoard)
 
 void computer::play(board &gameBoard)
 {
-    std::cout << "in comp play \n";
     updateState(gameBoard);
 
     availablePiecesIter availablePieces = (*m_availablePieces).begin();
