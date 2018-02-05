@@ -311,21 +311,30 @@ tournament::helpGame() const
 Function Name: newRound 
 Purpose: Deletes old Game object and creates new one in order to start a new round.
 Parameters: 
-            none.
+            winnerFromGame, char that represents the winner from the last game.
 Return Value: none.
 Local Variables: 
             none.
 Algorithm: 
             1) Delete instantiation of Game object.
-            2) Create new instantiation of Game Object.
-
+            2) Check if the winner from last game was undetermined, then create new  game object.
+            3) Create new instantiation of Game Object that makes the first player the winner from last round.
 Assistance Received: none 
 ********************************************************************* */
 void
-tournament::newRound()
+tournament::newRound(char winnerFromGame)
 {
     delete round;
-    round = new game();
+    // Winner from last game is inconclusive.
+    if(winnerFromGame == ' ')
+    {
+        round = new game();
+    }
+    // Winner from last round is first player.
+    else
+    {
+        round = new game(winnerFromGame);
+    }
 };
 
 /* ********************************************************************* 
@@ -430,4 +439,21 @@ tournament::quitGamePenalty()
 {
     std::cout << "Deducting 5 points from tournament score for quiting game." << std::endl;
     m_humanScore-=5;
+}
+
+char
+tournament::getWinner() const
+{
+    if(m_humanScore == m_computerScore)
+    {
+        return ' ';
+    }
+    else if(m_humanScore > m_computerScore)
+    {
+        return 'h';
+    }
+    else
+    {
+        return 'c';
+    }
 }

@@ -16,6 +16,9 @@ class game {
         // Constructor that loads existing round from file.
         game(char a_colorHumanPlayer, char a_colorComputerPlayer, char a_currentTurn, unsigned short a_boardSize, std::vector< std::vector <char> > &boardTable);
 
+        // Constructor for when winner from last round chooses to play again.
+        game(char winnerFromLastGame);
+
         // Destructor.
         ~game(); 
 

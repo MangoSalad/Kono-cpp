@@ -1,14 +1,14 @@
 Round: 0
 Computer:
 Score: 0
-Color: Black
+Color: White
 Human:
 Score: 0
-Color: White
+Color: Black
 Board:
-B  B  O  B  B  
-B  O  O  B  B  
+B  B  B  O  B  
+B  O  B  O  B  
 W  O  O  O  O  
 O  O  W  O  W  
 W  O  W  W  W  
-Next Player: Computer
+Next Player: Human

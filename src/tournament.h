@@ -38,6 +38,9 @@ class tournament {
         // Print winner and overall tournament score to the screen.
         void showWinner() const;
 
+        // Return winner.
+        char getWinner() const;
+
         // Calculate tournament scores.
         void calculateScores();
 
@@ -45,7 +48,7 @@ class tournament {
         bool isGameWon();
 
         // Creates new round.
-        void newRound();
+        void newRound(char winnerFromGame);
 
         // Deduct 5 points from player for quiting game.
         void quitGamePenalty();

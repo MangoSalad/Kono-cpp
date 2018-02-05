@@ -25,6 +25,31 @@ game::game()
     computerPlayer = new computer(m_colorComputerPlayer);
 };
 
+// Constructor for when winner from last round is first player this round.
+game::game(char winnerFromLastGame)
+{
+    // Initialize variables.
+    m_humanScore = 0;
+    m_computerScore = 0;
+    m_gameBoardSize = 0;
+
+    // Set Board.
+    setBoardSize();
+    gameBoard = new board(m_gameBoardSize);
+
+    // Board View.
+    display = new boardView();
+
+    // Set logic for first player.
+    m_currentTurn = winnerFromLastGame;
+    setFirstPlayerColor();
+
+    // Instantiate Players.
+    humanPlayer = new human(m_colorHumanPlayer);
+    computerPlayer = new computer(m_colorComputerPlayer);
+
+}
+
 // Constructor to load an existing round from file.
 game::game(char a_colorHumanPlayer, char a_colorComputerPlayer, char a_currentTurn,unsigned short a_boardSize, std::vector< std::vector <char> > &boardTable)
 {
@@ -54,15 +79,7 @@ game::game(char a_colorHumanPlayer, char a_colorComputerPlayer, char a_currentTu
     
     // Current turn.
     m_currentTurn = a_currentTurn;
-    if(m_currentTurn == 'h')
-    {
-        std::cout << "It is your turn." << std::endl;
-    }
-    else
-    {
-        std::cout << "It is the computer's turn." << std::endl;
-    }
-
+    
     // Instantiate Players.
     humanPlayer = new human(m_colorHumanPlayer);
     computerPlayer = new computer(m_colorComputerPlayer);
@@ -461,6 +478,22 @@ void game::calculateScore()
 {
     std::vector <std::vector <char> > board = gameBoard -> getBoard();
 
+    // Make everything uppercase.
+    for( int i = 0; i < gameBoard -> getBoardSize(); i++ )
+    {
+        for( int j = 0; j < gameBoard -> getBoardSize(); j++ )
+        {
+            if(board[i][j] =='w')
+            {
+                board[i][j] = 'W';
+            }
+            else if(board[i][j] == 'b')
+            {
+                board[i][j] = 'B';
+            }
+        }
+    }
+
     // Calculate Score if player is White
     if(m_colorHumanPlayer == 'W')
     {
@@ -493,6 +526,10 @@ void game::calculateScore()
         // board is 9x9
         if(m_gameBoardSize == 9)
         {
+            if(board[m_gameBoardSize-1][3] == m_colorHumanPlayer)
+            {
+                m_humanScore+=7;
+            }
             if(board[m_gameBoardSize-1][4] == m_colorHumanPlayer)
             {
                 m_humanScore+=9;
@@ -558,6 +595,10 @@ void game::calculateScore()
         // board is 9x9
         if(m_gameBoardSize == 9)
         {
+            if(board[m_gameBoardSize-1][3] == m_colorComputerPlayer)
+            {
+                m_computerScore+=7;
+            }
             if(board[m_gameBoardSize-1][4] == m_colorComputerPlayer)
             {
                 m_computerScore+=9;
@@ -623,6 +664,10 @@ void game::calculateScore()
         // board is 9x9
         if(m_gameBoardSize == 9)
         {
+            if(board[0][3] == m_colorHumanPlayer)
+            {
+                m_humanScore+=7;
+            }
             if(board[0][4] == m_colorHumanPlayer)
             {
                 m_humanScore+=9;
@@ -689,6 +734,10 @@ void game::calculateScore()
         // board is 9x9
         if(m_gameBoardSize == 9)
         {
+            if(board[0][3] == m_colorComputerPlayer)
+            {
+                m_computerScore+=7;
+            }
             if(board[0][4] == m_colorComputerPlayer)
             {
                 m_computerScore+=9;

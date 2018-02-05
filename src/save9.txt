@@ -1,0 +1,18 @@
+Round: 0
+Computer:
+Score: 0
+Color: Black
+Human:
+Score: 0
+Color: White
+Board:
+B  B  B  B  B  O  B  B  B  
+B  O  O  O  B  O  O  O  B  
+O  O  O  O  O  O  O  O  O  
+O  O  O  O  O  O  O  O  O  
+O  O  O  O  O  O  O  O  O  
+O  O  O  O  O  O  O  O  O  
+O  O  O  O  O  W  O  W  O  
+O  O  O  O  O  O  O  O  O  
+W  W  W  W  W  W  W  W  W  
+Next Player: Computer

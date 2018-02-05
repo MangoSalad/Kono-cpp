@@ -22,6 +22,9 @@ int main(int argc, char * argv [])
     std::string fileName = "";
     int menuChoice = 0;
 
+    // Winner from game.
+    char winnerFromGame;
+
     // Give user choice to load game from file or create a new game.
     while(choice != 'y' && choice != 'n')
     {
@@ -74,7 +77,9 @@ int main(int argc, char * argv [])
                 {
                     Kono -> calculateScores();
                     Kono -> showWinner();
+                    winnerFromGame = Kono -> getWinner();
                     choice = ' ';
+                    
                     // Ask user if he/she will play another round.
                     while(choice != 'y' && choice != 'n')
                     {
@@ -82,8 +87,8 @@ int main(int argc, char * argv [])
                         std::cin >> choice;
                         if(choice == 'y')
                         {
-                            // Create new round.
-                            Kono -> newRound();
+                            // Create new round.                            
+                            Kono -> newRound(winnerFromGame);
                         }
                         else if (choice == 'n')
                         {
