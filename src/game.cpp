@@ -478,6 +478,18 @@ void game::calculateScore()
 {
     std::vector <std::vector <char> > board = gameBoard -> getBoard();
 
+    // # of pieces each player starts with.
+    int numberOfPieces = gameBoard -> getBoardSize() + 2;
+
+    // Get the total number of black pieces.
+    int numberOfBlack = gameBoard -> getNumberOfBlackPieces();
+
+    // Get the total number of white pieces.
+    int numberOfWhite = gameBoard -> getNumberOfWhitePieces();
+
+
+
+
     // Make everything uppercase.
     for( int i = 0; i < gameBoard -> getBoardSize(); i++ )
     {
@@ -497,6 +509,9 @@ void game::calculateScore()
     // Calculate Score if player is White
     if(m_colorHumanPlayer == 'W')
     {
+        // Deduct capture pieces.
+        m_humanScore +=  (numberOfPieces - numberOfBlack) * 5;
+
         //calculate human score
         if(board[m_gameBoardSize-1][0] == m_colorHumanPlayer)
         {
@@ -566,6 +581,8 @@ void game::calculateScore()
 
     if(m_colorComputerPlayer == 'W')
     {
+        m_computerScore +=  (numberOfPieces - numberOfBlack) * 5;
+
         //calculate human score
         if(board[m_gameBoardSize-1][0] == m_colorComputerPlayer)
         {
@@ -635,6 +652,8 @@ void game::calculateScore()
     
     if(m_colorHumanPlayer == 'B')
     {
+        m_humanScore +=  (numberOfPieces - numberOfWhite) * 5;
+
         //calculate human score
         if(board[0][0] == m_colorHumanPlayer)
         {
@@ -705,6 +724,8 @@ void game::calculateScore()
 
     if(m_colorComputerPlayer == 'B')
     {
+        m_computerScore +=  (numberOfPieces - numberOfWhite) * 5;
+
         //calculate human score
         if(board[0][0] == m_colorComputerPlayer)
         {

@@ -6,7 +6,7 @@ Human:
 Score: 0
 Color: Black
 Board:
-B  B  B  O  B  
+B  B  O  O  B  
 B  O  B  O  B  
 W  O  O  O  O  
 O  O  W  O  W  

@@ -397,8 +397,21 @@ void
 tournament::calculateScores()
 {
     round ->calculateScore();
-    m_humanScore += round -> getHumanScore();
-    m_computerScore += round -> getComputerScore();
+    if(round -> getHumanScore() > round -> getComputerScore())
+    {
+        // Awarded difference.
+        m_humanScore += ( round -> getHumanScore() - round -> getComputerScore());
+        std::cout << "Awarding you " << round -> getHumanScore() - round -> getComputerScore() << " points!" <<std::endl;
+    }
+    else if (round -> getComputerScore() > round -> getHumanScore())
+    {
+        m_computerScore += (round -> getComputerScore() - round -> getHumanScore());
+        std::cout << "Awarding computer " << round -> getComputerScore() - round -> getHumanScore() << " points!" << std::endl;
+    }
+    else
+    {   
+        std::cout << "No points awarded." << std::endl;    
+    }
 };
 
 /* ********************************************************************* 

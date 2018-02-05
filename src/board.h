@@ -44,6 +44,8 @@ class board {
         
         // Get the # of remaining white pieces.
         int getNumberOfWhitePieces() const;
+
+        // is
     
     protected:
 
