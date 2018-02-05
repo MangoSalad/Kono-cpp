@@ -5,27 +5,18 @@
 
 class player{
     public:
+        
         player();
+        
         virtual void play(std::vector< std::vector <char> > &boardTable);
 
         // provides help to user for strategy.
-        void updateState(board &gameBoard);
-
-        void playOffensively(board &gameBoard);
-        bool blockFromWest(board &gameBoard);
-        bool blockFromEast(board &gameBoard);
         void help(board &gameBoard,char a_color,char a_opponentColor);
-        std::pair<int,int> pickRandomPiece();
 
-        // Outputs the decision for the user to play offensively.
-        void showOffensiveDecision(int a_initalRow, int a_initialColumn, int a_finalRow, int a_finalColumn);
-
-        // Outputs the decision for the user to play defensively.
-        void showDefensiveDecision(int a_initalRow, int a_initialColumn, int a_finalRow, int a_finalColumn);
 
     protected:
     private:
-        board * gameBoard;
+        board * localBoard;
         int m_boardSize;
 
         char m_color;
@@ -42,6 +33,33 @@ class player{
         
         std::pair<int,int> m_furthestFriendly;
         std::pair<int,int> m_closestOpponent;
+        
+
+        // Updates variables pertaining the computer player so that computer can make decisions.
+        void updateState();
+
+        // Get pieces to move offensively.
+        std::pair<int,int> pickRandomPiece();
+
+        // Offensive Strategy
+        void playOffensively();        
+
+        // Defensive Strategies
+        bool blockFromWest();
+        bool blockFromEast();
+
+        // Capture strategy
+        bool playCapture();
+
+        // Retreat Strategy
+        bool checkForRetreat();
+        void playRetreat();
+
+        // Output to console decisions of the computer.
+        void showDefenseDecision(int a_initialRow, int a_initialColumn,std::string a_direction, int a_finalRow, int a_finalColumn);
+        void showOffenseDecision(int a_initialRow, int a_initialColumn,std::string a_direction, int a_finalRow, int a_finalColumn);
+        void showRetreatDecision(int a_initialRow, int a_initialColumn,std::string a_direction, int a_finalRow, int a_finalColumn);
+        void showCaptureDecision(int a_initialRow, int a_initialColumn,std::string a_direction, int a_finalRow, int a_finalColumn);
 };
 
 #endif
