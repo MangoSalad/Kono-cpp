@@ -81,10 +81,6 @@ computer::showCaptureDecision(int a_initialRow, int a_initialColumn,std::string 
 
 bool computer::blockFromWest()
 {
-    std::cout << "blocking from west \n";
-    std::cout << "opponent: "<<m_closestOpponent.first <<" " << m_closestOpponent.second << "\n"; 
-    std::cout << m_color << std::endl;
-
     // Computer color is white.
     if(m_color == 'W')
     {
@@ -163,14 +159,10 @@ bool computer::blockFromWest()
 }
 
 bool computer::blockFromEast()
-{
-    std::cout << "blocking from east \n";
-    std::cout << "opponent: "<<m_closestOpponent.first <<" " << m_closestOpponent.second << "\n";
-    
+{   
     if(m_color == 'W')
     {
         // If a there is an available piece located NE, move to block the oppponent piece.
-        std::cout << 1 << std::endl;
         if(localBoard -> isValidPieceToMove(m_color,m_closestOpponent.first-1,m_closestOpponent.second+3) && localBoard -> isValidLocationToMove(m_closestOpponent.first,m_closestOpponent.second+2))
         //boardTable[m_closestOpponent.first-2][m_closestOpponent.second+2] == m_color
         {
@@ -178,7 +170,6 @@ bool computer::blockFromEast()
             showDefenseDecision(m_closestOpponent.first-1,m_closestOpponent.second+3,"southwest",m_closestOpponent.first+1,m_closestOpponent.second+1);
             return true;
         }
-        std::cout << 2 << std::endl;
         // If a there is an available piece located E, move to block the oppponent piece.
         if(localBoard -> isValidPieceToMove(m_color,m_closestOpponent.first+1,m_closestOpponent.second+3) && localBoard -> isValidLocationToMove(m_closestOpponent.first,m_closestOpponent.second+2))
         {
@@ -187,7 +178,6 @@ bool computer::blockFromEast()
             return true;
         }
         // If a there is an available piece located N, move to block the oppponent piece.
-        std::cout << 3 << std::endl;
 
         if(localBoard -> isValidPieceToMove(m_color,m_closestOpponent.first-1,m_closestOpponent.second+1) && localBoard -> isValidLocationToMove(m_closestOpponent.first,m_closestOpponent.second+2))
         //boardTable[m_closestOpponent.first-2][m_closestOpponent.second] == m_color
@@ -197,7 +187,6 @@ bool computer::blockFromEast()
             return true;
         }
 
-        std::cout << 4 << std::endl;
         // Else report back that it could not be blocked from the west side.
         return false;
     }
@@ -212,7 +201,6 @@ bool computer::blockFromEast()
             showDefenseDecision(m_closestOpponent.first+1,m_closestOpponent.second+3,"southwest",m_closestOpponent.first+1,m_closestOpponent.second+1);
             return true;
         }
-        std::cout << 2 << std::endl;
         
         // Check if there is an available piece from the Southeast.
         if(localBoard -> isValidPieceToMove(m_color,m_closestOpponent.first+3,m_closestOpponent.second+3) && localBoard -> isValidLocationToMove(m_closestOpponent.first+2,m_closestOpponent.second+2))
@@ -222,7 +210,6 @@ bool computer::blockFromEast()
             return true;
         }
         
-        std::cout << 3 << std::endl;
 
         // Check if there is an available piece from the South.
         if(localBoard -> isValidPieceToMove(m_color,m_closestOpponent.first+3,m_closestOpponent.second+1) && localBoard -> isValidLocationToMove(m_closestOpponent.first+2,m_closestOpponent.second+2))
@@ -233,7 +220,6 @@ bool computer::blockFromEast()
             return true;
         }
 
-        std::cout << 4 << std::endl;
         // Else report back that it could not be blocked from the west side.
         return false;   
     }
@@ -270,7 +256,6 @@ computer::play(board &gameBoard)
             //IF - if the opponent's piece is already blocked, continue to play offensively.
             if( boardTable[m_closestOpponent.first-1][m_closestOpponent.second-1] == m_color && boardTable[m_closestOpponent.first-1][m_closestOpponent.second+1] == m_color)
             {   
-                std::cout << "Piece is already blocked. " << boardTable[m_closestOpponent.first-1][m_closestOpponent.second-1] << boardTable[m_closestOpponent.first-1][m_closestOpponent.second+1] << " \n";
                 if(!playCapture())
                 {
                     if(checkForRetreat())
@@ -331,7 +316,6 @@ computer::play(board &gameBoard)
             //IF - if the opponent's piece is already blocked, continue to play offensively.
             if( localBoard -> isValidOpenLocation(m_closestOpponent.first+2,m_closestOpponent.second) && localBoard -> isValidOpenLocation(m_closestOpponent.first+2,m_closestOpponent.second+2))
             {   
-                std::cout << "Piece is already blocked. " << boardTable[m_closestOpponent.first+2][m_closestOpponent.second] << boardTable[m_closestOpponent.first+2][m_closestOpponent.second+2] << " \n";
                 if(!playCapture())
                 {
                     if(checkForRetreat())
@@ -408,12 +392,11 @@ void computer::updateState()
         {
             if(boardTable[row][col]==m_color || boardTable[row][col]==tolower(m_color,std::locale()) )
             {
+                std::cout << row <<" "<<col <<std::endl;
                 m_availablePieces -> push_back( std::make_pair(row,col) );
             }
         }
     }
-
-    std::cout << "loaded available pieces \n";
 
     if( m_color == 'W')
     {
@@ -427,7 +410,6 @@ void computer::updateState()
             colIter col = std::find(friendlySide->begin(), friendlySide->end(), m_opponentColor);
             if ( col != friendlySide->end() )
             {
-                std::cout << "Closest Opponent: row "   << distance(boardTable.begin(),friendlySide)+1 << ", col " << distance(friendlySide->begin(),col)+1 << '\n';
                 m_closestOpponent = std::make_pair(distance(boardTable.begin(),friendlySide),distance(friendlySide->begin(),col));
                 break;
             }
@@ -441,7 +423,6 @@ void computer::updateState()
             colIter col = std::find(opponentSide->begin(), opponentSide->end(), m_color);
             if ( col != opponentSide->end() )
             {
-                std::cout << "Furthest Friendly: row "   << distance(boardTable.begin(),opponentSide)+1 << ", col " << distance(opponentSide->begin(),col)+1 << '\n';
                 m_furthestFriendly = std::make_pair(distance(boardTable.begin(),opponentSide), distance(opponentSide->begin(),col));
                 break;
             }
@@ -459,7 +440,6 @@ void computer::updateState()
             colIter col = std::find(friendlySide->begin(), friendlySide->end(), m_opponentColor);
             if ( col != friendlySide->end() )
             {
-                std::cout << "Closest Opponent: row "   << distance(boardTable.begin(),friendlySide)+1 << ", col " << distance(friendlySide->begin(),col)+1 << '\n';
                 m_closestOpponent = std::make_pair(distance(boardTable.begin(),friendlySide), distance(friendlySide->begin(),col));
                 break;
             }
@@ -473,7 +453,6 @@ void computer::updateState()
             colIter col = std::find(opponentSide->begin(), opponentSide->end(), m_color);
             if ( col != opponentSide->end() )
             {
-                std::cout << "Furthest Friendly: row "   << distance(boardTable.begin(),opponentSide)+1 << ", col " << distance(opponentSide->begin(),col)+1 << '\n';
                 m_furthestFriendly = std::make_pair(distance(boardTable.begin(),opponentSide), distance(opponentSide->begin(),col));
                 break;
             }
@@ -489,7 +468,6 @@ bool computer::playCapture()
         // Check if piece is a super piece.
         if(localBoard -> getPieceAtLocation(eachPiece.first+1,eachPiece.second+1) == tolower(m_color,std::locale()))
         {
-            std::cout << "found super piece\n";
             // Check if opponent is located southeast.
             if(localBoard->getPieceAtLocation(eachPiece.first+2,eachPiece.second+2) == m_opponentColor || localBoard->getPieceAtLocation(eachPiece.first+2,eachPiece.second+2) == tolower(m_opponentColor,std::locale()) )
             {
@@ -643,6 +621,7 @@ computer::playRetreat()
 void
 computer::playOffensively()
 {
+    std::cout <<" offensive\n";
     if(m_color == 'W')
     {
         // Picking random piece.
@@ -712,5 +691,5 @@ Assistance Received: none
 std::pair<int,int>
 computer::pickRandomPiece()
 {
-    return (*m_availablePieces)[rand() % (m_availablePieces->size()-1)];
+    return (*m_availablePieces)[rand() % (m_availablePieces->size())];
 }

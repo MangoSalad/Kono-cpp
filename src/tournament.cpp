@@ -156,9 +156,21 @@ tournament::loadSavedFile(std::string a_savedGame)
                     {
                         (*m_boardTableFromFile)[i][j] = 'b';
                     }
+                    else
+                    {
+                        std::cout << "Error in file.." << std::endl;
+                        exit(1);
+                    }
                 }
                 startIndex++;
             }
+        }
+
+        //  Confirm board loaded correctly.
+        if((*m_boardTableFromFile).size() != 5 && (*m_boardTableFromFile).size() != 7 && (*m_boardTableFromFile).size() != 9)
+        {
+            std::cout << "Error in file.." << std::endl;
+            exit(1);
         }
             
         // Get next player.
