@@ -209,7 +209,7 @@ game::calculateFirstPlayer()
     int humanDice = 0;
     int computerDice = 1;
 
-    if (!diceFile)
+    if (diceFile.fail())
     {
         // Toss doss until one pair is greater than the other.
         while(humanDice != computerDice)
