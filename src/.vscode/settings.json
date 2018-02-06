@@ -32,6 +32,7 @@
         "functional": "cpp",
         "limits": "cpp",
         "ratio": "cpp",
-        "tuple": "cpp"
+        "tuple": "cpp",
+        "__functional_03": "cpp"
     }
 }

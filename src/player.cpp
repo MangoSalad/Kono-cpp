@@ -8,29 +8,36 @@ player::player()
 
 void player::play(std::vector< std::vector <char> > &boardTable)
 {
-    std::cout << "In player class - play()" << std::endl;
-
-    unsigned short pieceToMove = 0;
-    std::cout << "What piece do you want to move?" << std::endl;
-    std::cin >> pieceToMove;
-
-    unsigned short locationToMove = 0;
-    std::cout << "Where do you want to move this piece to?" << std::endl;
-    std::cin >> locationToMove;
-
-
-    //when playing, must ask for piece to move. 
-    //check if piece is valid to move
-    //make move
-    //check if move is valid
 };
 
+/* ********************************************************************* 
+Function Name: help 
+Purpose: Provide help strategy to the player dependent on conditions of the board. 
+    In the following order, block strategy, capture strategy, offensive strategy, and retreat strategy are prioritized.
+Parameters: 
+            gameBoard, pointer to an instantiated board object.
+            a_color, color of the player asking for help.
+            a_opponentColor, color of the opponent.
+Return Value: none.
+Local Variables: 
+            none.
+Algorithm: 
+            1) Call updateState method to update the player's list of available pieces and positions of opponent pieces.
+            2) Check the color of the player.
+            3) If opponent piece is close to the home side, then attempt to block it.
+            4) If blocked or cannot block, then continue.
+            5) Check if player has any super pieces available, if so, then attempt to capture an opponent piece.
+            6) If no super pieces are available or cannot capture opponent piece, then check if any pieces can advance forward to enemy side.
+            7) If no pieces can advance, then retreat.
+            8) If pieces available to move forward, then play offensively and move forward.
+Assistance Received: none 
+********************************************************************* */
 void player::help(board &gameBoard,char a_color,char a_opponentColor)
 {
     m_color = a_color;
     m_opponentColor = a_opponentColor;
     localBoard = &gameBoard;
-    updateState();
+    updateState(gameBoard, m_color, a_opponentColor);
 
     availablePiecesIter availablePieces = (*m_availablePieces).begin();
     
@@ -163,7 +170,7 @@ void player::help(board &gameBoard,char a_color,char a_opponentColor)
 
 /* ********************************************************************* 
 Function Name: showDefenseDecision 
-Purpose: Shows the computer's decision to play block a piece and play defensively.
+Purpose: Suggest to user to play in defensive strategy (block).
 Parameters: 
             a_initialRow, an integer for the row coordinate of the computer piece.
             a_initialColumn, an integer for the column coordinate of the computer piece.
@@ -187,7 +194,7 @@ player::showDefenseDecision(int a_initialRow, int a_initialColumn,std::string a_
 
 /* ********************************************************************* 
 Function Name: showOffenseDecision 
-Purpose: Shows the computer's decision to play offensively.
+Purpose: Suggest to user to play in offensive strategy.
 Parameters: 
             a_initialRow, an integer for the row coordinate of the computer piece.
             a_initialColumn, an integer for the column coordinate of the computer piece.
@@ -209,6 +216,23 @@ player::showOffenseDecision(int a_initialRow, int a_initialColumn,std::string a_
     std::cout << "This will advance the piece to (" << a_finalRow << "," << a_finalColumn << ")" << std::endl;
 }
 
+/* ********************************************************************* 
+Function Name: showRetreatDecision 
+Purpose: Suggest to user to play in retreat strategy.
+Parameters: 
+            a_initialRow, an integer for the row coordinate of the computer piece.
+            a_initialColumn, an integer for the column coordinate of the computer piece.
+            a_direction, a string. Holds the direction that the computer is moving (NE,SE,SW,NW).
+            a_finalRow, an integer for the row coordinate that the piece is moving to.
+            a_finalColumn, an integer for the column coordinate that the piece is moving to.
+Return Value: none.
+Local Variables: 
+            none.
+Algorithm: 
+            1) Announce to player the computer's decision to move a piece at a certain direction.
+            2) Announce to player where it is moving it.
+Assistance Received: none 
+********************************************************************* */
 void
 player::showRetreatDecision(int a_initialRow, int a_initialColumn,std::string a_direction, int a_finalRow, int a_finalColumn)
 {
@@ -216,6 +240,23 @@ player::showRetreatDecision(int a_initialRow, int a_initialColumn,std::string a_
     std::cout << "This will retreat the piece back to (" << a_finalRow << "," << a_finalColumn << ")" << std::endl;
 }
 
+/* ********************************************************************* 
+Function Name: showCaptureDecision 
+Purpose: Suggest to user to play in capture strategy.
+Parameters: 
+            a_initialRow, an integer for the row coordinate of the computer piece.
+            a_initialColumn, an integer for the column coordinate of the computer piece.
+            a_direction, a string. Holds the direction that the computer is moving (NE,SE,SW,NW).
+            a_finalRow, an integer for the row coordinate that the piece is moving to.
+            a_finalColumn, an integer for the column coordinate that the piece is moving to.
+Return Value: none.
+Local Variables: 
+            none.
+Algorithm: 
+            1) Announce to player the computer's decision to move a piece at a certain direction.
+            2) Announce to player where it is moving it.
+Assistance Received: none 
+********************************************************************* */
 void
 player::showCaptureDecision(int a_initialRow, int a_initialColumn,std::string a_direction, int a_finalRow, int a_finalColumn)
 {
@@ -223,8 +264,30 @@ player::showCaptureDecision(int a_initialRow, int a_initialColumn,std::string a_
     std::cout << "This will capture the other piece at (" << a_finalRow << "," << a_finalColumn << ")" << std::endl;
 }
 
-
-bool player::blockFromWest()
+/* ********************************************************************* 
+Function Name: blockFromWest 
+Purpose: Part of the player's strategy, check to see if a particular piece can be blocked from the west. 
+    Check to see if there is a valid piece that can be moved from either southwest, north, south, southeast or northwest.
+Parameters: 
+            none.
+Return Value: Boolean value confirming that the player was notified a suggestion to move a piece
+Local Variables: 
+            none.
+Algorithm: 
+            1) Depending on if the player is white or black, different piece positions will be checked.
+            2) If computer is white do steps 3 - 5
+            3) Check if a piece is located northwest of an opponent piece, if so, then suggest for player to block by moving there.
+            4) Check if a piece is located southwest of an opponent piece, if so, then suggest for player to block by moving there.
+            5) Check if a piece is located north of an opponent piece, if so, then suggest for player to block by moving there.
+            6) If player is black do steps 7 - 9
+            7) Check if a piece is located west of an opponent piece, if so, then suggest for player to block by moving there.
+            8) Check if a piece is located southwest of an opponent piece, if so, then suggest for player to block by moving there.
+            9) Check if a piece is located south of an opponent piece, if so, then suggest for player to block by moving there.
+            10) If cannot find a valid piece to block with, then return false. If a piece blocked the opponent piece, then return true.
+Assistance Received: none 
+********************************************************************* */
+bool
+player::blockFromWest()
 {
     std::cout << "blocking from west \n";
     std::cout << "opponent: "<<m_closestOpponent.first <<" " << m_closestOpponent.second << "\n"; 
@@ -301,7 +364,30 @@ bool player::blockFromWest()
     
 }
 
-bool player::blockFromEast()
+/* ********************************************************************* 
+Function Name: blockFromEast 
+Purpose: Part of the player's strategy, check to see if a particular piece can be blocked from the east. 
+    Check to see if there is a valid piece that can be moved from either southwest, north, south, southeast, or northwest.
+Parameters: 
+            none.
+Return Value: Boolean value confirming that a computer player was notified a suggestion to block.
+Local Variables: 
+            none.
+Algorithm: 
+            1) Depending on if the player is white or black, different piece positions will be checked.
+            2) If player is white do steps 3 - 5
+            3) Check if a piece is located northeast of an opponent piece, if so, then suggest for player to block by moving there.
+            4) Check if a piece is located southwest of an opponent piece, if so, then suggest for player to block by moving there.
+            5) Check if a piece is located north of an opponent piece, if so, then suggest for player to block by moving there.
+            6) If player is black do steps 7 - 9
+            7) Check if a piece is located east of an opponent piece, if so, then suggest for player to block by moving there.
+            8) Check if a piece is located southeast of an opponent piece, if so, then suggest for player to block by moving there.
+            9) Check if a piece is located south of an opponent piece, if so, then suggest for player to block by moving there.
+            10) If cannot find a valid piece to block with, then return false. If a piece blocked the opponent piece, then return true.
+Assistance Received: none 
+********************************************************************* */
+bool
+player::blockFromEast()
 {
     std::cout << "blocking from east \n";
     std::cout << "opponent: "<<m_closestOpponent.first <<" " << m_closestOpponent.second << "\n";
@@ -369,15 +455,32 @@ bool player::blockFromEast()
         std::cout << 4 << std::endl;
         // Else report back that it could not be blocked from the west side.
         return false;   
-    }
-    
-    
+    }   
 };
 
-
-// Allows computer to recognize friendly and opponent pieces.
-void player::updateState()
+/* ********************************************************************* 
+Function Name: updateState 
+Purpose: Check if the player has any super pieces that can capture a nearby oppponent piece. If it does, suggest to capture the piece.
+Parameters: 
+            gameBoard, pointer to an instantiated board object.
+            a_color, color of the player asking for help.
+            a_opponentColor, color of the opponent.
+Return Value: none.
+Local Variables: 
+            friendlySide, iterator for moving down the board - relative to the color of the piece.
+            oppositeSide, iteratore for moving down the board - relative to the color of the piece.
+Algorithm: 
+            1) Cycle through the board and load friendly pieces into m_availablePieces vector.
+            2) Iterate through the board and find the opponent coordinates closest to home side.
+            3) Iterate through the board and find the friendly piece coordinates closest to opponent side.
+Assistance Received: none 
+********************************************************************* */
+void
+player::updateState(board &a_gameBoard, char a_color,char a_opponentColor)
 {
+    localBoard = &a_gameBoard;
+    m_color = a_color;
+    m_opponentColor = a_opponentColor;
     boardTable = localBoard -> getBoard();
     m_boardSize = localBoard -> getBoardSize();
 
@@ -400,8 +503,6 @@ void player::updateState()
         }
     }
 
-    std::cout << "loaded available pieces \n";
-
     if( m_color == 'W')
     {
         // If friendly side is on the top (W), opponnent side is on bottom (B)
@@ -414,7 +515,6 @@ void player::updateState()
             colIter col = std::find(friendlySide->begin(), friendlySide->end(), m_opponentColor);
             if ( col != friendlySide->end() )
             {
-                std::cout << "Closest Opponent: row "   << distance(boardTable.begin(),friendlySide)+1 << ", col " << distance(friendlySide->begin(),col)+1 << '\n';
                 m_closestOpponent = std::make_pair(distance(boardTable.begin(),friendlySide),distance(friendlySide->begin(),col));
                 break;
             }
@@ -428,7 +528,6 @@ void player::updateState()
             colIter col = std::find(opponentSide->begin(), opponentSide->end(), m_color);
             if ( col != opponentSide->end() )
             {
-                std::cout << "Furthest Friendly: row "   << distance(boardTable.begin(),opponentSide)+1 << ", col " << distance(opponentSide->begin(),col)+1 << '\n';
                 m_furthestFriendly = std::make_pair(distance(boardTable.begin(),opponentSide), distance(opponentSide->begin(),col));
                 break;
             }
@@ -446,7 +545,6 @@ void player::updateState()
             colIter col = std::find(friendlySide->begin(), friendlySide->end(), m_opponentColor);
             if ( col != friendlySide->end() )
             {
-                std::cout << "Closest Opponent: row "   << distance(boardTable.begin(),friendlySide)+1 << ", col " << distance(friendlySide->begin(),col)+1 << '\n';
                 m_closestOpponent = std::make_pair(distance(boardTable.begin(),friendlySide), distance(friendlySide->begin(),col));
                 break;
             }
@@ -460,7 +558,6 @@ void player::updateState()
             colIter col = std::find(opponentSide->begin(), opponentSide->end(), m_color);
             if ( col != opponentSide->end() )
             {
-                std::cout << "Furthest Friendly: row "   << distance(boardTable.begin(),opponentSide)+1 << ", col " << distance(opponentSide->begin(),col)+1 << '\n';
                 m_furthestFriendly = std::make_pair(distance(boardTable.begin(),opponentSide), distance(opponentSide->begin(),col));
                 break;
             }
@@ -469,7 +566,26 @@ void player::updateState()
 
 };
 
-bool player::playCapture()
+/* ********************************************************************* 
+Function Name: playCapture 
+Purpose: Check if the player has any super pieces that can capture a nearby oppponent piece. If it does, suggest to capture the piece.
+Parameters: 
+            none.
+Return Value: Boolean value for it there was a super piece that can capture an opponent.
+Local Variables: 
+            eachPiece, a pair of integers holding the coordinates of a player piece.
+Algorithm: 
+            1) Cycle through available pieces and see if the piece is a super piece.
+            2) If there is a super piece, then do steps 3 - 6, else return false.
+            3) Check if opponent is located in southeast, if so then suggest to play that they capture it. And return true.
+            4) Check if opponent is located in southwest, if so then suggest to play that they capture it. And return true.
+            5) Check if opponent is located in northwest, if so then suggest to play that they capture it. And return true.
+            6) Check if opponent is located in northeast, if so then suggest to play that they capture it. And return true.
+            7) If no pieces can capture, then return false.
+Assistance Received: none 
+********************************************************************* */
+bool
+player::playCapture()
 {
     for( std::pair<int,int> eachPiece : (*m_availablePieces))
     {
@@ -523,8 +639,28 @@ bool player::playCapture()
     return false;    
 }
 
-
-bool player::checkForRetreat()
+/* ********************************************************************* 
+Function Name: checkForRetreat 
+Purpose: Check if any piece can move forward. If it cannot, then it lets the computer know that it must retreat one piece.
+Parameters: 
+            none.
+Return Value: Boolean value to notify computer strategy that it must retreat a piece.
+Local Variables: 
+            eachPiece, a pair of integers holding the coordinates of a computer piece.
+Algorithm: 
+            1) Cycle through available pieces.
+            2) If white, do steps 3-5 
+            3) Check if piece can move southwest, if so return false.
+            4) Check if piece can move southeast, if so return false.
+            5) If cannot move south, then return true. A piece must be sent in retreat.
+            6) If black, do steps 7-9
+            7) Check if piece can move northeast, if so return false.
+            8) Check if piece can move northwest, if so return false.
+            9) If cannot move north, then return true. A piece must be sent in retreat.
+Assistance Received: none 
+********************************************************************* */
+bool
+player::checkForRetreat()
 {
     if(m_color == 'W')
     {
@@ -565,6 +701,25 @@ bool player::checkForRetreat()
     }
 };
 
+/* ********************************************************************* 
+Function Name: playRetreat 
+Purpose: Called when a piece must be sent in retreat. It randomly picks a piece and suggest that the player moves that piece in the direction of home side.
+Parameters: 
+            none.
+Return Value: none.
+Local Variables: 
+            didMove, boolean holding if player made move.
+            pieceToMove, a pair of integers holding the coordinates of a player piece.
+Algorithm: 
+            1) Cycle through available pieces.
+            2) If white, do steps 3-4 
+            3) Check if piece can move northwest, if so then suggest that the player move it northwest.
+            4) Check if piece can move northeast, if so then suggest that the player move it northeast.
+            5) If black, do steps 6-7
+            6) Check if piece can move southeast, if so then suggest that the player move it southeast.
+            7) Check if piece can move southwest, if so then suggest that the player move it southwest.
+Assistance Received: none 
+********************************************************************* */
 void 
 player::playRetreat()
 {
@@ -619,6 +774,23 @@ player::playRetreat()
     }  
 };
 
+/* ********************************************************************* 
+Function Name: playOffensively 
+Purpose: Called when player strategy must be offensive. Function picks a random piece and suggests player movevs it to opponent's side.
+Parameters: 
+            none.
+Return Value: none.
+Local Variables: 
+            didMove, boolean holding if computer made move.
+Algorithm:            
+            1) If white, do steps 2-3
+            2) Check if piece can move southeast, if so then suggest that the player move it southeast.
+            3) Check if piece can move southwest, if so then suggest that the player move it southwest. 
+            4) If black, do steps 5-6
+            5) Check if piece can move northwest, if so then suggest that the player move it northwest.
+            6) Check if piece can move northeast, if so then suggest that the player move it northeast.
+Assistance Received: none 
+********************************************************************* */
 void
 player::playOffensively()
 {
@@ -687,5 +859,5 @@ Assistance Received: none
 std::pair<int,int>
 player::pickRandomPiece()
 {
-    return (*m_availablePieces)[rand() % (m_availablePieces->size()-1)];
+    return (*m_availablePieces)[rand() % (m_availablePieces->size())];
 }

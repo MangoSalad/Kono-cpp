@@ -8,7 +8,7 @@ tournament::tournament()
     m_computerScore = 0;
     m_humanScore = 0;
     round = new game();
-}
+};
 
 // Constructor for loading existing game from file.
 tournament::tournament(std::string a_savedGame)
@@ -23,7 +23,7 @@ tournament::tournament(std::string a_savedGame)
         std::cout << "Exiting game now." << std::endl;
         exit(1);
     }
-}
+};
 
 // Destructor announces the end of Kono and frees up objects.
 tournament::~tournament()
@@ -464,16 +464,28 @@ tournament::quitGamePenalty()
 {
     std::cout << "Deducting 5 points from tournament score for quiting game." << std::endl;
     m_humanScore-=5;
-}
+};
 
+/* ********************************************************************* 
+Function Name: getWinner 
+Purpose: Deducts Returns the winner of the round.
+Parameters: 
+            none.
+Return Value: char holding either 'h' for human or 'c' for computer.
+Local Variables: 
+            none.
+Algorithm: 
+            1) Check the scores from the previous round.
+Assistance Received: none 
+********************************************************************* */
 char
 tournament::getWinner() const
 {
-    if(m_humanScore == m_computerScore)
+    if(round -> getHumanScore() == round -> getComputerScore())
     {
         return ' ';
     }
-    else if(m_humanScore > m_computerScore)
+    else if(round -> getHumanScore() > round -> getComputerScore())
     {
         return 'h';
     }
@@ -481,4 +493,4 @@ tournament::getWinner() const
     {
         return 'c';
     }
-}
+};
