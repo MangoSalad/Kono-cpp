@@ -20,6 +20,7 @@ tournament::tournament(std::string a_savedGame)
     }
     else
     {
+        std::cout << "Problem with file." << std:endl;
         std::cout << "Exiting game now." << std::endl;
         exit(1);
     }
@@ -100,6 +101,10 @@ tournament::loadSavedFile(std::string a_savedGame)
         {
             m_computerColorFromFile = 'W';
         }
+        else
+        {
+            return false;
+        }
         
         // Get Human score.
         m_humanScore = stoi(fileContents[9]);
@@ -112,6 +117,10 @@ tournament::loadSavedFile(std::string a_savedGame)
         else if(fileContents[11] == "White")
         {
             m_humanColorFromFile = 'W';
+        }
+        else
+        {
+            return false;
         }
 
         // Get Board state.
@@ -158,8 +167,7 @@ tournament::loadSavedFile(std::string a_savedGame)
                     }
                     else
                     {
-                        std::cout << "Error in file.." << std::endl;
-                        exit(1);
+                        return false;
                     }
                 }
                 startIndex++;
@@ -169,8 +177,7 @@ tournament::loadSavedFile(std::string a_savedGame)
         //  Confirm board loaded correctly.
         if((*m_boardTableFromFile).size() != 5 && (*m_boardTableFromFile).size() != 7 && (*m_boardTableFromFile).size() != 9)
         {
-            std::cout << "Error in file.." << std::endl;
-            exit(1);
+            return false;
         }
             
         // Get next player.
@@ -181,6 +188,10 @@ tournament::loadSavedFile(std::string a_savedGame)
         else if(fileContents[40] == "Computer")
         {
             m_nextPlayerFromFile = 'c';
+        }
+        else
+        {
+            return false;
         }
     }
     catch (std::exception &e)
