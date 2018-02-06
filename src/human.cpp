@@ -42,7 +42,7 @@ human::play(board &gameBoard)
         std::cin >> initialColumn;
 
         // Check if the piece to move is valid.
-        if( gameBoard.isValidPieceToMove(m_color,initialRow,initialColumn) )
+        if( gameBoard.isValidPieceToMove(m_color,initialRow,initialColumn))
         {
             unsigned short finalRow = 0;
             unsigned short finalColumn = 0;
@@ -50,55 +50,50 @@ human::play(board &gameBoard)
             std::string locationToMove;
 
             // Ask user the direction to move the piece.
-            while(true)
+            std::cout << "Where do you want to move this piece to? (NW/NE/SW/SE)" << std::endl;
+            std::cin >> locationToMove;
+
+            if(locationToMove == "NW")
             {
-                std::cout << "Where do you want to move this piece to? (NW/NE/SW/SE)" << std::endl;
-                std::cin >> locationToMove;
-
-                if(locationToMove == "NW")
-                {
-                    finalRow = initialRow-1;
-                    finalColumn = initialColumn-1;
-                }
-                else if(locationToMove == "NE")
-                {
-                    finalRow = initialRow-1;
-                    finalColumn = initialColumn+1;
-                }
-                else if(locationToMove == "SE")
-                {
-                    finalRow = initialRow+1;
-                    finalColumn = initialColumn+1;
-                }
-                else if(locationToMove == "SW")
-                {
-                    finalRow = initialRow+1;
-                    finalColumn = initialColumn-1;
-                }
-
-                // Check if the piece is a super piece.
-                if(gameBoard.getPieceAtLocation(initialRow,initialColumn) == tolower(m_color,std::locale()))
-                {
-                    isSuperPiece = true;
-                }
-
-                // Check if the location is valid.
-                if(gameBoard.isValidLocationToMove(finalRow,finalColumn,isSuperPiece))
-                {
-                    gameBoard.updateBoard(initialRow, initialColumn, finalRow, finalColumn, m_color);
-                    break;
-                }
-
-                // Incorrect choice.
-                else
-                {
-                    std::cout << "Cannot move to this location." << std::endl;
-                    std::cin.clear();
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-                }
+                finalRow = initialRow-1;
+                finalColumn = initialColumn-1;
+            }
+            else if(locationToMove == "NE")
+            {
+                finalRow = initialRow-1;
+                finalColumn = initialColumn+1;
+            }
+            else if(locationToMove == "SE")
+            {
+                finalRow = initialRow+1;
+                finalColumn = initialColumn+1;
+            }
+            else if(locationToMove == "SW")
+            {
+                finalRow = initialRow+1;
+                finalColumn = initialColumn-1;
             }
 
-        break;
+            // Check if the piece is a super piece.
+            if(gameBoard.getPieceAtLocation(initialRow,initialColumn) == tolower(m_color,std::locale()))
+            {
+                isSuperPiece = true;
+            }
+
+            // Check if the location is valid.
+            if(gameBoard.isValidLocationToMove(finalRow,finalColumn,isSuperPiece))
+            {
+                gameBoard.updateBoard(initialRow, initialColumn, finalRow, finalColumn, m_color);
+                break;
+            }
+
+            // Incorrect choice.
+            else
+            {
+                std::cout << "Cannot move to this location." << std::endl;
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+            }
         }
 
         // Incorrect choice.
