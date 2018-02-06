@@ -20,7 +20,7 @@ tournament::tournament(std::string a_savedGame)
     }
     else
     {
-        std::cout << "Problem with file." << std:endl;
+        std::cout << "Problem with file." << std::endl;
         std::cout << "Exiting game now." << std::endl;
         exit(1);
     }
