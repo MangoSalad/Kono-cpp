@@ -316,21 +316,14 @@ game::calculateFirstPlayer()
                     std::cout << "Rolling again." <<std::endl;
                 }
             }
-            
-            // Not enough pairs in the file. Exit the game because the file cannot be used.
-            else
-            {
-                std::cout<<"Dice file provides poor results. Exiting game."<<std::endl;    
-                exit(1);
-            }
         };
+    };
 
-        // If all the tosses were equal. The provided file cannot be used. Exit the game.
-        if(humanDice == computerDice)
-        {
-            std::cout<<"Dice file provides poor results. Exiting game."<<std::endl;
-            exit(1);
-        };
+    // If all the tosses were equal. The provided file cannot be used. Exit the game.
+    if(humanDice == computerDice)
+    {
+        std::cout<<"Dice file provides poor results. Exiting game."<<std::endl;
+        exit(1);
     };
 };
 
